@@ -1,5 +1,8 @@
 /*This document contains the styles that use the app. You can change these as you wish.*/
-
+:root {
+    --main-color: #0b0b1d;
+    --secondary-color: #124456;
+  }
 .ds4a-app {
     background-color: #F8F9F9
 }
@@ -37,5 +40,5 @@
     width: 16rem;
     padding: 2rem 1rem;
     z-index: 999;
-    background-color: #C0C0C0; 
+    background-color: var(--main-color); 
 }
