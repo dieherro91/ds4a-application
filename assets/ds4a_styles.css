@@ -42,3 +42,7 @@
     z-index: 999;
     background-color: var(--main-color); 
 }
+
+#ds4a-image{
+    width: 80%;
+}
