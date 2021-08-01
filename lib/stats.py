@@ -29,11 +29,12 @@ df = pd.read_csv(superstore_path, parse_dates=["Order Date", "Ship Date"])
 ##############################################################
 # SCATTER PLOT
 ###############################################################
-control_scatter_num=dbc.Card([dbc.FormGroup(children=[dbc.Label("month"),
+scatter_num=dbc.Card([dbc.FormGroup(children=[dbc.Label("month",id="label_scatter",),
                                             dcc.Dropdown(id="control_month_scatter",options=models.month(),
-                                            placeholder="Select month",value='',searchable=True),],
+                                            placeholder="Select month",value='',searchable=True),
+                                                      dcc.Graph(id='scatter_graph_route',),],
                                            ),])
-scatter_route=dbc.Card([dcc.Graph(id='scatter_graph_route',children=[html.H3("loding"),],),],)
+
 ###############################################################
 # LINE PLOT
 ###############################################################
@@ -50,11 +51,11 @@ stats = dbc.Container(
         
         
         dbc.Row([
-            dbc.Col([control_scatter_num,scatter_route], width=3),
+            dbc.Col([scatter_num], width=6),
             dbc.Col(),
                 ],align="center",no_gutters=True),
         
-        dbc.Row([ dbc.Col(html.H6("2")),],align="center",no_gutters=True),        
+        dbc.Row([ dbc.Col(html.H6()),],align="center",no_gutters=True),        
         
     ],
     className="ds4a-body",
