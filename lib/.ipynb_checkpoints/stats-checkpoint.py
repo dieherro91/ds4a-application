@@ -16,8 +16,8 @@ import os
 # Recall app
 from app import app
 from data import models
+from views import figure
 
-#rtes=conn
 """
 DATA_DIR = "data"
 superstore_path = os.path.join(DATA_DIR, "superstore.csv")
@@ -29,11 +29,12 @@ df = pd.read_csv(superstore_path, parse_dates=["Order Date", "Ship Date"])
 ##############################################################
 # SCATTER PLOT
 ###############################################################
-scatter_num=dbc.Card([dbc.FormGroup(children=[dbc.Label("month",id="label_scatter",),
-                                            dcc.Dropdown(id="control_month_scatter",options=models.month(),
-                                            placeholder="Select month",value='',searchable=True),
-                                                      dcc.Graph(id='scatter_graph_route',),],
-                                           ),])
+
+scatter_num=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='scatter_graph_route',),],),])
+map_validaciones_ubication_zone_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='map_graph_route',),],),])
+
+
+
 
 ###############################################################
 # LINE PLOT

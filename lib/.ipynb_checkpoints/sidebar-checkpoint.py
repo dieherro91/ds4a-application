@@ -47,7 +47,9 @@ drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.list
 drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
                                            value='',style={'display': 'none'},placeholder="Select a route",searchable=True,),],)
 
-
+month_selector=html.Div(children=[
+    dbc.Label("month",id="label_scatter",),
+    dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='',searchable=True),],)
 
 ##############################################################################
 # Date Picker Card
@@ -70,7 +72,8 @@ sidebar = html.Div(
         html.Hr(),
         html.Div([titleRoute, drop_route,]),
         html.Hr(),
-        #DS4A_Img2,
+        month_selector,
+        html.Hr(),
         #html.Hr(),
     ],
     className="ds4a-sidebar",
