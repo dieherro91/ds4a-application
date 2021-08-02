@@ -168,23 +168,7 @@ def make_graph_histogram(month_scatter,ZoneValue,RouteValue):
     else:
         return figure.histogram_validations(month_scatter,ZoneValue,RouteValue)   
     
-#############################################################
-# HEATMAP : Add interactions here
-#############################################################
-@app.callback(
-    Output('heatmap_validation', 'figure'),
-    Input("control_month_scatter", "value"),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_histogram(month_scatter,ZoneValue,RouteValue):
-    if RouteValue=='' or month_scatter=='':
-        fig=px.density_heatmap()
-        return fig
-    else:
-        return figure.heat_map_interactivition(month_scatter,ZoneValue,RouteValue)   
-    
-    
+
 #############################################################
 # PROFITS BY CATEGORY : Add sidebar interaction here
 #############################################################

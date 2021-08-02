@@ -3,8 +3,3 @@ plotly
 pandas
 dash_bootstrap_components
 psycopg2
-
-scipy
-ipython-sql 
-
-
