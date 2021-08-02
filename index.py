@@ -35,8 +35,10 @@ from lib import title, sidebar, stats
 from data import models
 from views import figure
 # PLACE THE COMPONENTS IN THE LAYOUT
+# content = html.Div(id="page-content", className='content')
+
 app.layout = html.Div(
-    [  title.title, sidebar.sidebar, stats.stats,],
+    [  title.title, sidebar.sidebar, stats.stats, ],
     className="ds4a-app",  # You can also add your own css files by storing them in the assets folder
 )
 

@@ -133,7 +133,7 @@ slider_hour=dcc.Slider(id='slider_hours', min=0, max=23, step=1, value=10,marks=
 # Here the layout for the plots to use. width={"size": 3, "order": 2, "offset": 3}
 ##################################################################################style={width=100%,}
 
-stats = dbc.Container(
+stats = html.Div(
     [
         
         # Place the different graph components here.
@@ -141,10 +141,12 @@ stats = dbc.Container(
         
         dbc.Row([
             dbc.Col([bar_average_number_buses_per_hour], width=6),
-            dbc.Col(),
+            dbc.Col([scatter_num_zonal], width=6),
                 ],align="center",no_gutters=True),
         
-        dbc.Row([ dbc.Col(html.H6()),],align="center",no_gutters=True),        
+        dbc.Row([ 
+            dbc.Col(html.H6()),
+            ],align="center",no_gutters=True),        
         
     ],
     className="ds4a-body",
