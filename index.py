@@ -106,25 +106,30 @@ def drowdownSelection_route(zone_drop_value):
 @app.callback(
     Output('scatter_graph_zone', 'figure'),
     Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_cluster_zone(month_scatter,ZoneValue,RouteValue):
+def make_graph_cluster_zone(month_scatter,typeValue,ZoneValue,RouteValue):
     
-    if RouteValue=='' or month_scatter=='':
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
+        return figure.make_graph_zonal(month_scatter,ZoneValue)
+    elif RouteValue=='' or month_scatter=='':
         return px.scatter()
     else:
-        return figure.make_graph_route_zonal(month_scatter,ZoneValue,RouteValue)
+        return figure.make_graph_zonal(month_scatter,ZoneValue)
 ################################################################route_single
 @app.callback(
     Output('scatter_graph_single_route', 'figure'),
     Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_cluster_route(month_scatter,ZoneValue,RouteValue):
-    
-    if RouteValue=='' or month_scatter=='':
+def make_graph_cluster_route(month_scatter,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
+        return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
+    elif RouteValue=='' or month_scatter=='':
         return px.scatter()
     else:
         return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
@@ -142,15 +147,18 @@ FALTA EL CALLBACK DEL ROUTESINGLE_HOUR este el id id='scatter_graph_single_route
 @app.callback(
     Output('map_graph_route', 'figure'),
     Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_map(month_scatter,ZoneValue,RouteValue):
-    if RouteValue=='' or month_scatter=='':
+def make_graph_map(month,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month !='':
+        return figure.graph1_validaciones_ubication_zone(month,ZoneValue)
+    elif RouteValue=='' or month=='':
         fig=px.scatter()
         return fig
     else:
-        return figure.graph1_validaciones_ubication_zone_route(month_scatter,ZoneValue,RouteValue)
+        return figure.graph1_validaciones_ubication_zone_route(month,ZoneValue,RouteValue)
 
 #############################################################
 # HISTOGRAM : Add interactions here
@@ -158,41 +166,78 @@ def make_graph_map(month_scatter,ZoneValue,RouteValue):
 @app.callback(
     Output('histogram_validation', 'figure'),
     Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_histogram(month_scatter,ZoneValue,RouteValue):
-    if RouteValue=='' or month_scatter=='':
+def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
+        return figure.histogram_validations_zone(month,ZoneValue)
+    elif RouteValue=='' or month=='':
         fig=px.histogram()
         return fig
     else:
-        return figure.histogram_validations(month_scatter,ZoneValue,RouteValue)   
-    
+        return figure.histogram_validations(month,ZoneValue,RouteValue)   
+
 #############################################################
 # HEATMAP : Add interactions here
 #############################################################
 @app.callback(
     Output('heatmap_validation', 'figure'),
     Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_histogram(month_scatter,ZoneValue,RouteValue):
-    if RouteValue=='' or month_scatter=='':
+def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
+        return figure.heat_map_interactivition_zone(month,ZoneValue) 
+    elif RouteValue=='' or month=='':
         fig=px.density_heatmap()
         return fig
     else:
-        return figure.heat_map_interactivition(month_scatter,ZoneValue,RouteValue)   
+        return figure.heat_map_interactivition(month,ZoneValue,RouteValue)   
     
+#############################################################
+# BARPLOT  : Add BARPLOT interaction here
+#############################################################
+@app.callback(
+    Output('average_number_buses_per_day', 'figure'),
+    Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
+    Input('zone_dropdown','value'),
     
+)
+def make_graph_bar_avera(month,typeValue,ZoneValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
+        return figure.average_number_buses_per_day_per_month_zone(month,ZoneValue) 
+    else:
+        return px.scatter()
+
+@app.callback(
+    Output('average_number_buses_per_hour' , 'figure'),
+    Input("control_month_scatter", "value"),
+    Input('type_dropdown','value'),
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'),
+    
+)
+def make_graph_bar_avera(month,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':        
+        return figure.average_number_buses_per_hour_zone(month,ZoneValue) 
+    elif RouteValue=='' or month=='':
+        fig=px.density_heatmap()
+        return fig
+    else:
+        return figure.average_number_buses_per_hour_route(month,ZoneValue,RouteValue)  
+   
+  
+
 #############################################################
 # PROFITS BY CATEGORY : Add sidebar interaction here
 #############################################################
 
 
-#############################################################
-# TREEMAP PLOT : Add sidebar interaction here
-#############################################################
 
 
 #############################################################
