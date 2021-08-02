@@ -451,7 +451,6 @@ def average_number_buses_per_day_per_month_zona(month,ZoneValue):
     connect_db.conn().close()
     
     return df_average_number_buses_per_day_per_month_zona
-
 def average_number_buses_per_hour_zona(month,ZoneValue):
     df_average_number_buses_per_hour = pd.read_sql(" \
     WITH filtro1 AS(  \
