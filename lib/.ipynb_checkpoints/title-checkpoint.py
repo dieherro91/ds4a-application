@@ -17,8 +17,9 @@ title_sub = html.Div(children=[html.H3("Select type of Data Analysis")], id="sub
 title = html.Div(className="ds4a-title",children=
     [
     title_principal,
-    html.Hr(), 
     title_sub,
     html.Hr(), 
+    
+    
 ])
 

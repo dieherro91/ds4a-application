@@ -135,12 +135,9 @@ slider_hour=dcc.Slider(id='slider_hours', min=0, max=23, step=1, value=10,marks=
 
 stats = dbc.Container(
     [
-        
         # Place the different graph components here.
-        
-        
         dbc.Row([
-            dbc.Col([bar_average_number_buses_per_hour], width=6),
+            dbc.Col([map_validaciones_ubication_zone_route], width=6),
             dbc.Col(),
                 ],align="center",no_gutters=True),
         
