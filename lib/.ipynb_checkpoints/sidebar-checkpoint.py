@@ -49,7 +49,7 @@ drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
 
 month_selector=html.Div(children=[
     dbc.Label("month",id="label_scatter",),
-    dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='',searchable=True),],)
+    dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='4',searchable=True),],)
 
 ##############################################################################
 # Date Picker Card

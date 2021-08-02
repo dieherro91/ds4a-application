@@ -105,16 +105,26 @@ scatter_num_single_route_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
 map_validaciones_ubication_zone_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='map_graph_route',),],),])
 
 histogram_validations_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='histogram_validation',),],),])
+
 heat_map_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='heatmap_validation',),],),])
 
+#######################################    only_zone_graphs      ###################################################
+bar_average_number_buses_per_day_zone=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_day',),],),])
+bar_average_number_buses_per_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_hour',),],),])
 
+############################################################################################################
 
 tabs_controles=dcc.Tabs(id='tabs-example', value='tab-1', children=[
                             dcc.Tab(label='Month Analysis', value='tab-1'),
                             dcc.Tab(label='Week of the day and hour', value='tab-2'),
                             dcc.Tab(label='Predictions', value='tab-3'),
                                     ])
-
+slider_hour=dcc.Slider(id='slider_hours', min=0, max=23, step=1, value=10,marks={
+                                                            0: {'label': '0'},
+                                                            7: {'label': '26'},
+                                                            17: {'label': '37'},
+                                                            23: {'label': '100'}
+    })
 
 
 
@@ -130,7 +140,7 @@ stats = dbc.Container(
         
         
         dbc.Row([
-            dbc.Col([heat_map_route], width=6),
+            dbc.Col([bar_average_number_buses_per_hour], width=6),
             dbc.Col(),
                 ],align="center",no_gutters=True),
         
