@@ -35,8 +35,10 @@ from lib import title, sidebar, stats
 from data import models
 from views import figure
 # PLACE THE COMPONENTS IN THE LAYOUT
+# content = html.Div(id="page-content", className='content')
+
 app.layout = html.Div(
-    [  title.title, sidebar.sidebar, stats.stats,],
+    [  title.title, sidebar.sidebar, stats.stats, ],
     className="ds4a-app",  # You can also add your own css files by storing them in the assets folder
 )
 
@@ -108,7 +110,15 @@ def make_graph_cluster_route(month_scatter,ZoneValue,RouteValue):
     
     if RouteValue=='' or month_scatter=='':
         df_empty = pd.DataFrame({"number_passengers_day":[],"number_passengers_day":[],"day":[]})
-        return px.scatter(df_empty, x="number_passengers_day", y="number_passengers_day")
+        
+        
+        fig = px.scatter(df_empty, x="number_passengers_day", y="number_passengers_day", template="plotly_dark")
+        # fig.update_layout({
+        # 'plot_bgcolor': 'rgba(237, 54, 44, 0)',
+        # 'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        # })
+       
+        return fig
     else:
         return figure.make_graph_route(month_scatter,ZoneValue,RouteValue)
 

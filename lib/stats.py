@@ -55,7 +55,9 @@ stats = dbc.Container(
             dbc.Col(),
                 ],align="center",no_gutters=True),
         
-        dbc.Row([ dbc.Col(html.H6()),],align="center",no_gutters=True),        
+        dbc.Row([ 
+            dbc.Col(html.H6()),
+            ],align="center",no_gutters=True),        
         
     ],
     className="ds4a-body",

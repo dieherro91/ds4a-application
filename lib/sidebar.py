@@ -29,9 +29,9 @@ DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubf
 # Titles
 #############################################################################
 
-titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id',style={'textAlign': 'center'},),],)
-titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', style={'textAlign': 'center'},),],)
-titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', style={'textAlign': 'center','display': 'none'},),],)
+titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id', className='item-selection',),],)
+titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', className='item-selection',),],)
+titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', className='item-selection hidden',),],)
 
 #############################################################################
 # State Dropdown Card
