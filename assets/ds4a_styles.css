@@ -1,20 +1,27 @@
 /*This document contains the styles that use the app. You can change these as you wish.*/
-
+:root {
+    --main-color: #031a2c;
+    --secondary-color: #073559;
+    --header-color: #649ee3;
+  }
+h6 {
+    color: #ffffff;
+}
 .ds4a-app {
-    background-color: #F8F9F9
+    background-color: var(--secondary-color);
 }
 .ds4a-title {
-    position: -webkit-sticky;
+    
     position: sticky;
     top: 0;
     left: 0;
     right:0;
-    z-index: 999;
-    height:7rem;
+    z-index: 999; 
+    color: #ffffff;
     margin-left: 16rem;
-    margin-right: 2rem;
-    padding: 2rem 1rem;
-    background-color: #a5a5a5;
+    /* margin-right: 2rem; */
+  
+    background-color: var(--header-color);
 }
 
 .ds4a-body {
@@ -23,7 +30,7 @@
     margin-right:0rem;
     padding: 1rem 1rem;
     z-index: 1;
-    background-color: #F8F9F9;
+    background-color: var(--secondary-color);
     
 }
 
@@ -37,5 +44,35 @@
     width: 16rem;
     padding: 2rem 1rem;
     z-index: 999;
-    background-color: #C0C0C0; 
+    background-color: var(--main-color); 
+}
+
+#ds4a-image{
+    width: 80%;
+}
+#ds4a-logo-masivo {
+    height: 70px;
+}
+
+#title-principal{
+    text-align: center;
+    padding-top: 10px;
+}
+
+.item-selection {
+    text-align: center;
+    font-size: 14px;
+}
+.hidden {
+    display: none;
+}
+
+.content {
+    margin-left: 18rem;
+    margin-right: 2rem;
+    padding: 2rem 1rem;
+}
+
+.card {
+    width: 32rem !important;
 }
