@@ -35,15 +35,22 @@ from lib import title, sidebar, stats
 from data import models
 from views import figure
 # PLACE THE COMPONENTS IN THE LAYOUT
+# content = html.Div(id="page-content", className='content')
+
 app.layout = html.Div(
-    [  title.title, sidebar.sidebar, stats.stats,],
+    [  title.title, sidebar.sidebar, stats.stats, ],
     className="ds4a-app",  # You can also add your own css files by storing them in the assets folder
 )
 
-
+#########################################################################
+variable_empty={ "layout": {
+    "xaxis": {
+        "visible": False }, "yaxis": {"visible": False},
+    "annotations": [{"text": "","xref": "paper",'bgcolor':"#073559","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#073559",'plot_bgcolor':"#073559"}}
+#########################################################################
 ###############################################
 #
-#           APP INTERACTIVITY:
+#           APP INTERACTIVITY: 'plot_bgcolor':"#073559"
 #
 ###############################################
 
@@ -111,13 +118,14 @@ def drowdownSelection_route(zone_drop_value):
     Input('route_dropdown','value'),
 )
 def make_graph_cluster_zone(month_scatter,typeValue,ZoneValue,RouteValue):
-    
+    #
+    fig=figure.make_graph_zonal(month_scatter,ZoneValue)
     if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
-        return figure.make_graph_zonal(month_scatter,ZoneValue)
+        return fig
     elif RouteValue=='' or month_scatter=='':
-        return px.scatter()
+        return variable_empty
     else:
-        return figure.make_graph_zonal(month_scatter,ZoneValue)
+        return fig
 ################################################################route_single
 @app.callback(
     Output('scatter_graph_single_route', 'figure'),
@@ -130,7 +138,7 @@ def make_graph_cluster_route(month_scatter,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
         return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
     elif RouteValue=='' or month_scatter=='':
-        return px.scatter()
+        return variable_empty
     else:
         return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
  ################################################################   
@@ -155,8 +163,7 @@ def make_graph_map(month,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month !='':
         return figure.graph1_validaciones_ubication_zone(month,ZoneValue)
     elif RouteValue=='' or month=='':
-        fig=px.scatter()
-        return fig
+        return variable_empty
     else:
         return figure.graph1_validaciones_ubication_zone_route(month,ZoneValue,RouteValue)
 
@@ -174,8 +181,7 @@ def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
         return figure.histogram_validations_zone(month,ZoneValue)
     elif RouteValue=='' or month=='':
-        fig=px.histogram()
-        return fig
+        return variable_empty
     else:
         return figure.histogram_validations(month,ZoneValue,RouteValue)   
 
@@ -189,12 +195,11 @@ def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
+def make_graph_heat_maps(month,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
         return figure.heat_map_interactivition_zone(month,ZoneValue) 
     elif RouteValue=='' or month=='':
-        fig=px.density_heatmap()
-        return fig
+        return variable_empty
     else:
         return figure.heat_map_interactivition(month,ZoneValue,RouteValue)   
     
@@ -202,17 +207,31 @@ def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
 # BARPLOT  : Add BARPLOT interaction here
 #############################################################
 @app.callback(
-    Output('average_number_buses_per_day', 'figure'),
+    Output('average_number_buses_per_day_all_routes', 'figure'),
     Input("control_month_scatter", "value"),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
-    
+    Input('route_dropdown','value'),
 )
-def make_graph_bar_avera(month,typeValue,ZoneValue):
+def make_graph_bar_averas(month,typeValue,ZoneValue,RouteValue):
+    fig=figure.average_number_buses_per_day_per_month_zone_all_routes(month,ZoneValue) 
     if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
-        return figure.average_number_buses_per_day_per_month_zone(month,ZoneValue) 
+        return fig
+    elif RouteValue=='' or month=='':
+        return variable_empty
     else:
-        return px.scatter()
+        return fig
+
+"""
+fig=figure.make_graph_zonal(month_scatter,ZoneValue)
+    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
+        return fig
+    elif RouteValue=='' or month_scatter=='':
+        return px.scatter([],[],width=400, height=300)
+    else:
+        return fig
+"""    
+    
 
 @app.callback(
     Output('average_number_buses_per_hour' , 'figure'),
@@ -226,8 +245,7 @@ def make_graph_bar_avera(month,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':        
         return figure.average_number_buses_per_hour_zone(month,ZoneValue) 
     elif RouteValue=='' or month=='':
-        fig=px.density_heatmap()
-        return fig
+        return variable_empty
     else:
         return figure.average_number_buses_per_hour_route(month,ZoneValue,RouteValue)  
    

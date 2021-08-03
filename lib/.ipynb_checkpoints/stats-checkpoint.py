@@ -110,11 +110,12 @@ histogram_validations_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='hist
 heat_map_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='heatmap_validation',),],),])
 
 #######################################    only_zone_graphs      ###################################################
-bar_average_number_buses_per_day_zone=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_day',),],),])
+bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.FormGroup(children=[
+                                                    dcc.Graph(id='average_number_buses_per_day_all_routes',),],),])
 bar_average_number_buses_per_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_hour',),],),])
 
 ############################################################################################################
-
+#average_number_buses_per_day
 tabs_controles=dcc.Tabs(id='tabs-example', value='tab-1', children=[
                             dcc.Tab(label='Month Analysis', value='tab-1'),
                             dcc.Tab(label='Week of the day and hour', value='tab-2'),
@@ -138,18 +139,27 @@ stats = html.Div(
     [
         # Place the different graph components here.
         dbc.Row([
-
-            dbc.Col([map_validaciones_ubication_zone_route], width=6),
-            dbc.Col(),
-
-            dbc.Col([bar_average_number_buses_per_hour], width=6),
-            dbc.Col([scatter_num_zonal], width=6),
-
-                ],align="center",no_gutters=True),
+            
+            dbc.Col([scatter_num_zonal,],align ='center', width="auto"),
+            dbc.Col([map_validaciones_ubication_zone_route],width="auto"),            
+                ],justify="start",className="Rowbody_1"),
         
-        dbc.Row([ 
+       dbc.Row([
+           dbc.Col([heat_map_route,],align ='center', width="auto"),
+           dbc.Col([histogram_validations_route],align ='center', width="auto"),
+               ],justify="start",className="Rowbody_2"), 
+        
+        dbc.Row([
+            dbc.Col([bar_average_number_buses_per_hour],align ='center', width="auto"),
+            dbc.Col([bar_average_number_buses_per_day_zone_all],align ='center', width="auto"),
+            
+               ],justify="start",className="Rowbody_3"), 
+            
+       
+        
+       dbc.Row([ 
             dbc.Col(html.H6()),
-            ],align="center",no_gutters=True),        
+            ],),        
         
     ],
     className="ds4a-body",

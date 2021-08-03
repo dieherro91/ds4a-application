@@ -32,7 +32,7 @@ DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubf
 titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id', className='item-selection',),],)
 titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', className='item-selection',),],)
 titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', className='item-selection hidden',),],)
-
+titlemonth=html.Div(children=[html.H6('MONTH', id='title_month', className='item-selection',),],)
 #############################################################################
 # State Dropdown Card
 #############################################################################
@@ -50,7 +50,7 @@ drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
                                            value='',style={'display': 'none'},placeholder="Select a route",searchable=True,),],)
 
 month_selector=html.Div(children=[
-    dbc.Label("month",id="label_scatter",),
+    titlemonth,
     dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='4',searchable=True),],)
 
 ##############################################################################

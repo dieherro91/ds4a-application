@@ -14,7 +14,7 @@ from app import app
 logo_masivo = html.Img(src=app.get_asset_url("logo-masivo.png"), id="ds4a-logo-masivo")
 
 title_principal = html.Div(children=[
-    html.H3("Masivo Capital Data Analysis"),
+    html.H3("Masivo Capital Data Analysis",style={'marginBottom': 0, 'marginTop': 0}),
     # logo_masivo,
     ], id="title-principal")
 title_sub = html.Div(children=[html.H3("Select type of Data Analysis")], id="subtitle")
@@ -25,4 +25,4 @@ title = html.Div(className="ds4a-title",children=
     title_principal,
 
 ])
-tisdf=dbc.Container([dbc.Row([   ]),align="center",no_gutters=True,])
+#tisdf=dbc.Container([dbc.Row([   ]),align="center",no_gutters=True,])
