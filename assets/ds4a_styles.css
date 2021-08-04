@@ -34,6 +34,10 @@ h6 {
     
 }
 
+.container {
+    max-width: 1090px !important;
+}
+
 
 
 .ds4a-sidebar {
@@ -73,6 +77,14 @@ h6 {
     padding: 2rem 1rem;
 }
 
-.card {
-    width: 32rem !important;
+/* .card {
+    
+} */
+
+.svg-big {
+    height: 100%;
+}
+
+#scatter_graph_zone, #histogram_validation{
+    height: 100%;
 }

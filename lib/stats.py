@@ -91,7 +91,7 @@ df1['day_of_week'].replace(dayWeek,inplace=True)
 ##############################################################################################
 #esta es una sola grafica usar como referencia la "scatter_num_zonal"
 
-scatter_num_zonal=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='scatter_graph_zone',),],),])
+scatter_num_zonal=dbc.Card([dcc.Graph(id='scatter_graph_zone',),],className="h-50" )
 
 scatter_num_single_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
                                                                 id='scatter_graph_single_route',),],),])
@@ -104,13 +104,13 @@ scatter_num_single_route_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
 
 map_validaciones_ubication_zone_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='map_graph_route',),],),])
 
-histogram_validations_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='histogram_validation',),],),])
+histogram_validations_route=dbc.Card([dcc.Graph(id='histogram_validation',),],className="h-50")
 
 heat_map_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='heatmap_validation',),],),])
 
 #######################################    only_zone_graphs      ###################################################
 bar_average_number_buses_per_day_zone=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_day',),],),])
-bar_average_number_buses_per_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_hour',),],),])
+bar_average_number_buses_per_hour=dbc.Card([dcc.Graph(id='average_number_buses_per_hour',),],)
 
 ############################################################################################################
 
@@ -133,7 +133,7 @@ slider_hour=dcc.Slider(id='slider_hours', min=0, max=23, step=1, value=10,marks=
 # Here the layout for the plots to use. width={"size": 3, "order": 2, "offset": 3}
 ##################################################################################style={width=100%,}
 
-stats = html.Div(
+stats = dbc.Container(
     [
         
         # Place the different graph components here.
@@ -141,8 +141,8 @@ stats = html.Div(
         
         dbc.Row([
             dbc.Col([bar_average_number_buses_per_hour], width=6),
-            dbc.Col([scatter_num_zonal], width=6),
-                ],align="center",no_gutters=True),
+            dbc.Col([scatter_num_zonal, histogram_validations_route ], width=6),
+                ]),
         
         dbc.Row([ 
             dbc.Col(html.H6()),
