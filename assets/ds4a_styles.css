@@ -85,6 +85,7 @@ h6 {
     height: 100%;
 }
 
-#scatter_graph_zone, #histogram_validation{
+#average_number_buses_per_hour, #histogram_validation{
     height: 100%;
 }
+

@@ -91,7 +91,7 @@ df1['day_of_week'].replace(dayWeek,inplace=True)
 ##############################################################################################
 #esta es una sola grafica usar como referencia la "scatter_num_zonal"
 
-scatter_num_zonal=dbc.Card([dcc.Graph(id='scatter_graph_zone',),],className="h-50" )
+scatter_num_zonal=dbc.Card([html.H3('Number of passangers vs number of buses', className='p-2 text-muted'),dcc.Graph(id='scatter_graph_zone',),],)
 
 scatter_num_single_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
                                                                 id='scatter_graph_single_route',),],),])
@@ -110,7 +110,7 @@ heat_map_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='heatmap_validatio
 
 #######################################    only_zone_graphs      ###################################################
 bar_average_number_buses_per_day_zone=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_day',),],),])
-bar_average_number_buses_per_hour=dbc.Card([dcc.Graph(id='average_number_buses_per_hour',),],)
+bar_average_number_buses_per_hour=dbc.Card([dcc.Graph(id='average_number_buses_per_hour',),],className="h-50")
 
 ############################################################################################################
 
@@ -140,15 +140,19 @@ stats = dbc.Container(
         
         
         dbc.Row([
-            dbc.Col([bar_average_number_buses_per_hour], width=6),
-            dbc.Col([scatter_num_zonal, histogram_validations_route ], width=6),
-                ]),
+            dbc.Col([scatter_num_zonal], width=6),
+            dbc.Col([bar_average_number_buses_per_hour, histogram_validations_route ], width=6),
+                ], className='mt-1'),
         
         dbc.Row([ 
-            dbc.Col(html.H6()),
-            ],align="center",no_gutters=True),        
+            dbc.Col([map_validaciones_ubication_zone_route], width=6),
+            dbc.Col([heat_map_route,], width=6)
+            ], className='mt-1'),        
         
     ],
     className="ds4a-body",
 )
+ 
+# bar_average_number_buses_per_day_zone_all
+                      
 #DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",style={'height':'10%', 'width':'10%'})],)

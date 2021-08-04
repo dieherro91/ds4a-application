@@ -13,7 +13,8 @@ def make_graph_zonal(month_scatter,ZoneValue):
     df=models.scatter_numPasajeros_numBuses_zonal(month_scatter,ZoneValue)
     fig=px.scatter(df, y="average_validations_per_bus",x="number_of_buses", color="commertial_route",
                     hover_data=["commertial_route","day_of_week","validation_type"],
-                    title='Number of passangers vs number of buses ({})'.format(ZoneValue))
+                    )
+                    # title='Number of passangers vs number of buses ({})'.format(ZoneValue)
     fig.update_layout(margin=dict(l=5, r=5, t=50, b=0))
     return fig
 
@@ -61,7 +62,7 @@ def graph1_validaciones_ubication_zone_route(month,ZoneValue,route):
 def histogram_validations(month,ZoneValue,route):
     resultados_demanda=models.histogram_validations(month,ZoneValue,route)
     fig = px.histogram(resultados_demanda, x='cumsum_demanda', labels={'cumsum_demanda':'Número de validaciones por viaje'},
-                   title='Histogram number of validations per travel {}'.format(route))
+                   title='Histogram number of validations per travel {}'.format(route), height=250)
     fig.update_layout(xaxis_title_text = 'Number validations per ride', bargap = 0.1)
     fig.add_vline(x = resultados_demanda['cumsum_demanda'].mean(),
               annotation_text='promedio:{:.2f}'.format(resultados_demanda['cumsum_demanda'].mean()))
@@ -151,5 +152,5 @@ def average_number_buses_per_hour_zone(month,ZoneValue):
 
 def average_number_buses_per_hour_route(month,ZoneValue,route):
     df=models.average_number_buses_per_hour_route(month,ZoneValue,route)
-    fig = px.bar(df, x='hour', y='avg_num_bus')
+    fig = px.bar(df, x='hour', y='avg_num_bus', height=250)
     return fig
