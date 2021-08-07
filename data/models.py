@@ -62,19 +62,29 @@ def day():
         day_list.append({'label':df_day['day'].loc[i],'value':df_day['day'].loc[i]}) 
     return day_list
 
+def max_date():
+    df_max_date=pd.read_sql("SELECT MAX(fecha_trx) FROM validacion",connect_db.conn())
+    connect_db.conn().close()
+    return df_max_date.iloc[0,0]
 
+def min_date():
+    df_min_date=pd.read_sql("SELECT MIN(fecha_trx) FROM validacion",connect_db.conn())
+    connect_db.conn().close()
+    return df_min_date.iloc[0,0]
+#month = start_date,end_date
 
-
+def range_date_postgreSQL(start_date,end_date):
+    return 'fecha_trx >= '+"\'"+ start_date +"\'"+' AND fecha_trx <= '+"\'"+ end_date +"\'"+' '
 
 ############################################Scatter ####################################SELECT EXTRACT(day FROM fecha_trx)as day FROM
-def scatter_numPasajeros_numBuses_zonal(month,ZoneValue):
+def scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue):
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
            CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
-           WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = " +"\'"+ month +"\'"+"  AND \
+           WHERE "+ range_date_postgreSQL(start_date,end_date) + "  AND \
                    operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
        ), filtro2 AS(  \
          SELECT id_paradero_ruta, ruta.ruta_comercial FROM paradero_ruta  \
@@ -95,14 +105,14 @@ def scatter_numPasajeros_numBuses_zonal(month,ZoneValue):
     df_numPasajeros_numBuses['day_of_week'].replace(dayWeek,inplace=True)
     return df_numPasajeros_numBuses
 
-def scatter_numPasajeros_numBuses_route(month,ZoneValue,route):
+def scatter_numPasajeros_numBuses_route(start_date,end_date,ZoneValue,route):
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
            CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
-           WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = " +"\'"+ month +"\'"+"  AND \
+           WHERE "+ range_date_postgreSQL(start_date,end_date) + "  AND \
                    operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+"     \
        ), filtro2 AS(  \
          SELECT id_paradero_ruta, ruta.ruta_comercial FROM paradero_ruta  \
@@ -123,14 +133,14 @@ def scatter_numPasajeros_numBuses_route(month,ZoneValue,route):
     df_numPasajeros_numBuses['day_of_week'].replace(dayWeek,inplace=True)
     return df_numPasajeros_numBuses
 
-def scatter_numPasajeros_numBuses_route_hour_weekday(month,ZoneValue,route,hour):
+def scatter_numPasajeros_numBuses_route_hour_weekday(start_date,end_date,ZoneValue,route,hour):
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
            CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
-           WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = " +"\'"+ month +"\'"+"  AND \
+           WHERE "+ range_date_postgreSQL(start_date,end_date) + "  AND \
                    operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" AND \
                  CAST(EXTRACT(hour FROM hora_trx) AS INTEGER) = " +"\'"+ hour +"\'"+" \
        ), filtro2 AS(  \
@@ -154,14 +164,14 @@ def scatter_numPasajeros_numBuses_route_hour_weekday(month,ZoneValue,route,hour)
 
 
 ################################################   MAP ##############################################################
-def validaciones_ubication_zone_route(month,ZoneValue,route):
+def validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route):
     
     df_validaciones_ubication_zone_route=pd.read_sql(" \
         WITH filtro1 AS( \
        SELECT id_validacion, paradero_ruta_id, descripcion_tipo_viaje FROM validacion \
        INNER JOIN operador ON operador.id_operador=validacion.operador_id \
        INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
-       WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+       WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
          \
        ), filtro2 AS( \
          SELECT id_paradero_ruta ,id_paradero FROM paradero_ruta \
@@ -178,14 +188,15 @@ def validaciones_ubication_zone_route(month,ZoneValue,route):
     GROUP BY cenefa, latitud, longitud,descripcion_tipo_viaje;",connect_db.conn())
     connect_db.conn().close()
     return df_validaciones_ubication_zone_route
-def validaciones_ubication_zone(month,ZoneValue):
+
+def validaciones_ubication_zone(start_date,end_date,ZoneValue):
     
     df_validaciones_ubication_zone_route=pd.read_sql(" \
         WITH filtro1 AS( \
        SELECT id_validacion, paradero_ruta_id, descripcion_tipo_viaje FROM validacion \
        INNER JOIN operador ON operador.id_operador=validacion.operador_id \
        INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
-       WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+       WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
          \
        ), filtro2 AS( \
          SELECT id_paradero_ruta ,id_paradero FROM paradero_ruta \
@@ -204,7 +215,7 @@ def validaciones_ubication_zone(month,ZoneValue):
     return df_validaciones_ubication_zone_route
   
 ################################################   histogram| ##############################################################
-def histogram_validations(month,ZoneValue,route):
+def histogram_validations(start_date,end_date,ZoneValue,route):
     df_demparaderos = pd.read_sql("WITH validaciones AS (\
         SELECT fecha_trx AS fecha_servicio, \
         date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS hora_servicio,\
@@ -218,7 +229,7 @@ def histogram_validations(month,ZoneValue,route):
         JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
         JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
         JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+        WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
         )\
         SELECT fecha_servicio, hora_servicio, cenefa, vehiculo_id, posicion, count(*) AS cantidad_pasajeros\
         FROM validaciones\
@@ -226,7 +237,7 @@ def histogram_validations(month,ZoneValue,route):
         GROUP BY fecha_servicio, hora_servicio, cenefa, vehiculo_id, posicion\
         ORDER BY fecha_servicio, hora_servicio ASC, posicion ASC;",connect_db.conn())
     connect_db.conn().close()
-
+    
     df_demparaderos['hora'] = df_demparaderos['hora_servicio'].dt.components.hours
     df_demparaderos['minutos'] = df_demparaderos['hora_servicio'].dt.components.minutes
     df_demparaderos['hora_validacion'] = (pd.to_datetime(df_demparaderos['hora'].astype(str) + ':' + 
@@ -249,7 +260,7 @@ def histogram_validations(month,ZoneValue,route):
     
     return resultados_demanda
 
-def histogram_validations_zone(month,ZoneValue):
+def histogram_validations_zone(start_date,end_date,ZoneValue):
     df_demparaderos = pd.read_sql("WITH validaciones AS (\
         SELECT fecha_trx AS fecha_servicio, \
         date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS hora_servicio,\
@@ -263,7 +274,7 @@ def histogram_validations_zone(month,ZoneValue):
         JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
         JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
         JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+        WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
         )\
         SELECT fecha_servicio, hora_servicio, cenefa, vehiculo_id, posicion, count(*) AS cantidad_pasajeros\
         FROM validaciones\
@@ -294,7 +305,7 @@ def histogram_validations_zone(month,ZoneValue):
     
     return resultados_demanda
 ########################################  heat_map #############################################################################
-def heatmap_interctive(month,ZoneValue,route):
+def heatmap_interctive(start_date,end_date,ZoneValue,route):
     df_demparaderos = pd.read_sql("WITH validaciones AS (\
         SELECT fecha_trx AS fecha_servicio, \
         date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS hora_servicio,\
@@ -308,7 +319,7 @@ def heatmap_interctive(month,ZoneValue,route):
         JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
         JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
         JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+        WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
         )\
         SELECT fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion, count(*) AS cantidad_pasajeros\
         FROM validaciones\
@@ -351,7 +362,7 @@ def heatmap_interctive(month,ZoneValue,route):
     resultados = resultados.sort_values(by='posicion')
     return resultados
 
-def heatmap_interctive_zone(month,ZoneValue):
+def heatmap_interctive_zone(start_date,end_date,ZoneValue):
     df_demparaderos = pd.read_sql("WITH validaciones AS (\
     SELECT fecha_trx AS fecha_servicio, \
         date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS hora_servicio,\
@@ -365,7 +376,7 @@ def heatmap_interctive_zone(month,ZoneValue):
         JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
         JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
         JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE EXTRACT(month FROM fecha_trx) =" +"\'"+ month +"\'"+" AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
+        WHERE "+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
         )\
         SELECT fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion, count(*) AS cantidad_pasajeros\
         FROM validaciones\
@@ -408,7 +419,7 @@ def heatmap_interctive_zone(month,ZoneValue):
     resultados = resultados.sort_values(by='posicion')
     return resultados
 ##############################################################################################################
-def position_route(month,ZoneValue,route):
+def position_route(ZoneValue,route):
     df_estaciones=pd.read_sql(" \
     SELECT DISTINCT ruta_comercial as commertial_route, \
                               cenefa as bus_stop, latitud AS latitude, longitud AS longitude, posicion AS distance, \
@@ -418,12 +429,13 @@ def position_route(month,ZoneValue,route):
     INNER JOIN ruta ON ruta.id_ruta=p_r.id_ruta \
     INNER JOIN paradero ON paradero.id_paradero=p_r.id_paradero \
     INNER JOIN operador ON operador.id_operador = vd.operador_id \
-    WHERE  EXTRACT(month from fecha_trx)=" +"\'"+ month +"\'"+" AND operador.descripcion_operador= " +"\'"+ ZoneValue +"\'"+"\
+    WHERE operador.descripcion_operador= " +"\'"+ ZoneValue +"\'"+"\
                               AND ruta_comercial= " +"\'"+ route +"\'"+"  \
     ORDER BY posicion;",connect_db.conn())
     return df_estaciones
 ########################################################## barras numero de buses por dia ruta_zonal ######################## 
-def average_number_buses_per_day_per_month_zona_all_routes(month,ZoneValue):
+
+def average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue):
     
     df_average_number_buses_per_day_per_month_zona = pd.read_sql(" \
     WITH filtro1 AS(  \
@@ -431,7 +443,7 @@ def average_number_buses_per_day_per_month_zona_all_routes(month,ZoneValue):
         CAST(EXTRACT(day FROM fecha_trx)AS INTEGER) AS day  FROM validacion \
         INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
         INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje = validacion.tipo_viaje_id \
-        WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = "+"\'"+ month +"\'"+ "  \
+        WHERE "+ range_date_postgreSQL(start_date,end_date) + "  \
         AND operador.descripcion_operador= "+"\'"+ ZoneValue +"\'"+" \
         \
         ), filtro2 AS(  \
@@ -452,13 +464,13 @@ def average_number_buses_per_day_per_month_zona_all_routes(month,ZoneValue):
     
     return df_average_number_buses_per_day_per_month_zona
 
-def average_number_buses_per_hour_zona(month,ZoneValue):
+def average_number_buses_per_hour_zona(start_date,end_date,ZoneValue):
     df_average_number_buses_per_hour = pd.read_sql(" \
     WITH filtro1 AS(  \
        SELECT DISTINCT vehiculo_id, CAST(EXTRACT(day FROM fecha_trx)AS INTEGER) AS day, \
                          paradero_ruta_id,CAST(EXTRACT(hour FROM hora_trx)AS INTEGER) AS hour  FROM validacion \
        INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
-       WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = "+"\'"+ month +"\'"+ "   \
+       WHERE "+ range_date_postgreSQL(start_date,end_date) + "   \
                AND operador.descripcion_operador= "+"\'"+ ZoneValue +"\'"+"  \
        ), filtro2 AS(   \
          SELECT id_paradero_ruta, ruta.ruta_comercial FROM paradero_ruta   \
@@ -475,13 +487,13 @@ def average_number_buses_per_hour_zona(month,ZoneValue):
     ORDER BY hour ASC;",connect_db.conn())
     return df_average_number_buses_per_hour
 
-def average_number_buses_per_hour_route(month,ZoneValue,route):
+def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route):
     df_average_number_buses_per_hour = pd.read_sql(" \
         WITH filtro1 AS(  \
        SELECT DISTINCT vehiculo_id, CAST(EXTRACT(day FROM fecha_trx)AS INTEGER) AS day, \
                          paradero_ruta_id,CAST(EXTRACT(hour FROM hora_trx)AS INTEGER) AS hour  FROM validacion \
        INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
-       WHERE CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) = "+"\'"+ month +"\'"+ "   \
+       WHERE "+ range_date_postgreSQL(start_date,end_date) + "  \
                AND operador.descripcion_operador= "+"\'"+ ZoneValue +"\'"+"  \
        ), filtro2 AS(   \
          SELECT id_paradero_ruta, ruta.ruta_comercial FROM paradero_ruta   \

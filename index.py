@@ -112,35 +112,43 @@ def drowdownSelection_route(zone_drop_value):
 #############################################################zonal
 @app.callback(
     Output('scatter_graph_zone', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_cluster_zone(month_scatter,typeValue,ZoneValue,RouteValue):
+def make_graph_cluster_zone(start_date,end_date,typeValue,ZoneValue,RouteValue):
     #
-    fig=figure.make_graph_zonal(month_scatter,ZoneValue)
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
+    try:
+        fig=figure.make_graph_zonal(start_date,end_date,ZoneValue)
+    except:
+        return variable_empty   
+    
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
         return fig
-    elif RouteValue=='' or month_scatter=='':
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
         return fig
 ################################################################route_single
 @app.callback(
     Output('scatter_graph_single_route', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_cluster_route(month_scatter,typeValue,ZoneValue,RouteValue):
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
-        return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
-    elif RouteValue=='' or month_scatter=='':
+def make_graph_cluster_route(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
+        return figure.make_graph_route_single(start_date,end_date,ZoneValue,RouteValue)
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
-        return figure.make_graph_route_single(month_scatter,ZoneValue,RouteValue)
+        return figure.make_graph_route_single(start_date,end_date,ZoneValue,RouteValue)
  ################################################################   
     
 """    
@@ -154,111 +162,119 @@ FALTA EL CALLBACK DEL ROUTESINGLE_HOUR este el id id='scatter_graph_single_route
 
 @app.callback(
     Output('map_graph_route', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_map(month,typeValue,ZoneValue,RouteValue):
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month !='':
-        return figure.graph1_validaciones_ubication_zone(month,ZoneValue)
-    elif RouteValue=='' or month=='':
+def make_graph_map(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date !='':
+        return figure.graph1_validaciones_ubication_zone(start_date,end_date,ZoneValue)
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
-        return figure.graph1_validaciones_ubication_zone_route(month,ZoneValue,RouteValue)
+        return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,RouteValue)
 
 #############################################################
 # HISTOGRAM : Add interactions here
 #############################################################
 @app.callback(
     Output('histogram_validation', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_histogram(month,typeValue,ZoneValue,RouteValue):
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
-        return figure.histogram_validations_zone(month,ZoneValue)
-    elif RouteValue=='' or month=='':
+def make_graph_histogram(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
+        return figure.histogram_validations_zone(start_date,end_date,ZoneValue)
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
-        return figure.histogram_validations(month,ZoneValue,RouteValue)   
+        return figure.histogram_validations(start_date,end_date,ZoneValue,RouteValue)   
 
 #############################################################
 # HEATMAP : Add interactions here
 #############################################################
 @app.callback(
     Output('heatmap_validation', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_heat_maps(month,typeValue,ZoneValue,RouteValue):
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
-        return figure.heat_map_interactivition_zone(month,ZoneValue) 
-    elif RouteValue=='' or month=='':
+def make_graph_heat_maps(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    try:
+        fig=figure.heat_map_interactivition_zone(start_date,end_date,ZoneValue) 
+    except:
+        return variable_empty 
+    
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
+        return figure.heat_map_interactivition_zone(start_date,end_date,ZoneValue) 
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
-        return figure.heat_map_interactivition(month,ZoneValue,RouteValue)   
+        return figure.heat_map_interactivition(start_date,end_date,ZoneValue,RouteValue)   
     
 #############################################################
 # BARPLOT  : Add BARPLOT interaction here
 #############################################################
 @app.callback(
     Output('average_number_buses_per_day_all_routes', 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
 )
-def make_graph_bar_averas(month,typeValue,ZoneValue,RouteValue):
-    fig=figure.average_number_buses_per_day_per_month_zone_all_routes(month,ZoneValue) 
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':
+def make_graph_bar_averas(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    
+    try:
+        fig=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue) 
+    except:
+        return variable_empty
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
         return fig
-    elif RouteValue=='' or month=='':
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
         return fig
-
-"""
-fig=figure.make_graph_zonal(month_scatter,ZoneValue)
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month_scatter!='':
-        return fig
-    elif RouteValue=='' or month_scatter=='':
-        return px.scatter([],[],width=400, height=300)
-    else:
-        return fig
-"""    
-    
 
 @app.callback(
     Output('average_number_buses_per_hour' , 'figure'),
-    Input("control_month_scatter", "value"),
+    
+    Input('my-date-picker-range', 'start_date'),
+    Input('my-date-picker-range', 'end_date'),
     Input('type_dropdown','value'),
     Input('zone_dropdown','value'),
     Input('route_dropdown','value'),
     
 )
-def make_graph_bar_avera(month,typeValue,ZoneValue,RouteValue):
-    if typeValue=='Zone Analysis' and ZoneValue!='' and month!='':        
-        return figure.average_number_buses_per_hour_zone(month,ZoneValue) 
-    elif RouteValue=='' or month=='':
+def make_graph_bar_avera(start_date,end_date,typeValue,ZoneValue,RouteValue):
+    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':        
+        return figure.average_number_buses_per_hour_zone(start_date,end_date,ZoneValue) 
+    elif RouteValue=='' or end_date=='':
         return variable_empty
     else:
-        return figure.average_number_buses_per_hour_route(month,ZoneValue,RouteValue)  
+        return figure.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,RouteValue)  
    
   
 
 #############################################################
-# PROFITS BY CATEGORY : Add sidebar interaction here
+# TABS CATEGORY : interaction here
 #############################################################
 
 
 
 
-#############################################################
+################################################################
 # MAP : Add interactions here
 #############################################################
 

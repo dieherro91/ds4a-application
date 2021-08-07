@@ -102,3 +102,28 @@ h6 {
     margin-right: 0rem;
     width: var(--widthLef);   
 }
+.DateInput_input, .DateInput_input_1 {
+    
+    
+    /* my personal stuff */
+    text-align: center;
+    
+/* default flatly stuff */
+    height: calc(1.5em + 0.75rem + 2px);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: #7b8a8b;
+    background-color: #fff;
+      
+}
+.DateRangePickerInput {
+    position:center;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    margin-left: 3rem;
+    margin-right: 2rem;
+    width:8rem;
+    
+    
+}
+
