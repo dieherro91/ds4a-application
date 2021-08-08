@@ -3,7 +3,7 @@
     --main-color: #031a2c;
     --secondary-color: #073559;
     --header-color: #649ee3;
-    --widthLef: 80rem;
+    --widthLef: 70rem;
   }
 h6 {
     color: #ffffff;
@@ -12,7 +12,7 @@ h6 {
     background-color: var(--secondary-color);
 }
 .ds4a-title {
-    
+    position: sticky;
     position: -webkit-sticky;
     top: 0;
     left: 0;
@@ -28,7 +28,7 @@ h6 {
 }
 
 .ds4a-body {
-    
+    top:16rem;
     margin-left: 16rem;
     width: var(--widthLef);
     padding: 1rem 1rem;
@@ -43,10 +43,11 @@ h6 {
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
+    bottom:0;
+    height: 40rem;
     width: 16rem;
     padding: 2rem 1rem;
-    z-index: 999;
+    z-index: 998;
     background-color: var(--main-color); 
 }
 
@@ -63,6 +64,27 @@ h6 {
     margin-bottom: 0;
     
 }
+#titleRoute_id{
+    margin-bottom: 0px;
+}
+#titleZone_id{
+    margin-bottom: 0px;
+}
+#titleAnalysisType_id{
+    margin-bottom: 0px;
+}
+#title_month{
+    margin-bottom: 0px;
+}
+#title_exlutor{
+    margin-bottom: 0px;
+}
+#btn{
+    padding-left: 4px;
+    border-left-style: solid;
+    margin-right: 0px;
+    margin-left: 154px;
+}
 #label_scatter{
     
     text-align: center;
@@ -70,7 +92,8 @@ h6 {
 }
 .item-selection {
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
+    height: 1rem;
 }
 .hidden {
     display: none;
@@ -86,6 +109,17 @@ h6 {
     
     border-color:var(--secondary-color);
     background-color: var(--secondary-color);
+}
+.dash-dropdown{
+    
+}
+.Select-control{
+    
+}
+.Rowbody_0{
+    margin-left: 0rem;
+    margin-right: 0rem;
+    width: var(--widthLef);   
 }
 .Rowbody_1{
     margin-left: 0rem;
@@ -103,18 +137,14 @@ h6 {
     width: var(--widthLef);   
 }
 .DateInput_input, .DateInput_input_1 {
-    
-    
-    /* my personal stuff */
     text-align: center;
-    
-/* default flatly stuff */
-    height: calc(1.5em + 0.75rem + 2px);
+    height: 1rem;
     font-size: 0.9375rem;
     font-weight: 400;
     color: #7b8a8b;
-    background-color: #fff;
-      
+    background-color: #fff;      
+    padding-left: 0px;
+    padding-right: 0px;
 }
 .DateRangePickerInput {
     position:center;
@@ -122,8 +152,42 @@ h6 {
     border-color: var(--main-color);
     margin-left: 3rem;
     margin-right: 2rem;
-    width:8rem;
-    
-    
+    width:8rem; 
+    height: 1rem;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.SingleDatePickerInput__showClearDate {
+    padding-right: 0px;
+    width:1rem;
+    height: 1rem;
 }
 
+#date_picker_excluder{
+    height: 1rem;
+    width:8rem; 
+    position:center;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+
+
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 49px;
+
+    
+}
+hr {
+    border: 1px solid khaki;
+    height: 1px;
+    background-color: var(--secondary-color);
+    margin-bottom: 6px;
+    margin-top: 6px;
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+
+}
+#card_text{
+    width:5.5rem;
+    
+}

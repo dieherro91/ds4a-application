@@ -50,18 +50,9 @@ bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.FormGroup(children=[
 bar_average_number_buses_per_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_hour',),],),])
 
 ############################################################################################################
-#
 
-slider_hour=dcc.Slider(id='slider_hours', min=0, max=23, step=1, value=10,marks={
-                                                            0: {'label': '0'},
-                                                            7: {'label': '26'},
-                                                            17: {'label': '37'},
-                                                            23: {'label': '100'}
-    })
+bar_total_validations_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='bar_total_valitations',),],),])
 
-
-analysis_content=dbc.Container([ 
-       ])
 
 #################################################################################,width={"size": 1, "order": 1, "offset": 3}
 # Here the layout for the plots to use. width={"size": 3, "order": 2, "offset": 3}
@@ -70,7 +61,11 @@ analysis_content=dbc.Container([
 stats = html.Div(
     [
         # Place the different graph components here.
-        html.Div([map_validaciones_ubication_zone_route]),
+        
+        dbc.Row([
+            map_validaciones_ubication_zone_route
+        ],justify="start",className="Rowbody_0"),
+        
        dbc.Row([
             
             dbc.Col([scatter_num_zonal,],align ='center', width="auto"),
@@ -79,7 +74,7 @@ stats = html.Div(
         
        dbc.Row([
            dbc.Col([heat_map_route,],align ='center', width="auto"),
-           dbc.Col([],align ='center', width="auto"),
+           dbc.Col([bar_total_validations_hour],align ='center', width="auto"),
                ],justify="start",className="Rowbody_2"), 
         
         dbc.Row([
