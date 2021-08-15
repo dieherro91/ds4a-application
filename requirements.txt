@@ -7,4 +7,5 @@ psycopg2
 scipy
 ipython-sql 
 
-
+flask
+functools

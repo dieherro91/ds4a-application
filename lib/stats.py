@@ -17,7 +17,7 @@ import os
 from app import app
 from data import models
 from views import figure
-
+from lib import title, sidebar
 
 from data import connect_db
 
@@ -61,7 +61,8 @@ bar_total_validations_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='bar_t
 stats = html.Div(
     [
         # Place the different graph components here.
-        
+        html.Br(),
+        html.Br(),
         dbc.Row([
             map_validaciones_ubication_zone_route
         ],justify="start",className="Rowbody_0"),
@@ -86,11 +87,21 @@ stats = html.Div(
        
         
        dbc.Row([ 
-            dbc.Col(html.H6("hallo",id="jed")),
+            dbc.Col(html.H6("",id="jed")),
             ],),
               
         
     ],
     className="ds4a-body",
 )
+
+analysis_page=html.Div([dcc.Location(id='analysis-url',pathname='/analysis_data'),
+                        title.navbar,
+                        sidebar.sidebar,
+                        stats,
+                ],className="ds4a-app",
+)
+
+
+
 #DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",style={'height':'10%', 'width':'10%'})],)

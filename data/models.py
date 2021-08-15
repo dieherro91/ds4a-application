@@ -82,7 +82,19 @@ def exclude(listas):
         
     return a
 
-
+def verificacion_fechas(start_date,end_date,ZoneValue,route,a): ####################################3incompleto
+    df_demparaderos = pd.read_sql(" \
+        SELECT DISTINCT date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS \
+                                                                hora_servicio FROM validacion\
+        JOIN paradero_ruta ON paradero_ruta.id_paradero_ruta = validacion.paradero_ruta_id \
+        JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
+        JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
+        JOIN operador ON operador.id_operador = validacion.operador_id \
+        WHERE "+a+ range_date_postgreSQL(start_date,end_date) + "AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" AND \
+                                                                        ruta_comercial= " +"\'"+ route +"\'"+" ;",connect_db.conn())
+    connect_db.conn().close()
+    
+    return df_demparaderos['hora_servicio'].dt.components.days
 ############################################Scatter ####################################SELECT EXTRACT(day FROM fecha_trx)as day FROM
 def scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,a):
     df_numPasajeros_numBuses=pd.read_sql(" \

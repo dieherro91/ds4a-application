@@ -44,16 +44,16 @@ title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exluto
 
 drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[
         {'label': 'Route Analysis', 'value': 'Route Analysis'},
-        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='',
+        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='Route Analysis',
                                           style={'font-size':'12'},
                                           placeholder="Select analysis type",),],)
 
-drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='',
+drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='SUBA ORIENTAL',
                                           style={'font-size':'12'},
                                           placeholder="Select a zone",),],)
 
 drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
-                                           value='',style={'display': 'none','font-size':'12'},placeholder="Select a route",searchable=True,),],)
+                                           value='19-11',style={'font-size':'12'},placeholder="Select a route",searchable=True,),],)
 
 date_selector=html.Div(children=[
     title_date_range,
@@ -62,7 +62,9 @@ date_selector=html.Div(children=[
         calendar_orientation='horizontal',
         min_date_allowed=models.min_date(),
         max_date_allowed=models.max_date(),
-        initial_visible_month=date(2021, 4, 15),        
+        initial_visible_month=date(2021, 4, 15),
+        end_date=date(2021, 4, 15),
+        start_date=date(2021, 4, 15),
         month_format='YYYY-MM-DD',
         
     ),],)
