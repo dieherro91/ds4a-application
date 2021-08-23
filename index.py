@@ -37,10 +37,54 @@ from views import figure
 # PLACE THE COMPONENTS IN THE LAYOUT
 # content = html.Div(id="page-content", className='content')
 
-app.layout = html.Div(
-    [  title.title, sidebar.sidebar, stats.stats, ],
-    className="ds4a-app",  # You can also add your own css files by storing them in the assets folder
+DS4A_logo = html.Div(
+    children=[html.Img(src=app.get_asset_url("c1_logo.svg"), id="ds4a-logo", className="logo" )],
 )
+
+# login layout content
+def login_layout():
+    return html.Div(
+        [
+            dcc.Location(id='login-url',pathname='/login',refresh=False),
+            DS4A_logo,
+            html.Label('UserName',className="label"),
+            dcc.Input(id='user',value='', type='text'),
+            html.Label('Password',className="label"),
+            dcc.Input(id='passw',value='', type='password'),
+            html.Button('Login',className="login-button", id='btnLogin', n_clicks=0,),
+        ], className="login")
+
+
+
+
+app.layout = html.Div(
+    # [
+    # dcc.Location(id='url', refresh=False),
+    # dcc.Location(id='redirect', refresh=True)
+    # ],
+
+ 
+    [  title.title, sidebar.sidebar, stats.stats, ],
+    # className="ds4a-app",  # You can also add your own css files by storing them in the assets folder
+    
+    id='output1',
+    )
+
+@app.callback(
+    dash.dependencies.Output('output1', 'children'),
+   [dash.dependencies.Input('btnLogin', 'n_clicks')],
+    state=[State('user', 'value'),
+                State('passw', 'value')])
+def update_output(n_clicks, uname, passw):
+    li={'admin':'admin123'}
+    if uname =='' or uname == None or passw =='' or passw == None:
+        return html.Div(children='')
+    if uname not in li:
+        return html.Div(children='Incorrect Username')
+    if li[uname]==passw:
+        return html.Div(dcc.Link('Access Granted!', href='/next_page'))
+    else:
+        return html.Div(children='Incorrect Password')
 
 
 ###############################################
@@ -157,7 +201,7 @@ def make_graph_map(month,typeValue,ZoneValue,RouteValue):
     if typeValue=='Zone Analysis' and ZoneValue!='' and month !='':
         return figure.graph1_validaciones_ubication_zone(month,ZoneValue)
     elif RouteValue=='' or month=='':
-        fig=px.scatter()
+        fig=px.scatter(None)
         return fig
     else:
         return figure.graph1_validaciones_ubication_zone_route(month,ZoneValue,RouteValue)

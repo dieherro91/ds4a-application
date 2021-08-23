@@ -89,3 +89,37 @@ h6 {
     height: 100%;
 }
 
+
+html {
+    background-color: #383849;
+    height: 100%;
+}
+
+.label {
+    text-align: center;
+    color: white; 
+    font-size: 20px;
+}
+
+.logo {
+   padding: 10px;
+    margin-bottom: 20px;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    background-color: #383849;
+}
+
+.login-button {
+    
+    margin-top: 20px;
+    width: 212px;
+    color: white;
+    font-size: 18px;
+    background-color: #649ee3;
+}

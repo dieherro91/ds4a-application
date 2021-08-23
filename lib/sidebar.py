@@ -22,7 +22,7 @@ from data import models
 ####################################################################################
 
 # DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("c1_logo_tagline.svg"), id="ds4a-image",)],)
-DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image",)],)
+DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image",)],className='text-center')
 
 #DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",)],)
 ############################################################################# 
@@ -50,7 +50,7 @@ drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
                                            value='',style={'display': 'none'},placeholder="Select a route",searchable=True,),],)
 
 month_selector=html.Div(children=[
-    dbc.Label("month",id="label_scatter",),
+    dbc.Label("MONTH",id="label_scatter",className='item-selection text-white w-100'),
     dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='4',searchable=True),],)
 
 ##############################################################################

@@ -172,7 +172,7 @@ def validaciones_ubication_zone_route(month,ZoneValue,route):
          INNER JOIN filtro1 ON filtro1.paradero_ruta_id=filtro2.id_paradero_ruta \
      \
      ) \
-    SELECT cenefa as border , latitud, longitud, COUNT(filtro3.id_validacion)as validations, \
+    SELECT cenefa as bus_stop , latitud, longitud, COUNT(filtro3.id_validacion)as validations, \
                                                                 descripcion_tipo_viaje AS validation_type FROM paradero \
     INNER JOIN filtro3 ON filtro3.id_paradero=paradero.id_paradero \
     GROUP BY cenefa, latitud, longitud,descripcion_tipo_viaje;",connect_db.conn())
@@ -411,7 +411,7 @@ def heatmap_interctive_zone(month,ZoneValue):
 def position_route(month,ZoneValue,route):
     df_estaciones=pd.read_sql(" \
     SELECT DISTINCT ruta_comercial as commertial_route, \
-                              cenefa as borde, latitud AS latitude, longitud AS longitude, posicion AS distance, \
+                              cenefa as bus_stop, latitud AS latitude, longitud AS longitude, posicion AS distance, \
                                 descripcion_operador FROM public.validacion vd \
                                   \
     INNER JOIN paradero_ruta p_r ON p_r.id_paradero_ruta=vd.paradero_ruta_id \

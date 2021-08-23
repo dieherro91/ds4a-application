@@ -47,15 +47,41 @@ def graph1_validaciones_ubication_zone(month,ZoneValue):
 
 def graph1_validaciones_ubication_zone_route(month,ZoneValue,route):
     df=models.validaciones_ubication_zone_route(month,ZoneValue,route)
-    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validation_type",hover_name="border",size="validations", zoom=10)
+    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validation_type",hover_name="bus_stop",
+                            size="validations", zoom=11,)
+    
     df2=models.position_route(month,ZoneValue,route)
-    fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude', hover_data=['commertial_route','borde','distance'])
+    fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude', hover_data=['commertial_route','bus_stop','distance'])
     fig2.update_traces(marker_symbol='circle',marker_color='black')
     fig.add_trace(fig2.data[0])
-    fig.update_layout(title="validations for {}".format(route),mapbox_style="open-street-map")
     
-    #
-    return fig 
+    fig.update_layout(title="validations for {}".format(route),
+                                font=dict(
+                                    family='Sherif',
+                                    size=16,
+                                    color = 'white',                                    
+                                    ),
+                                
+                                
+                      margin=dict(autoexpand=True, l=0, r=0, t=50,b=0  ),
+                      legend=dict(  title='validation type',
+                                    yanchor="top",
+                                    y=0.99,
+                                    xanchor="left",
+                                    x=0.01,
+                                    font =dict(
+                                    family='Sherif',
+                                    size=14,
+                                    color = 'white',
+                                    
+                                                ),
+                                ),
+                       mapbox_style="open-street-map")
+    
+    fig.layout.plot_bgcolor = '#073559'
+    fig.layout.paper_bgcolor = '#000000'
+    
+    return fig  
 
 #########################################################################################################
 
