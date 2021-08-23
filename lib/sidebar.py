@@ -12,6 +12,7 @@ import dash_bootstrap_components as dbc
 # Data
 import json
 from datetime import datetime as dt
+from datetime import date
 
 # Recall app
 from app import app
@@ -33,6 +34,8 @@ titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titl
 titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', className='item-selection',),],)
 titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', className='item-selection hidden',),],)
 
+title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month', className='item-selection',),],)
+title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor', className='item-selection',),],)
 #############################################################################
 # State Dropdown Card
 #############################################################################
@@ -41,17 +44,46 @@ titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', cla
 
 drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[
         {'label': 'Route Analysis', 'value': 'Route Analysis'},
-        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='', placeholder="Select analysis type",),],)
+        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='Route Analysis',
+                                          style={'font-size':'12'},
+                                          placeholder="Select analysis type",),],)
 
-drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='',
+drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='SUBA ORIENTAL',
+                                          style={'font-size':'12'},
                                           placeholder="Select a zone",),],)
 
 drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
-                                           value='',style={'display': 'none'},placeholder="Select a route",searchable=True,),],)
+                                           value='19-11',style={'font-size':'12'},placeholder="Select a route",searchable=True,),],)
 
-month_selector=html.Div(children=[
-    dbc.Label("MONTH",id="label_scatter",className='item-selection text-white w-100'),
-    dcc.Dropdown(id="control_month_scatter",options=models.month(), placeholder="Select month",value='4',searchable=True),],)
+date_selector=html.Div(children=[
+    title_date_range,
+    dcc.DatePickerRange(
+        id='my-date-picker-range',
+        calendar_orientation='horizontal',
+        min_date_allowed=models.min_date(),
+        max_date_allowed=models.max_date(),
+        initial_visible_month=date(2021, 4, 15),
+        end_date=date(2021, 4, 15),
+        start_date=date(2021, 4, 15),
+        month_format='YYYY-MM-DD',
+        
+    ),],)
+date_excluder=html.Div(children=[
+    
+    title_date_exclutor,
+    dcc.DatePickerSingle(
+        id='date_picker_excluder',
+        calendar_orientation='horizontal',
+        min_date_allowed=models.min_date(),
+        max_date_allowed=models.max_date(),
+        initial_visible_month=date(2021, 4, 15),        
+        month_format='YYYY-MM-DD'),
+    html.Hr(),
+    dbc.Card([html.H6(" ",id="contador",style = {"float":"left"},),],id='card_text'),
+    html.Button('clear list', id='btn', n_clicks=0),
+    ],)
+
+
 
 ##############################################################################
 # Date Picker Card
@@ -64,18 +96,23 @@ month_selector=html.Div(children=[
 sidebar = html.Div(
     [ 
         DS4A_Img,  # Add the DS4A_Img located in the assets folder
-        html.Hr(),  # Add an horizontal line
         ####################################################
         # Place the rest of Layout here
         #html.h1
+        html.Hr(),
+        date_selector,
+        html.Hr(),
+        date_excluder,
+        html.Hr(),
         html.Div([titleAnalysisType, drop_Type,]),
         html.Hr(), 
         html.Div([titleZone, drop_zone,]),        
         html.Hr(),
         html.Div([titleRoute, drop_route,]),
         html.Hr(),
-        month_selector,
-        html.Hr(),
+        
+        
+        
         #html.Hr(),
     ],
     className="ds4a-sidebar",
