@@ -316,7 +316,7 @@ def bar_total_valitations_zone_hour(start_date,end_date,ZoneValue,a):
              hover_data=["cenefa"],
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
-             width=510, height=400)
+              height=400)
     
     fig.update_layout(title='Total validations  {} and {} for zone {}'.format(start_date,end_date,ZoneValue),
                       font=dict(family='Sherif',size=16,color = 'black'),
@@ -335,7 +335,7 @@ def bar_total_valitations_route_hour(start_date,end_date,ZoneValue,route,a):
              hover_data=["cenefa"],
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
-             width=510, height=400)
+              height=400)
     fig.update_layout(title='Total validations {} and {} for {}'.format(start_date,end_date, route),
                       font=dict(family='Sherif',size=16,color = 'black'),
                       margin=dict(l=0,r=0,t=35,b=0)                 
