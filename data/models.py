@@ -504,6 +504,7 @@ def average_number_buses_per_hour_zona(start_date,end_date,ZoneValue,a):
       \
     GROUP BY hour  \
     ORDER BY hour ASC;",connect_db.conn())
+    connect_db.conn().close()
     return df_average_number_buses_per_hour
 
 def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
@@ -527,5 +528,6 @@ def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
       \
     GROUP BY hour  \
     ORDER BY hour ASC;",connect_db.conn())
+    connect_db.conn().close()
     return df_average_number_buses_per_hour
 

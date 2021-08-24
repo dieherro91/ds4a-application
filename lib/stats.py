@@ -67,16 +67,21 @@ stats = html.Div(
             map_validaciones_ubication_zone_route
         ],justify="start",className="Rowbody_0"),
         
+       html.Br(), 
+        
        dbc.Row([
             
             dbc.Col([scatter_num_zonal,],align ='center', width="auto"),
             dbc.Col([bar_average_number_buses_per_day_zone_all ],width="auto"),            
                 ],justify="start",className="Rowbody_1"),
         
+        html.Br(),
+        
        dbc.Row([
            dbc.Col([heat_map_route,],align ='center', width="auto"),
            dbc.Col([bar_total_validations_hour],align ='center', width="auto"),
                ],justify="start",className="Rowbody_2"), 
+        html.Br(),
         
         dbc.Row([
             dbc.Col([bar_average_number_buses_per_hour],align ='center', width="auto"),
