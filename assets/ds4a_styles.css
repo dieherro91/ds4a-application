@@ -98,14 +98,18 @@ a:hover {
     background-color: transparent;
     border-color: transparent;
 }
+#col_team-83{
+    background-color: transparent;
+    border-color: transparent;
+}
 
 
 
 
-/*  */
+
 
 .ds4a-app {
-    background-color: var(--secondary-color);
+    /*   background-color: var(--secondary-color); */
 }
 
 
@@ -117,7 +121,7 @@ a:hover {
     height: 200rem;
     padding: 1rem 1rem;
     z-index: 1;
-    background-color: var(--secondary-color);
+    /*background-color: var(--secondary-color);*/
 }
 
 .ds4a-sidebar {
@@ -189,12 +193,13 @@ a:hover {
     margin-right: 2rem;
     padding: 2rem 1rem;
 }
-
+/*
 .card {
     
     border-color:var(--secondary-color);
     background-color: var(--secondary-color);
 }
+*/
 .dash-dropdown{
     
 }
