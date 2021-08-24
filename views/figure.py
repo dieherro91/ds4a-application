@@ -5,17 +5,20 @@ import plotly.express as px
 from pandas.api.types import CategoricalDtype
 
 family_font = 'Helvetica Neue'
+
+
+
 def make_graph_route(start_date,end_date,ZoneValue,RouteValue,a):
     df=models.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,RouteValue,a)
     fig=px.scatter(df, x="number_passengers_day", y="number_buses_day", color="comertial_route",
-                    hover_data=["comertial_route","day_week"],animation_frame=["validation_type"],
+                    hover_data=["comertial_route","day_week"],  #animation_frame=["validation_type"],
                     
                     width=510, height=400)
-    fig.update_layout(title='Validations vs number of buses per day week for {}'.format(ZoneValue),
+    fig.update_layout(title='Avg validations vs # buses for {}'.format(ZoneValue),
                                 font=dict(
                                     family='Sherif',
                                     size=16,
-                                    color = 'white',                                    
+                                    color = 'black',                                    
                                     ))
     
     
@@ -27,7 +30,7 @@ def make_graph_route(start_date,end_date,ZoneValue,RouteValue,a):
 def make_graph_zonal(start_date,end_date,ZoneValue,a):
     df=models.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,a)
     fig=px.scatter(df, y="average_validations_per_bus",x="number_of_buses", color="commertial_route",
-                    hover_data=["commertial_route","day_of_week"],animation_frame="validation_type",
+                    hover_data=["commertial_route","day_of_week"], #animation_frame="validation_type",
                     height=400)
     fig.update_layout(
                                 font=dict(
@@ -48,14 +51,14 @@ def make_graph_zonal(start_date,end_date,ZoneValue,a):
 def make_graph_route_single(start_date,end_date,ZoneValue,RouteValue,a):
     df=models.scatter_numPasajeros_numBuses_route(start_date,end_date,ZoneValue,RouteValue,a)
     fig=px.scatter(df, y="average_validations_per_bus", x="number_of_buses", color="commertial_route",
-                    hover_data=["commertial_route"],animation_frame="validation_type",
+                    hover_data=["commertial_route","validation_type"],    #    animation_frame="validation_type",
                     
                     width=510, height=400,)
-    fig.update_layout(title='Validations vs number of buses per day week for {}'.format(RouteValue),
+    fig.update_layout(title='Avg validations vs # buses for {}'.format(RouteValue),
                                 font=dict(
                                     family='Sherif',
                                     size=16,
-                                    color = 'white',                                    
+                                    color = 'black',                                    
                                     ))
     
     
@@ -67,8 +70,8 @@ def make_graph_route_single(start_date,end_date,ZoneValue,RouteValue,a):
 def make_graph_route_single_hour(start_date,end_date,ZoneValue,RouteValue,hour,a):
     df=models.scatter_numPasajeros_numBuses_route_hour_weekday(start_date,end_date,ZoneValue,RouteValue,hour,a)
     fig=px.scatter(df, y="average_validations_per_bus", x="number_of_buses", color="commertial_route",
-                    hover_data=["commertial_route","day_of_week"],animation_frame="validation_type",
-                    title='Validations vs number of buses ({})'.format(RouteValue),
+                    hover_data=["commertial_route","day_of_week","validation_type"],animation_frame="validation_type",
+                    title='Avg validations vs # buses for ({})'.format(RouteValue),
                     width=510, height=400,
                     template="plotly_dark")
     fig.update_layout(margin=dict(l=5, r=5, t=100, b=0))
@@ -78,17 +81,18 @@ def make_graph_route_single_hour(start_date,end_date,ZoneValue,RouteValue,hour,a
 
 def graph1_validaciones_ubication_zone(start_date,end_date,ZoneValue,a):
     df=models.validaciones_ubication_zone(start_date,end_date,ZoneValue,a)
-    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validation_type",hover_name="bus_stop",
-                            size="validations", zoom=11,height=400,)
+    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", size="validations",
+                            color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
+                            zoom=11,height=400,)
     fig.update_layout(title="validations between {} / {} for {}".format(start_date,end_date,ZoneValue),
                                 font=dict(
                                     family='Sherif',
                                     size=16,
-                                    color = 'white',                                    
+                                    color = 'black',                                    
                                     ),
                                 
                                 
-                      margin=dict(autoexpand=True, l=0, r=0, t=30,b=0  ),
+                      margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
                       legend=dict(  title='validation type',
                                     yanchor="top",
                                     y=0.99,
@@ -103,8 +107,8 @@ def graph1_validaciones_ubication_zone(start_date,end_date,ZoneValue,a):
                                 ),
                        mapbox_style="open-street-map")
     
-    fig.layout.plot_bgcolor = '#073559'
-    # fig.layout.paper_bgcolor = '#073559'
+    #fig.layout.plot_bgcolor = '#073559'
+    #fig.layout.paper_bgcolor = color_offwhite
     
     return fig 
 
@@ -112,8 +116,9 @@ def graph1_validaciones_ubication_zone(start_date,end_date,ZoneValue,a):
 
 def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
     df=models.validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a)
-    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validation_type",hover_name="bus_stop",
-                            size="validations", zoom=11,height=400,)
+    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", size="validations", 
+                            color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
+                            zoom=11,height=400,)
     
     df2=models.position_route(ZoneValue,route)
     fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude', hover_data=['commertial_route','bus_stop','distance'])
@@ -124,11 +129,11 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
                                 font=dict(
                                     family='Sherif',
                                     size=16,
-                                    color = 'white',                                    
+                                    color = 'black',                                    
                                     ),
                                 
                                 
-                      margin=dict(autoexpand=True, l=0, r=0, t=30,b=0  ),
+                      margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
                       legend=dict(  title='validation type',
                                     yanchor="top",
                                     y=0.99,
@@ -143,8 +148,8 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
                                 ),
                        mapbox_style="open-street-map")
     
-    fig.layout.plot_bgcolor = '#073559'
-    # fig.layout.paper_bgcolor = '#073559'
+    #fig.layout.plot_bgcolor = '#073559'
+    #fig.layout.paper_bgcolor = '#073559'
     
     return fig 
 
@@ -183,7 +188,7 @@ def histogram_validations_zone(start_date,end_date,ZoneValue,a):
                                 font=dict(
                                     family='Sherif',
                                     size=16,
-                                    color = 'white',                                    
+                                    color = 'black',                                    
                                     ))
     
     
@@ -206,11 +211,11 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
     order_cenefa = list(order_cenefa)
     nbins_y = int(resultados['hora'].max() -  resultados['hora'].min())
     
-    fig = px.density_heatmap(resultados, x='cenefa', y='hora',
+    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='cantidad_pasajeros',histfunc='sum',
                             hover_data = ['nombre_dia'],
                             labels={'nombre_dia':'Day name','hora':'Hour','count':'Total validations','cenefa':'bus stop'},
                             animation_frame='nombre_dia',
-                            color_continuous_scale=["white", "blue"],
+                            color_continuous_scale='reds',
                             category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
                                               'cenefa': order_cenefa},
                             template='seaborn',
@@ -239,11 +244,11 @@ def heat_map_interactivition_zone(start_date,end_date,ZoneValue,a):
     order_cenefa = list(order_cenefa)
     nbins_y = int(resultados['hora'].max() -  resultados['hora'].min())
     
-    fig = px.density_heatmap(resultados, x='cenefa', y='hora',
+    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='cantidad_pasajeros',histfunc='sum',
                             hover_data = ['nombre_dia'],
                             labels={'nombre_dia':'Day name','hora':'Hour','count':'Total validations','cenefa':'bus stop'},
                             animation_frame='nombre_dia',
-                            color_continuous_scale=["white",'blue'],
+                            color_continuous_scale='reds',
                             category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
                                               'cenefa': order_cenefa},
                             template='seaborn',
@@ -304,14 +309,17 @@ def average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,Z
 
 def bar_total_valitations_zone_hour(start_date,end_date,ZoneValue,a):
     resultados=models.heatmap_interctive_zone(start_date,end_date,ZoneValue,a)
-    fig = px.bar(resultados, x="hora", y="cantidad_pasajeros", animation_frame="nombre_dia",
+    result=resultados.drop(columns=['fecha_servicio','vehiculo_id','hora_validacion',
+                                    'posicion','posicion_zero','cumsum_demanda','dia_semana'])
+    result=result.groupby(['cenefa','hora','nombre_dia']).sum().reset_index()
+    fig = px.bar(result, x="hora", y="cantidad_pasajeros", animation_frame="nombre_dia",
              hover_data=["cenefa"],
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
              width=510, height=400)
     
     fig.update_layout(title='Total validations  {} and {} for zone {}'.format(start_date,end_date,ZoneValue),
-                      font=dict(family='Sherif',size=16,color = 'white'),
+                      font=dict(family='Sherif',size=16,color = 'black'),
                       margin=dict(l=0,r=0,t=35,b=0)                 
                       )
     # fig.layout.plot_bgcolor = '#84A4D5'
@@ -320,13 +328,16 @@ def bar_total_valitations_zone_hour(start_date,end_date,ZoneValue,a):
 
 def bar_total_valitations_route_hour(start_date,end_date,ZoneValue,route,a):
     resultados=models.heatmap_interctive(start_date,end_date,ZoneValue,route,a)
-    fig = px.bar(resultados, x="hora", y="cantidad_pasajeros", animation_frame="nombre_dia",
+    result=resultados.drop(columns=['fecha_servicio','vehiculo_id','hora_validacion',
+                                    'posicion','posicion_zero','cumsum_demanda','dia_semana'])
+    result=result.groupby(['cenefa','hora','nombre_dia']).sum().reset_index()
+    fig = px.bar(result, x="hora", y="cantidad_pasajeros", animation_frame="nombre_dia",
              hover_data=["cenefa"],
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
              width=510, height=400)
     fig.update_layout(title='Total validations {} and {} for {}'.format(start_date,end_date, route),
-                      font=dict(family='Sherif',size=16,color = 'white'),
+                      font=dict(family='Sherif',size=16,color = 'black'),
                       margin=dict(l=0,r=0,t=35,b=0)                 
                       )
     # fig.layout.plot_bgcolor = '#84A4D5'

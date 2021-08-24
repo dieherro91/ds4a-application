@@ -272,7 +272,7 @@ def make_graph_cluster_zone(start_date,end_date,typeValue,ZoneValue,RouteValue):
 def make_graph_cluster_route(start_date,end_date,typeValue,ZoneValue,RouteValue):
     a=models.exclude(listas)
     try:
-        models.verificacion_fechas(start_date,end_date,ZoneValue,route,a)#####################
+        models.verificacion_fechas(start_date,end_date,ZoneValue,RouteValue,a)#####################
     except:
         return variable_empty  
     
@@ -440,7 +440,7 @@ def make_graph_bar_total_hour(start_date,end_date,typeValue,ZoneValue,RouteValue
         try:
             fig=figure.bar_total_valitations_route_hour(start_date,end_date,ZoneValue,RouteValue,a)
         except:
-            return variable_empty 
+            return figure.bar_total_valitations_route_hour(start_date,end_date,ZoneValue,'19-11',a)
         return fig
 
 ############################################################excluder data##################

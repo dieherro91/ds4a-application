@@ -73,11 +73,15 @@ stats = html.Div(
             dbc.Col([map_validaciones_ubication_zone_route], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
         ], ),
         
+       html.Br(), 
+        
        dbc.Row([
             
             dbc.Col([scatter_num_zonal,],width="12", className='mt-1 mb-2 pl-1.5 pr-1.5'),
             # dbc.Col([bar_average_number_buses_per_day_zone_all ]),            
                 ],),
+        
+        html.Br(),
         
        dbc.Row([
            dbc.Col([heat_map_route,], width="12",className='mt-1 mb-2 pl-1.5 pr-1.5'),
