@@ -26,80 +26,86 @@ from data import connect_db
 ###############################################################
 
 
-scatter_num_zonal=dbc.Card([html.H3('Number of passangers vs number of buses', className='p-2 text-muted'),dcc.Graph(id='scatter_graph_zone',),],)
+scatter_num_zonal=dbc.Card([dbc.CardBody([html.H4("Validations vs number of buses per day week", className="card-title  text-muted font-graphics"),dcc.Graph(id='scatter_graph_zone',),],),])
 
-scatter_num_single_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
+scatter_num_single_route=dbc.Card([dbc.CardBody([html.H4("Card title", className="card-title"), 
+dcc.Graph(
                                                                 id='scatter_graph_single_route',),],),])
 
 
-scatter_num_single_route_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(
+scatter_num_single_route_hour=dbc.Card([dbc.CardBody([html.H4("Card title", className="card-title"), 
+dcc.Graph(
                                                                 id='scatter_graph_single_route_hour',),],),]) # pendiente por sliders#
 #################################################################################################################################
 
 
-map_validaciones_ubication_zone_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='map_graph_route',),],),])
+map_validaciones_ubication_zone_route=dbc.Card([dbc.CardBody([html.H4("Map Validations", className="card-title"), 
+dcc.Graph(id='map_graph_route',),],),])
 
-histogram_validations_route=dbc.Card([dcc.Graph(id='histogram_validation',),],className="h-50")
+histogram_validations_route=dbc.Card([dbc.CardBody([html.H4("Histogram validations per travel route", className="card-title"), dcc.Graph(id='histogram_validation',),]),])
 
 
-heat_map_route=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='heatmap_validation',),],),])
+heat_map_route=dbc.Card([dbc.CardBody([html.H4("Validations per hour by bus stop", className="card-title"), 
+dcc.Graph(id='heatmap_validation',),],),])
 
 #######################################    only_zone_graphs      ###################################################
-bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.FormGroup(children=[
+bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody([html.H4("Average quantity buses", className="card-title"), 
+
                                                     dcc.Graph(id='average_number_buses_per_day_all_routes',),],),])
-bar_average_number_buses_per_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='average_number_buses_per_hour',),],),])
+bar_average_number_buses_per_hour=dbc.Card([dbc.CardBody([html.H4("Average and Number Buses Per Hour", className="card-title"), 
+dcc.Graph(id='average_number_buses_per_hour',),],),])
 
 ############################################################################################################
 
-bar_total_validations_hour=dbc.Card([dbc.FormGroup(children=[dcc.Graph(id='bar_total_valitations',),],),])
+bar_total_validations_hour=dbc.Card([dbc.CardBody([html.H4("Card title", className="card-title"), 
+dcc.Graph(id='bar_total_valitations',),],),])
 
 
 #################################################################################,width={"size": 1, "order": 1, "offset": 3}
 # Here the layout for the plots to use. width={"size": 3, "order": 2, "offset": 3}
 ##################################################################################style={width=100%,}
 
-stats = dbc.Container(
+stats = html.Div(
     [
         # Place the different graph components here.
-        html.Br(),
-        html.Br(),
+       
         dbc.Row([
-            map_validaciones_ubication_zone_route
-        ],justify="start",className="Rowbody_0"),
+            dbc.Col([map_validaciones_ubication_zone_route], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
+        ], ),
         
        dbc.Row([
             
-            dbc.Col([scatter_num_zonal,],align ='center', width="auto"),
-            dbc.Col([bar_average_number_buses_per_day_zone_all ],width="auto"),            
-                ],justify="start",className="Rowbody_1"),
+            dbc.Col([scatter_num_zonal,],width="12", className='mt-1 mb-2 pl-1.5 pr-1.5'),
+            # dbc.Col([bar_average_number_buses_per_day_zone_all ]),            
+                ],),
         
        dbc.Row([
-           dbc.Col([heat_map_route,],align ='center', width="auto"),
-           dbc.Col([bar_total_validations_hour],align ='center', width="auto"),
-               ],justify="start",className="Rowbody_2"), 
+           dbc.Col([heat_map_route,], width="12",className='mt-1 mb-2 pl-1.5 pr-1.5'),
+        #    dbc.Col([bar_total_validations_hour],),
+               ] ), 
         
         dbc.Row([
-            dbc.Col([bar_average_number_buses_per_hour],align ='center', width="auto"),
-            dbc.Col([histogram_validations_route],align ='center', width="auto"),
+            dbc.Col([bar_average_number_buses_per_hour],width="6"),
+            dbc.Col([histogram_validations_route],width="6"),
            
-               ],justify="start",className="Rowbody_3"), 
+               ] ), 
             
        
         
-       dbc.Row([ 
-            dbc.Col(html.H6("",id="jed")),
-            ],),
+    #    dbc.Row([ 
+    #         dbc.Col(html.H6("",id="jed")),
+    #         ],),
               
         
     ],
-    className="ds4a-body",
+    className="ds4a-body stats",
 )
 
 analysis_page=html.Div([dcc.Location(id='analysis-url',pathname='/analysis_data'),
                         title.navbar,
                         sidebar.sidebar,
                         stats,
-                ],className="ds4a-app",
+                ],className="container bg-app",
 )
 
 

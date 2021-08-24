@@ -62,7 +62,7 @@ def app_layout():
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content',)
-])
+], className='wrapper-container')
 
 #################################################################
 #########analysis page

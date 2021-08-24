@@ -11,8 +11,8 @@ login_users=html.Div([
                     dbc.Col(
                         dbc.Card([
                              html.H4('Login',className='card-title', style={'color':'#ffff'}),
-                             dbc.Input(id='login-email',placeholder='User-App'),
-                             dbc.Input(id='login-password',placeholder='Assigned password',type='password'),
+                             dbc.Input(id='login-email',placeholder='User-App',value='DgoRomr'),
+                             dbc.Input(id='login-password',placeholder='Assigned password',type='password', value='adjsfbq5'),
                              dbc.Button('Submit',id='login-button',color='primary',block=True),
                              html.Br(),
                              html.Div(id='login-alert'),
