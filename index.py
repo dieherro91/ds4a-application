@@ -62,7 +62,7 @@ def app_layout():
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content',)
-])
+], className='wrapper-container')
 
 #################################################################
 #########analysis page
@@ -272,7 +272,7 @@ def make_graph_cluster_zone(start_date,end_date,typeValue,ZoneValue,RouteValue):
 def make_graph_cluster_route(start_date,end_date,typeValue,ZoneValue,RouteValue):
     a=models.exclude(listas)
     try:
-        models.verificacion_fechas(start_date,end_date,ZoneValue,route,a)#####################
+        models.verificacion_fechas(start_date,end_date,ZoneValue,RouteValue,a)#####################
     except:
         return variable_empty  
     
