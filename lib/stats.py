@@ -77,15 +77,17 @@ stats = html.Div(
         
        dbc.Row([
             
-            dbc.Col([scatter_num_zonal,],width="12", className='mt-1 mb-2 pl-1.5 pr-1.5'),
-            # dbc.Col([bar_average_number_buses_per_day_zone_all ]),            
+            dbc.Col([scatter_num_zonal,],width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
+            dbc.Col([bar_average_number_buses_per_day_zone_all,],width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
+                        
                 ],),
         
         html.Br(),
         
        dbc.Row([
-           dbc.Col([heat_map_route,], width="12",className='mt-1 mb-2 pl-1.5 pr-1.5'),
-        #    dbc.Col([bar_total_validations_hour],),
+           dbc.Col([heat_map_route,], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
+           dbc.Col([bar_total_validations_hour], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
+       
                ] ), 
         
         dbc.Row([
@@ -109,7 +111,7 @@ analysis_page=html.Div([dcc.Location(id='analysis-url',pathname='/analysis_data'
                         title.navbar,
                         sidebar.sidebar,
                         stats,
-                ],className="container bg-app",
+                ],className="container-fluid bg-app",
 )
 
 
