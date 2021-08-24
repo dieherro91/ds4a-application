@@ -26,7 +26,7 @@ from data import connect_db
 ###############################################################
 
 
-scatter_num_zonal=dbc.Card([dbc.CardBody([html.H4("Validations vs number of buses per day week", className="card-title  text-muted font-graphics"),dcc.Graph(id='scatter_graph_zone',),],),])
+scatter_num_zonal=dbc.Card([dbc.CardBody([html.H4("Validations vs Number of Buses Per Day Week", className="card-title  text-muted font-graphics"),dcc.Graph(id='scatter_graph_zone',),],),])
 
 scatter_num_single_route=dbc.Card([dbc.CardBody([html.H4("Card title", className="card-title"), 
 dcc.Graph(
@@ -42,14 +42,14 @@ dcc.Graph(
 map_validaciones_ubication_zone_route=dbc.Card([dbc.CardBody([html.H4("Map Validations", className="card-title"), 
 dcc.Graph(id='map_graph_route',),],),])
 
-histogram_validations_route=dbc.Card([dbc.CardBody([html.H4("Histogram validations per travel route", className="card-title"), dcc.Graph(id='histogram_validation',),]),])
+histogram_validations_route=dbc.Card([dbc.CardBody([html.H4("Histogram Validations Per Travel Route", className="card-title"), dcc.Graph(id='histogram_validation',),]),])
 
 
-heat_map_route=dbc.Card([dbc.CardBody([html.H4("Validations per hour by bus stop", className="card-title"), 
+heat_map_route=dbc.Card([dbc.CardBody([html.H4("Validations Per Hour by Bus Stop", className="card-title"), 
 dcc.Graph(id='heatmap_validation',),],),])
 
 #######################################    only_zone_graphs      ###################################################
-bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody([html.H4("Average quantity buses", className="card-title"), 
+bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody([html.H4("Average Quantity Buses per Zone", className="card-title"), 
 
                                                     dcc.Graph(id='average_number_buses_per_day_all_routes',),],),])
 bar_average_number_buses_per_hour=dbc.Card([dbc.CardBody([html.H4("Average and Number Buses Per Hour", className="card-title"), 
@@ -57,7 +57,7 @@ dcc.Graph(id='average_number_buses_per_hour',),],),])
 
 ############################################################################################################
 
-bar_total_validations_hour=dbc.Card([dbc.CardBody([html.H4("Card title", className="card-title"), 
+bar_total_validations_hour=dbc.Card([dbc.CardBody([html.H4("Total Validations per Zone", className="card-title"), 
 dcc.Graph(id='bar_total_valitations',),],),])
 
 
