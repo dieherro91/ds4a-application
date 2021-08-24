@@ -11,7 +11,7 @@ family_font = 'Helvetica Neue'
 def make_graph_route(start_date,end_date,ZoneValue,RouteValue,a):
     df=models.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,RouteValue,a)
     fig=px.scatter(df, x="number_passengers_day", y="number_buses_day", color="comertial_route",
-                    hover_data=["comertial_route","day_week"],  #animation_frame=["validation_type"],
+                    hover_data=["comertial_route","day_week",],  #animation_frame=["validation_type"],
                     
                     width=510, height=400)
     fig.update_layout(title='Avg validations vs # buses for {}'.format(ZoneValue),
@@ -211,9 +211,9 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
     order_cenefa = list(order_cenefa)
     nbins_y = int(resultados['hora'].max() -  resultados['hora'].min())
     
-    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='#passengers',histfunc='sum',
+    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='cantidad_pasajeros',histfunc='sum',
                             hover_data = ['nombre_dia'],
-                            labels={'nombre_dia':'Day name','hora':'Hour','count':'Total validations','cenefa':'bus stop'},
+                            labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'valid.','cenefa':'bus stop'},
                             animation_frame='nombre_dia',
                             color_continuous_scale='reds',
                             category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
@@ -244,9 +244,9 @@ def heat_map_interactivition_zone(start_date,end_date,ZoneValue,a):
     order_cenefa = list(order_cenefa)
     nbins_y = int(resultados['hora'].max() -  resultados['hora'].min())
     
-    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='#passengers',histfunc='sum',
+    fig = px.density_heatmap(resultados, x='cenefa', y='hora',z='cantidad_pasajeros',histfunc='sum',
                             hover_data = ['nombre_dia'],
-                            labels={'nombre_dia':'Day name','hora':'Hour','count':'Total validations','cenefa':'bus stop'},
+                            labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'valid.','cenefa':'bus stop'},
                             animation_frame='nombre_dia',
                             color_continuous_scale='reds',
                             category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
@@ -316,7 +316,7 @@ def bar_total_valitations_zone_hour(start_date,end_date,ZoneValue,a):
              hover_data=["cenefa"],
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
-              height=400)
+             width=510, height=400)
     
     fig.update_layout(#title='Total validations  {} and {} for zone {}'.format(start_date,end_date,ZoneValue),
                       font=dict(family='Sherif',size=16,color = 'black'),
@@ -336,7 +336,9 @@ def bar_total_valitations_route_hour(start_date,end_date,ZoneValue,route,a):
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
               height=400)
+    
     fig.update_layout(#title='Total validations {} and {} for {}'.format(start_date,end_date, route),
+
                       font=dict(family='Sherif',size=16,color = 'black'),
                       margin=dict(l=0,r=0,t=35,b=0)                 
                       )

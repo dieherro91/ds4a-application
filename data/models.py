@@ -100,7 +100,7 @@ def scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,a):
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
-           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
+           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
            WHERE "+a+ range_date_postgreSQL(start_date,end_date) + "  AND \
@@ -109,14 +109,14 @@ def scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,a):
          SELECT id_paradero_ruta, ruta.ruta_comercial FROM paradero_ruta  \
          INNER JOIN ruta ON ruta.id_ruta=paradero_ruta.id_ruta  \
          ), filtro3 AS(SELECT COUNT(id_validacion) AS validacion_pas , vehiculo_id ,day_of_week, \
-         filtro2.ruta_comercial, descripcion_tipo_viaje FROM filtro1 \
+         filtro2.ruta_comercial FROM filtro1 \
                   INNER JOIN filtro2 ON filtro2.id_paradero_ruta=filtro1.paradero_ruta_id  \
                     \
-                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial,descripcion_tipo_viaje \
+                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial \
     )  \
     SELECT ROUND(AVG(validacion_pas),1) AS average_validations_per_bus ,COUNT(vehiculo_id) AS number_of_buses,  \
-            day_of_week,ruta_comercial as commertial_route,descripcion_tipo_viaje AS validation_type FROM filtro3 \
-    GROUP BY day_of_week,ruta_comercial, descripcion_tipo_viaje;",connect_db.conn())
+            day_of_week,ruta_comercial as commertial_route FROM filtro3 \
+    GROUP BY day_of_week,ruta_comercial;",connect_db.conn())
 
     connect_db.conn().close()
     dayWeek={'0':"sunday",'1':"monday",'2':"tuesday",'3':"wednesday",'4':"thursday",'5':"friday",'6':"saturday"}
@@ -128,7 +128,7 @@ def scatter_numPasajeros_numBuses_route(start_date,end_date,ZoneValue,route,a):
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
-           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
+           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
            WHERE "+ a + range_date_postgreSQL(start_date,end_date) + "  AND \
@@ -140,11 +140,11 @@ def scatter_numPasajeros_numBuses_route(start_date,end_date,ZoneValue,route,a):
                  filtro2.ruta_comercial, descripcion_tipo_viaje FROM filtro1 \
                   INNER JOIN filtro2 ON filtro2.id_paradero_ruta=filtro1.paradero_ruta_id  \
                   WHERE filtro2.ruta_comercial= " +"\'"+ route +"\'"+"  \
-                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial, descripcion_tipo_viaje \
+                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial \
     )  \
     SELECT ROUND(AVG(validacion_pas),1) AS average_validations_per_bus ,COUNT(vehiculo_id) AS number_of_buses,  \
-            day_of_week,ruta_comercial as commertial_route, descripcion_tipo_viaje AS validation_type  FROM filtro3 \
-    GROUP BY day_of_week,ruta_comercial, descripcion_tipo_viaje;",connect_db.conn())
+            day_of_week,ruta_comercial as commertial_route FROM filtro3 \
+    GROUP BY day_of_week,ruta_comercial ;",connect_db.conn())
 
     connect_db.conn().close()
     dayWeek={'0':"sunday",'1':"monday",'2':"tuesday",'3':"wednesday",'4':"thursday",'5':"friday",'6':"saturday"}
@@ -156,7 +156,7 @@ def scatter_numPasajeros_numBuses_route_hour_weekday(start_date,end_date,ZoneVal
     df_numPasajeros_numBuses=pd.read_sql(" \
         WITH filtro1 AS(  \
            SELECT id_validacion , vehiculo_id, paradero_ruta_id,  \
-           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week, descripcion_tipo_viaje FROM validacion \
+           CAST(EXTRACT(dow FROM fecha_trx)AS INTEGER) AS day_of_week FROM validacion \
            INNER JOIN operador ON operador.id_operador=validacion.operador_id  \
            INNER JOIN tipo_viaje ON tipo_viaje.id_tipo_viaje=validacion.tipo_viaje_id \
            WHERE "+a+ range_date_postgreSQL(start_date,end_date) + "  AND \
@@ -169,11 +169,11 @@ def scatter_numPasajeros_numBuses_route_hour_weekday(start_date,end_date,ZoneVal
          filtro2.ruta_comercial, descripcion_tipo_viaje FROM filtro1 \
                   INNER JOIN filtro2 ON filtro2.id_paradero_ruta=filtro1.paradero_ruta_id  \
                   WHERE filtro2.ruta_comercial= " +"\'"+ route +"\'"+"  \
-                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial, descripcion_tipo_viaje \
+                  GROUP BY day_of_week,vehiculo_id,filtro2.ruta_comercial \
     )  \
     SELECT ROUND(AVG(validacion_pas),1) AS average_validations_per_bus ,COUNT(vehiculo_id) AS number_of_buses,  \
-            day_of_week,ruta_comercial as commertial_route, descripcion_tipo_viaje AS validation_type  FROM filtro3 \
-    GROUP BY day_of_week,ruta_comercial, descripcion_tipo_viaje;",connect_db.conn())
+            day_of_week,ruta_comercial as commertial_route  FROM filtro3 \
+    GROUP BY day_of_week,ruta_comercial;",connect_db.conn())
 
     connect_db.conn().close()
     dayWeek={'0':"sunday",'1':"monday",'2':"tuesday",'3':"wednesday",'4':"thursday",'5':"friday",'6':"saturday"}
