@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State, ClientsideFunction
 from dash.exceptions import PreventUpdate
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.exceptions import PreventUpdate
 from dash import no_update
 
 import plotly.graph_objects as go
@@ -44,7 +45,7 @@ from flask import session, copy_current_request_context
 
 # local imports
 
-
+app.config.suppress_callback_exceptions = True
 
 ###################################################3
 ###################################################
@@ -168,11 +169,7 @@ def logout_(n_clicks):
 ###############################################################################
 
 
-#blank graph
-variable_empty={ "layout": {
-    "xaxis": {
-        "visible": False }, "yaxis": {"visible": False},
-    "annotations": [{"text": "SideBar Data missing restart the analysis","xref": "paper",'bgcolor':"#073559","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#073559",'plot_bgcolor':"#073559"}}
+
 #########################################################################
 ###############################################
 #
@@ -180,27 +177,26 @@ variable_empty={ "layout": {
 #
 ###############################################
 
-#############################################################################################################
-#################################################################
-# dropdown sidebar available in the app.
-#################################################################
+
+#############################################################
+# Analysis plot Callsbacks  : 
+#############################################################
 @app.callback(
-    Output('zone_dropdown','disabled'),
+    Output('route_dropdown','value'),
     Output('route_dropdown','disabled'),
     Output('route_dropdown','style'),
-    Output('route_dropdown','value'),
-    Output('titleRoute_id','style'),
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),  
-)
-def drowdownSelection(types_drop_value, zones_drop_value):
+
+    Input('type_dropdown','value'),   
+)#
+def drowdownSelection(types_drop_value):
     if types_drop_value == '':
-        return True, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
-    elif types_drop_value!='':
-        if types_drop_value=='Zone Analysis':
-            return False, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
-        elif types_drop_value=='Route Analysis':
-            return False, False, {'display': 'block'},'19-11',{'textAlign': 'center','display': 'block'}
+        return ' ',True, {'display': 'none'}
+    if types_drop_value == 'Zone Analysis':
+        return ' ',True, {'display': 'none'}
+    if types_drop_value == 'Route Analysis':
+        return ' ',False, {'display': 'block'}
+    
+    return ' ',True, {'display': 'none'}
         
 #################################################################
 
@@ -212,7 +208,10 @@ def drowdownSelection(types_drop_value, zones_drop_value):
     Output('route_dropdown','options'),
     Input('zone_dropdown','value'), 
 )
-def drowdownSelection_route(zone_drop_value):        
+def drowdownSelection_route(zone_drop_value):
+    lit=[{'label':'.','value':'.'}]
+    if (zone_drop_value is None or zone_drop_value==''):
+        return lit
     return models.ruta_comercial(zone_drop_value)
 
 #############################################################################################################
@@ -222,268 +221,143 @@ def drowdownSelection_route(zone_drop_value):
 #############################################################################################################
 #############################################################
 # scatter PLOT : Add sidebar interaction here
-#############################################################zonal
-@app.callback(
-    Output('scatter_graph_zone', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_cluster_zone(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    try:
-        fig=figure.make_graph_zonal(start_date,end_date,ZoneValue,a)
-    except:
-        return variable_empty   
-    
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
-        return fig
-    elif RouteValue=='' or end_date=='':
-        return fig
-    else:
-        return fig
-################################################################route_single
-@app.callback(
-    Output('scatter_graph_single_route', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_cluster_route(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    try:
-        models.verificacion_fechas(start_date,end_date,ZoneValue,RouteValue,a)#####################
-    except:
-        return variable_empty  
-    
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
-        return figure.make_graph_route_single(start_date,end_date,ZoneValue,RouteValue,a)
-    elif RouteValue=='' or end_date=='':
-        return figure.make_graph_route_single(start_date,end_date,ZoneValue,'19-11',a)
-    else:
-        return figure.make_graph_route_single(start_date,end_date,ZoneValue,RouteValue,a)
- ################################################################   
-    
-"""    
-FALTA EL CALLBACK DEL ROUTESINGLE_HOUR este el id id='scatter_graph_single_route_hour    
-"""  
-    
 #############################################################
-# MAP : single route
-#############################################################
-    
-
-@app.callback(
-    Output('map_graph_route', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_map(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date !='':
-        return figure.graph1_validaciones_ubication_zone(start_date,end_date,ZoneValue,a)
-    elif RouteValue=='' or end_date=='':
-        return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,'19-11',a)
-    else:
-        try:
-            fig=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,RouteValue,a)
-        except:
-            return variable_empty 
-        return fig
-        
 
 #############################################################
-# HISTOGRAM : Add interactions here
+# button sidebar CATEGORY : interaction here
 #############################################################
-@app.callback(
-    Output('histogram_validation', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_histogram(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-        
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
-        return figure.histogram_validations_zone(start_date,end_date,ZoneValue,a)
-    elif RouteValue=='' or end_date=='':
-        return figure.histogram_validations(start_date,end_date,ZoneValue,'19-11',a) 
-    else:
-        try:
-            fig=figure.histogram_validations(start_date,end_date,ZoneValue,RouteValue,a)   
-        except:
-            return variable_empty 
-        return fig  
-
-#############################################################
-# HEATMAP : Add interactions here
-#############################################################
-@app.callback(
-    Output('heatmap_validation', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_heat_maps(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
-        return figure.heat_map_interactivition_zone(start_date,end_date,ZoneValue,a) 
-    elif RouteValue=='' or end_date=='':
-        return figure.heat_map_interactivition(start_date,end_date,ZoneValue,'19-11',a)   
-    else:
-        try:
-            fig=figure.heat_map_interactivition(start_date,end_date,ZoneValue,RouteValue,a) 
-        except:
-            return variable_empty 
-        return fig
-    
-#############################################################
-# BARPLOT  : Add BARPLOT interaction here
-#############################################################
-@app.callback(
-    Output('average_number_buses_per_day_all_routes', 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-)
-def make_graph_bar_averas(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    try:
-        fig=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue,a) 
-    except:
-        return variable_empty
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':
-        return fig
-    elif RouteValue=='' or end_date=='':
-        return variable_empty
-    else:
-        return fig
-
-@app.callback(
-    Output('average_number_buses_per_hour' , 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-    
-)
-def make_graph_bar_avera(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':        
-        return figure.average_number_buses_per_hour_zone(start_date,end_date,ZoneValue,a) 
-    elif RouteValue=='' or end_date=='':
-        return figure.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,'19-11',a)  
-    else:
-        try:
-            fig=figure.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,RouteValue,a) 
-        except:
-            return variable_empty 
-        return fig 
-
-#################
-#####################
-
-@app.callback(
-    Output('bar_total_valitations' , 'figure'),
-    
-    Input('my-date-picker-range', 'start_date'),
-    Input('my-date-picker-range', 'end_date'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'),
-    
-)
-def make_graph_bar_total_hour(start_date,end_date,typeValue,ZoneValue,RouteValue):
-    a=models.exclude(listas)
-    if typeValue=='Zone Analysis' and ZoneValue!='' and end_date!='':        
-        return figure.bar_total_valitations_zone_hour(start_date,end_date,ZoneValue,a)
-    elif RouteValue=='' or end_date=='':
-        return figure.bar_total_valitations_route_hour(start_date,end_date,ZoneValue,'19-11',a)
-    else:
-        try:
-            fig=figure.bar_total_valitations_route_hour(start_date,end_date,ZoneValue,RouteValue,a)
-        except:
-            return figure.bar_total_valitations_route_hour(start_date,end_date,ZoneValue,'19-11',a)
-        return fig
+#blank graph
+variable_empty={ "layout": {
+    "xaxis": {
+        "visible": False }, "yaxis": {"visible": False},
+    "annotations": [{"text": "Select filters for the data","xref": "paper",'bgcolor':"#ffffff","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#ffffff",'plot_bgcolor':"#ffffff"}}
 
 ############################################################excluder data##################
     
-listas=[]
+listas=[]   # list where i saved the exclude dates don't deleted
+
 @app.callback(
     Output('contador', 'children'),
     Output('btn', 'n_clicks'),
     Output('type_dropdown','value'),
-    #Output(),
     
     Input('date_picker_excluder', 'date'),
     Input('btn', 'n_clicks'),
     Input('type_dropdown','value'),
 )
 def excluder_date_function(date_value,btn,type_value):
-    
     if date_value is not None:
         listas.append(date_value)
-    
     if btn != 0:
-        
         listas.clear()
         return listas, 0, ''
-        
     return listas, 0, type_value
 
-#############################################################
-# button sidebar CATEGORY : interaction here
-#############################################################
+###################################################  Callback ##################
 
+@app.callback(
+    Output('map_graph_route','figure'),
+    Output('scatter_graph_zone','figure'),  
+    Output('average_number_buses_per_day_all_routes','figure'),
+    Output('heatmap_validation','figure'),
+    Output('bar_total_valitations','figure'),
+    Output('average_number_buses_per_hour','figure'),
+    Output('histogram_validation', 'figure'),
+    Output('btn_update','n_clicks'),
+    
+    Input('btn_update','n_clicks'),
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    
+    if n_clicks is None or n_clicks==0:
+        return variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, 0
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (types=='Zone Analysis'):
+            route=' '
+        
+        fig1=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
+        fig2=figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+        fig3=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a) 
+        fig4=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+        fig5=figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
+        fig6=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a) 
+        fig7=figure.histogram_validations(start_date,end_date,zones,route,a)
+        return fig1, fig2 , fig3, fig4, fig5, fig6, fig7, 0
+
+
+"""
 @app.callback(
     
     Output('replace_analysis','children'),
     Output('btn_update','n_clicks'),
+    
     Input('btn_update','n_clicks'),
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('route_dropdown','value'), 
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def analysis_datas(n_clicks,types,zones,start_date,end_date):
+def analysis_datas(n_clicks,types,zones,route,start_date,end_date):
+    
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    
     if n_clicks is None or n_clicks==0:
-        return stats.imagen_test, 0
-    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        
         return stats.stats, 0
+    
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):        
+        return stats.stats, 0
+   
     return stats.alert_no_dropdows, 0
-"""    
-
-"""
 
 
+ """
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-
-################################################################
-# MAP : Add interactions here
-#############################################################
+##########################################################################################################################
+# Predictic Callsbacks  : 
+##########################################################################################################################
 @app.callback(
     Output('zone_dropdown_pre','disabled'),
     Output('route_dropdown_pre','disabled'),

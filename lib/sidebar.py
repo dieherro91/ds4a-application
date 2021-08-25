@@ -44,7 +44,7 @@ title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exluto
 
 drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[
         {'label': 'Route Analysis', 'value': 'Route Analysis'},
-        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='Zone Analysis',
+        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='',
                                           style={'font-size':'12'},
                                           placeholder="Select analysis type",),],)
 
@@ -53,7 +53,8 @@ drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.list
                                           placeholder="Select a zone",),],)
 
 drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
-                                           value='',style={'font-size':'12'},placeholder="Select a route",searchable=True,),],)
+                                           value='',style={'font-size':'12','display':'None'},
+                                           placeholder="Select a route",searchable=True,),],)
 
 date_selector=html.Div(children=[
     title_date_range,
