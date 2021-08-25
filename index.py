@@ -92,7 +92,7 @@ def router(url):
     elif url=='/login':
         return login_layout()
     elif url=='/analysis_data':
-        return analysis_page()
+        return analysis_page()          
     elif url=='/predictic_model':
         return prediction_part()
     elif url=='/About_Us':
@@ -135,12 +135,12 @@ def logout_(n_clicks):
     return '/login'
 @app.callback(
     Output('analysis-url','pathname'),
-    [Input('logout-button','n_clicks')]
+    Input('logout-button','n_clicks'),
 )
 def logout_(n_clicks):
     '''clear the session and send user to login'''
     if n_clicks is None or n_clicks==0:
-        return no_update
+        return no_update 
     session['authed'] = False
     return '/login'
 @app.callback(
@@ -172,7 +172,7 @@ def logout_(n_clicks):
 variable_empty={ "layout": {
     "xaxis": {
         "visible": False }, "yaxis": {"visible": False},
-    "annotations": [{"text": "Don´t have validations in those days","xref": "paper",'bgcolor':"#073559","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#073559",'plot_bgcolor':"#073559"}}
+    "annotations": [{"text": "SideBar Data missing restart the analysis","xref": "paper",'bgcolor':"#073559","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#073559",'plot_bgcolor':"#073559"}}
 #########################################################################
 ###############################################
 #
@@ -203,21 +203,7 @@ def drowdownSelection(types_drop_value, zones_drop_value):
             return False, False, {'display': 'block'},'19-11',{'textAlign': 'center','display': 'block'}
         
 #################################################################
-# title lable type analysis in the app.
-#################################################################
-@app.callback(
-    Output('subtitle','children'),
-    Input('type_dropdown','value'),
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-)
-def drowdownSelection(types_drop_value,zone_drop_value,route_drop_value):
-    if types_drop_value == '':
-        return html.H3('   ')
-    elif route_drop_value!='':
-        return html.H3('{}: {} route: {}'.format(types_drop_value,zone_drop_value,route_drop_value))
-        
-    return html.H3('{}: {}  {}'.format(types_drop_value,zone_drop_value,route_drop_value))
+
 
 #################################################################
 # # dropdown sidebar values route in the app.
@@ -450,6 +436,7 @@ listas=[]
     Output('contador', 'children'),
     Output('btn', 'n_clicks'),
     Output('type_dropdown','value'),
+    #Output(),
     
     Input('date_picker_excluder', 'date'),
     Input('btn', 'n_clicks'),
@@ -468,13 +455,107 @@ def excluder_date_function(date_value,btn,type_value):
     return listas, 0, type_value
 
 #############################################################
-# TABS CATEGORY : interaction here
+# button sidebar CATEGORY : interaction here
 #############################################################
+
+@app.callback(
+    
+    Output('replace_analysis','children'),
+    Output('btn_update','n_clicks'),
+    Input('btn_update','n_clicks'),
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def analysis_datas(n_clicks,types,zones,start_date,end_date):
+    if n_clicks is None or n_clicks==0:
+        return stats.imagen_test, 0
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        return stats.stats, 0
+    return stats.alert_no_dropdows, 0
+"""    
+
+"""
+
+
 
 
 ################################################################
 # MAP : Add interactions here
 #############################################################
+@app.callback(
+    Output('zone_dropdown_pre','disabled'),
+    Output('route_dropdown_pre','disabled'),
+    Output('route_dropdown_pre','style'),
+    Output('route_dropdown_pre','value'),
+    Output('titleRoute_id_pre','style'),
+    Input('type_dropdown_pre','value'),    
+    Input('zone_dropdown_pre','value'),  
+)
+def drowdownSelection(types_drop_value, zones_drop_value):
+    if types_drop_value == '':
+        return True, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
+    elif types_drop_value!='':
+        if types_drop_value=='Zone Analysis':
+            return False, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
+        elif types_drop_value=='Route Analysis':
+            return False, False, {'display': 'block'},'19-11',{'textAlign': 'center','display': 'block'}
+
+
+@app.callback(
+    Output('route_dropdown_pre','options'),
+    Input('zone_dropdown_pre','value'), 
+)
+def drowdownSelection_route(zone_drop_value):        
+    return models.ruta_comercial(zone_drop_value)
+
+
+
+############################################################excluder data##################
+    
+listas1=[]
+@app.callback(
+    Output('contador_pre', 'children'),
+    Output('btn_pre', 'n_clicks'),
+    Output('type_dropdown_pre','value'),
+    #Output(),
+    
+    Input('date_picker_excluder_pre', 'date'),
+    Input('btn_pre', 'n_clicks'),
+    Input('type_dropdown_pre','value'),
+)
+def excluder_date_function(date_value,btn,type_value):
+    
+    if date_value is not None:
+        listas1.append(date_value)
+    
+    if btn != 0:
+        
+        listas1.clear()
+        return listas1, 0, ''
+        
+    return listas1, 0, type_value
+
+@app.callback(
+    
+    
+    Output('replace_analysis_prediction','children'),
+    Output('btn_update_pre','n_clicks'),
+    Input('btn_update_pre','n_clicks'),
+    Input('type_dropdown_pre','value'),    
+    Input('zone_dropdown_pre','value'), 
+    Input('my-date-picker-range_pre','start_date'),
+    Input('my-date-picker-range_pre','end_date'),
+)
+
+def analysis_datas(n_clicks,types,zones,start_date,end_date):
+    if n_clicks is None or n_clicks==0:
+        return prediction.imagen_test, 0
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        return prediction.prediction, 0
+    return prediction.alert_no_dropdows, 0
+
 
 # MAP date interaction
 

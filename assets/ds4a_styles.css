@@ -29,19 +29,7 @@
     border: none;
   }
   
-/*
-#container_home{
-    position:fixed;
-    left:0;
-    right:0;
-    top:0;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0px;
-    padding-right: 0px;
-    max-width:100%;
-}
-*/
+
 
 /* Navegation bar */
 #nav_bar{
@@ -118,12 +106,6 @@ a:hover {
 
 .ds4a-body {
     
-    /* margin-left: 16rem; 
-    margin-right:0rem;
-  
-    padding: 1rem 1rem;
-    z-index: 1;
-    background-color: var(--secondary-color); */
     margin-left: 260px;
     overflow: hidden;
     padding: 70px 12px 65px;
@@ -160,6 +142,9 @@ a:hover {
 #ds4a-image{
     width: 80%;
 }
+#ds4a-image__pre{
+    width: 80%;
+}
 #ds4a-logo-masivo {
     height: 70px;
 }
@@ -180,12 +165,12 @@ a:hover {
     margin-right: 0px;
     margin-left: 154px;
 }
-#label_scatter{
-    
-    text-align: center;
-    color: white;
+#btn_pre{
+    padding-left: 4px;
+    border-left-style: solid;
+    margin-right: 0px;
+    margin-left: 154px;
 }
-
 .hidden {
     display: none;
 }
@@ -223,7 +208,11 @@ html {
 }
 
 .login {
-    
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
     background-color: #383849;
 }
 
@@ -243,7 +232,7 @@ html {
     
 } */
 /* .Rowbody_0, .Rowbody_1, .Rowbody_2, .Rowbody_3{
-    margin-left: 0rem;
+    margin-left: 0rem;ju
     margin-right: 0rem;
     width: var(--widthLef);   
 } */
@@ -270,25 +259,36 @@ html {
     padding-right: 0px;
 }
 .SingleDatePickerInput__showClearDate {
-    padding-right: 0px;
+    
     width:1rem;
     height: 1rem;
 }
 
+#jumboContainer{
+    left:240px;
+}
 #date_picker_excluder{
     height: 1rem;
     width:8rem; 
     position:center;
     background-color: var(--main-color);
     border-color: var(--main-color);
-
-
     padding-left: 0px;
     padding-right: 0px;
-    margin-left: 49px;
-
-    
+    margin-left: 49px; 
 }
+#date_picker_excluder_pre{
+    height: 1rem;
+    width:8rem; 
+    position:center;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 49px; 
+}
+
+
 hr {
     border: 1px solid khaki;
     height: 1px;

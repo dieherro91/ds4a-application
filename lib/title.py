@@ -19,7 +19,7 @@ search_bar=dbc.Row(id='bar_nav_internal',
     children=[
     dbc.Col([dbc.Card(id='col_home',children=[dcc.Link('home', href='/home'),],),],align="center"),
     dbc.Col([dbc.Card(id='col_analysis',children=[dcc.Link('zones and route analysis', href='/analysis_data'),],),],align="center"),
-    dbc.Col([dbc.Card(id='col_predictic',children=[dcc.Link('predictic model', href='/predictic_model'),],),], align="center"),
+    dbc.Col([dbc.Card(id='col_predictic',children=[dcc.Link('predictive model', href='/predictic_model'),],),], align="center"),
         dbc.Col([dbc.Card(id='col_team-83',children=[dcc.Link('team-83', href='/About_Us'),],),], align="center"),
     dbc.Col([dbc.Card(id='col_logout',children=[Logout_buttom,],),], align="center"),
     ])

@@ -95,25 +95,59 @@ stats = html.Div(
             dbc.Col([histogram_validations_route],width="6"),
            
                ] ), 
-            
-       
-        
-    #    dbc.Row([ 
-    #         dbc.Col(html.H6("",id="jed")),
-    #         ],),
+
               
         
     ],
-    className="ds4a-body stats",
+    className="ds4a-body",
 )
 
-analysis_page=html.Div([dcc.Location(id='analysis-url',pathname='/analysis_data'),
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("pexels-nataliya-vaitkevich-7172856.jpg"), style={"width" : "700px" })],)
+imagen_test= dbc.Jumbotron(id='jumboContainer',children=[
+        dbc.Container(
+            [
+                html.Div([
+                html.H1("Data Analysis", className="display-5"),
+                html.P(
+                    "espacio para escribir algo,"
+                    "mas espacio para escribir algo.",
+                    className="lead",
+                ),
+                DS4A_Img,
+                ] ,className="text-center"),
+                html.P(
+                    "espacio para escirbir algunas cosas   "
+                    "espacio para escirbir algunas cosas ."
+                    "espacio para escirbir algunas cosas",
+                    className="lead",
+                ),
+            ],
+            fluid=True,
+        )
+    ],
+    fluid=True,
+)
+
+
+alert_no_dropdows=html.Div([html.Br(),
+    dbc.Row([
+                    html.Br(),
+                    html.Br(),
+                    dbc.Col([html.H1("Please complete the information in the sidebar")],
+                width={"size": 12, "offset":1}, className='mt-1 mb-2 pl-1.5 pr-1.5'),
+                     html.Br(),
+                     ],className="ds4a-body",),]) 
+
+
+
+analysis_page=html.Div(id='analysis_page_test',children=[dcc.Location(id='analysis-url',pathname='/analysis_data'),
                         title.navbar,
                         sidebar.sidebar,
-                        stats,
+                        html.Div(id='replace_analysis',children=[imagen_test]),
                 ],className="container-fluid bg-app",
 )
 
 
 
-#DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",style={'height':'10%', 'width':'10%'})],)
+
+

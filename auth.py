@@ -8,7 +8,7 @@ from flask import session
 # fake users dict   auth.py
 users = {
     'DgoRomr':'adjsfbq5',
-    'team83':'team-d4sa',
+    'team83':'team-ds4a',
     'masivo-admin':'!hTW*r8Z0OEV',
 }
 

@@ -23,42 +23,42 @@ from data import models
 ####################################################################################
 
 # DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("c1_logo_tagline.svg"), id="ds4a-image",)],)
-DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image",)],className='text-center')
+DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image__pre",)],className='text-center')
 
 #DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",)],)
 ############################################################################# 
 # Titles
 #############################################################################
 
-titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id', className='item-selection',),],)
-titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', className='item-selection',),],)
-titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', className='item-selection hidden',),],)
+titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id_pre', className='item-selection',),],)
+titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id_pre', className='item-selection',),],)
+titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id_pre', className='item-selection hidden',),],)
 
-title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month', className='item-selection',),],)
-title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor', className='item-selection',),],)
+title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month_pre', className='item-selection',),],)
+title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor_pre', className='item-selection',),],)
 #############################################################################
 # State Dropdown Card
 #############################################################################
 
 
 
-drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[
+drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown_pre',options=[
         {'label': 'Route Analysis', 'value': 'Route Analysis'},
         {'label': 'Zone Analysis', 'value': 'Zone Analysis'}],value='Zone Analysis',
                                           style={'font-size':'12'},
                                           placeholder="Select analysis type",),],)
 
-drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='',
+drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown_pre',options=models.listZone(),value='',
                                           style={'font-size':'12'},
                                           placeholder="Select a zone",),],)
 
-drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown',options=[],
+drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown_pre',options=[],
                                            value='',style={'font-size':'12'},placeholder="Select a route",searchable=True,),],)
 
 date_selector=html.Div(children=[
     title_date_range,
     dcc.DatePickerRange(
-        id='my-date-picker-range',
+        id='my-date-picker-range_pre',
         calendar_orientation='horizontal',
         min_date_allowed=models.min_date(),
         max_date_allowed=models.max_date(),
@@ -73,7 +73,7 @@ date_excluder=html.Div(children=[
     
     title_date_exclutor,
     dcc.DatePickerSingle(
-        id='date_picker_excluder',
+        id='date_picker_excluder_pre',
         calendar_orientation='horizontal',
         min_date_allowed=models.min_date(),
         max_date_allowed=models.max_date(),
@@ -82,12 +82,12 @@ date_excluder=html.Div(children=[
         clearable=True,),
         
     html.Hr(),
-    dbc.Card([html.H6(" ",id="contador",style = {"float":"left"},),],id='card_text'),
-    html.Button('clear list', id='btn', n_clicks=0),
+    dbc.Card([html.H6(" ",id="contador_pre",style = {"float":"left"},),],id='card_text'),
+    html.Button('clear list', id='btn_pre', n_clicks=0),
     ],)
 
 
-bottoms_update=html.Div(children=[html.Button('analysis Data', id='btn_update', n_clicks=0,
+bottoms_update=html.Div(children=[html.Button('analysis_Data', id='btn_update_pre', n_clicks=0,
                                               style={'margin-left':'60px','margin-right': '60px'}),
                                   ]
                        )
