@@ -83,8 +83,8 @@ date_excluder=html.Div(children=[
         clearable=True,),
         
     html.Hr(),
-    dbc.Card([html.H6(" ",id="contador",style = {"float":"left"},),],id='card_text'),
-    html.Button('clear list', id='btn', n_clicks=0),
+    html.Button('clear list', id='btn', n_clicks=0,style = {"float":"right"}),
+    dbc.Card(id='card_text',children=[html.H6(" ",id="contador",style = {"float":"left"},),]),
     ],)
 
 
@@ -106,10 +106,7 @@ sidebar = html.Div(
         ####################################################
         # Place the rest of Layout here
         #html.h1
-        html.Hr(),
-        date_selector,
-        html.Hr(),
-        date_excluder,
+        
         html.Hr(),
         html.Div([titleAnalysisType, drop_Type,]),
         html.Hr(), 
@@ -117,10 +114,13 @@ sidebar = html.Div(
         html.Hr(),
         html.Div([titleRoute, drop_route,]),
         html.Hr(),
+        date_excluder,
+        html.Hr(),
+        date_selector,
+        html.Hr(),
         html.Div([bottoms_update]),
+        html.Hr(),
         
-        
-        #html.Hr(),
     ],
     className="ds4a-sidebar",
 )
