@@ -15,7 +15,7 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
                             zoom=11,height=400,)
     
-    if (route != ' '):
+    if (route != ''):
         df2=models.position_route(ZoneValue,route)
         fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude', hover_data=['commertial_route','bus_stop','distance'])
         fig2.update_traces(marker_symbol='circle',marker_color='black')

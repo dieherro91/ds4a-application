@@ -190,13 +190,13 @@ def logout_(n_clicks):
 )#
 def drowdownSelection(types_drop_value):
     if types_drop_value == '':
-        return ' ',True, {'display': 'none'}
+        return '',True, {'display': 'none'}
     if types_drop_value == 'Zone Analysis':
-        return ' ',True, {'display': 'none'}
+        return '',True, {'display': 'none'}
     if types_drop_value == 'Route Analysis':
-        return ' ',False, {'display': 'block'}
+        return '',False, {'display': 'block'}
     
-    return ' ',True, {'display': 'none'}
+    return '',True, {'display': 'none'}
         
 #################################################################
 
@@ -209,7 +209,7 @@ def drowdownSelection(types_drop_value):
     Input('zone_dropdown','value'), 
 )
 def drowdownSelection_route(zone_drop_value):
-    lit=[{'label':'.','value':'.'}]
+    lit=[{'label':'loading...','value':'loading...'}]
     if (zone_drop_value is None or zone_drop_value==''):
         return lit
     return models.ruta_comercial(zone_drop_value)
@@ -255,6 +255,7 @@ def excluder_date_function(date_value,btn,type_value):
 
 ###################################################  Callback ##################
 
+"""
 @app.callback(
     Output('map_graph_route','figure'),
     Output('scatter_graph_zone','figure'),  
@@ -290,69 +291,141 @@ def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
         fig7=figure.histogram_validations(start_date,end_date,zones,route,a)
         return fig1, fig2 , fig3, fig4, fig5, fig6, fig7, 0
 
-
 """
+grah_store_1=dcc.Store(id='fig_Map_Street_store', data={})
 @app.callback(
-    
-    Output('replace_analysis','children'),
-    Output('btn_update','n_clicks'),
-    
-    Input('btn_update','n_clicks'),
-    State('type_dropdown','value'),    
-    State('zone_dropdown','value'),
-    State('route_dropdown','value'), 
-    State('my-date-picker-range','start_date'),
-    State('my-date-picker-range','end_date'),
+    Output('map_graph_route','figure'),
+        
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
 )
-def analysis_datas(n_clicks,types,zones,route,start_date,end_date):
-    
+def saved_plot1(types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        
+        if (types=='Zone Analysis'):
+            return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
+        if (types=='Route Analysis' and route !=''):
+            return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
+        
+    return variable_empty
+
+@app.callback(
+    Output('scatter_graph_zone','figure'),
+        
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot2(types,zones,start_date,end_date):
     a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
     
-    if n_clicks is None or n_clicks==0:
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (zones is not None):
+            return figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+    return variable_empty
+
+@app.callback(
+    Output('average_number_buses_per_day_all_routes','figure'),
+
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot3(types,zones,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (zones is not None):
+            return figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a) 
+    return variable_empty
+
+@app.callback(
+    Output('heatmap_validation','figure'),
+    
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot4(types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (types=='Zone Analysis'):
+            route=' '
+            return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+        if (types=='Route Analysis' and route !=''):
+            return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+    return variable_empty
+
+@app.callback(
+    Output('bar_total_valitations','figure'),
         
-        return stats.stats, 0
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot5(types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
     
-    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):        
-        return stats.stats, 0
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (types=='Zone Analysis'):
+            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
+        if (types=='Route Analysis' and route !=''):
+            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
+        
+    return variable_empty
+
+@app.callback(
+    Output('average_number_buses_per_hour','figure'),
+
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot6(types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (types=='Zone Analysis'):
+            return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+        if (types=='Route Analysis' and route !=''):
+            return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+    return variable_empty
+
+
+@app.callback(    
+    Output('histogram_validation', 'figure'),
+    
+    Input('type_dropdown','value'),    
+    Input('zone_dropdown','value'),
+    Input('route_dropdown','value'), 
+    Input('my-date-picker-range','start_date'),
+    Input('my-date-picker-range','end_date'),
+)
+def saved_plot7(types,zones,route,start_date,end_date):
+    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    
+    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
+        if (types=='Zone Analysis'):
+            return figure.histogram_validations(start_date,end_date,zones,route,a)
+        if (types=='Route Analysis' and route !=''):
+            return figure.histogram_validations(start_date,end_date,zones,route,a)
+    return variable_empty
+
    
-    return stats.alert_no_dropdows, 0
-
-
- """
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 
 ##########################################################################################################################
