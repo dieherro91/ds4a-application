@@ -265,7 +265,13 @@ html {
 }
 
 #jumboContainer{
-    left:240px;
+    margin-left: 270px;
+}
+#jumboContainer_predict{
+    margin-left: 270px;
+}
+.lead{
+    text-align: center !important;
 }
 #date_picker_excluder{
     height: 1rem;

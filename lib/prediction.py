@@ -40,20 +40,31 @@ prediction= html.Div(
 )
 
 
-imagen_test=html.Div(id='imagen_tested_prediction',children=[
-                        html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],),
-                        html.H1("Zona para la primera pagina del predictic model pagina descriptiva",id='text_warning'),
-                ],className="container-fluid bg-app",
+
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("predicticve_img.png"), style={"width" : "420px" })],)
+imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
+        dbc.Container(
+            [
+                html.Div([
+                html.H2("Predictive Analysis", className="display-5"),
+                html.P(
+                    "In this page you could visualized and predict"
+                    "validations with",
+                    
+                    className="lead",
+                ),
+                DS4A_Img,
+                ] ,className="text-center"),
+                html.P(
+                    "Random Forest and Linear Regression",
+                    className="lead",
+                ),
+            ],
+            fluid=True,
+        )
+    ],
+    fluid=True,
 )
-
-
-alert_no_dropdows=html.Div([html.Br(),
-             html.Br(),
-             html.H1("Please Complete the options in the side bar")],className="container-fluid bg-app",) 
-
-
-
-
 
 prediction_page=html.Div([dcc.Location(id='prediciton-url',pathname='/predictic_model'),
                         title.navbar,

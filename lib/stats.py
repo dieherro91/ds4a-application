@@ -104,23 +104,23 @@ stats = html.Div(
     className="ds4a-body",
 )
 
-DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("pexels-nataliya-vaitkevich-7172856.jpg"), style={"width" : "700px" })],)
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("pexels-nataliya-vaitkevich-7172856.jpg"), style={"width" : "420px" })],)
 imagen_test= dbc.Jumbotron(id='jumboContainer',children=[
         dbc.Container(
             [
                 html.Div([
-                html.H1("Data Analysis", className="display-5"),
+                html.H2("Data Analysis", className="display-5"),
                 html.P(
-                    "espacio para escribir algo,"
-                    "mas espacio para escribir algo.",
+                    "In this page you could visualized and analized, "
+                    "validations and number of buses in two ways: ",
+                    
                     className="lead",
                 ),
                 DS4A_Img,
                 ] ,className="text-center"),
                 html.P(
-                    "espacio para escirbir algunas cosas   "
-                    "espacio para escirbir algunas cosas ."
-                    "espacio para escirbir algunas cosas",
+                    "                                "
+                    "Route Analysis and Zone Analysis",
                     className="lead",
                 ),
             ],
@@ -131,21 +131,11 @@ imagen_test= dbc.Jumbotron(id='jumboContainer',children=[
 )
 
 
-alert_no_dropdows=html.Div([html.Br(),
-    dbc.Row([
-                    html.Br(),
-                    html.Br(),
-                    dbc.Col([html.H1("Please complete the information in the sidebar")],
-                width={"size": 12, "offset":1}, className='mt-1 mb-2 pl-1.5 pr-1.5'),
-                     html.Br(),
-                     ],className="ds4a-body",),])
-
-
 
 analysis_page=html.Div(id='analysis_page_test',children=[dcc.Location(id='analysis-url',pathname='/analysis_data'),
                         title.navbar,
                         sidebar.sidebar,
-                        html.Div(id='replace_analysis',children=[stats]),
+                        html.Div(id='replace_analysis',children=[imagen_test]),
                 ],className="container-fluid bg-app",
 )
 

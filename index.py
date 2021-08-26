@@ -255,44 +255,6 @@ def excluder_date_function(date_value,btn,type_value):
 
 ###################################################  Callback ##################
 
-"""
-@app.callback(
-    Output('map_graph_route','figure'),
-    Output('scatter_graph_zone','figure'),  
-    Output('average_number_buses_per_day_all_routes','figure'),
-    Output('heatmap_validation','figure'),
-    Output('bar_total_valitations','figure'),
-    Output('average_number_buses_per_hour','figure'),
-    Output('histogram_validation', 'figure'),
-    Output('btn_update','n_clicks'),
-    
-    Input('btn_update','n_clicks'),
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
-)
-def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
-    
-    if n_clicks is None or n_clicks==0:
-        return variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, variable_empty, 0
-    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
-        if (types=='Zone Analysis'):
-            route=' '
-        
-        fig1=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
-        fig2=figure.make_graph_zonal(start_date,end_date,zones,' ',a)
-        fig3=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a) 
-        fig4=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
-        fig5=figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
-        fig6=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a) 
-        fig7=figure.histogram_validations(start_date,end_date,zones,route,a)
-        return fig1, fig2 , fig3, fig4, fig5, fig6, fig7, 0
-
-"""
-grah_store_1=dcc.Store(id='fig_Map_Street_store', data={})
 @app.callback(
     Output('map_graph_route','figure'),
         
@@ -382,8 +344,7 @@ def saved_plot5(types,zones,route,start_date,end_date):
         if (types=='Zone Analysis'):
             return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
         if (types=='Route Analysis' and route !=''):
-            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
-        
+            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)   
     return variable_empty
 
 @app.callback(
@@ -426,82 +387,43 @@ def saved_plot7(types,zones,route,start_date,end_date):
     return variable_empty
 
    
+@app.callback(
+    Output('replace_analysis','children'),
+    Output('btn_update','n_clicks'),
+    Input('btn_update','n_clicks'),
+)  
+def page_change(n_clicks):
+    if n_clicks is None or n_clicks==0:
+        return stats.imagen_test, 0
+    return stats.stats, 0
+
     
 
 ##########################################################################################################################
 # Predictic Callsbacks  : 
 ##########################################################################################################################
-@app.callback(
-    Output('zone_dropdown_pre','disabled'),
-    Output('route_dropdown_pre','disabled'),
-    Output('route_dropdown_pre','style'),
-    Output('route_dropdown_pre','value'),
-    Output('titleRoute_id_pre','style'),
-    Input('type_dropdown_pre','value'),    
-    Input('zone_dropdown_pre','value'),  
-)
-def drowdownSelection(types_drop_value, zones_drop_value):
-    if types_drop_value == '':
-        return True, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
-    elif types_drop_value!='':
-        if types_drop_value=='Zone Analysis':
-            return False, True, {'display': 'none'},'19-11',{'textAlign': 'center','display': 'none'}
-        elif types_drop_value=='Route Analysis':
-            return False, False, {'display': 'block'},'19-11',{'textAlign': 'center','display': 'block'}
 
 
 @app.callback(
-    Output('route_dropdown_pre','options'),
-    Input('zone_dropdown_pre','value'), 
-)
-def drowdownSelection_route(zone_drop_value):        
-    return models.ruta_comercial(zone_drop_value)
-
-
-
-############################################################excluder data##################
-    
-listas1=[]
-@app.callback(
-    Output('contador_pre', 'children'),
-    Output('btn_pre', 'n_clicks'),
-    Output('type_dropdown_pre','value'),
-    #Output(),
-    
-    Input('date_picker_excluder_pre', 'date'),
-    Input('btn_pre', 'n_clicks'),
-    Input('type_dropdown_pre','value'),
-)
-def excluder_date_function(date_value,btn,type_value):
-    
-    if date_value is not None:
-        listas1.append(date_value)
-    
-    if btn != 0:
-        
-        listas1.clear()
-        return listas1, 0, ''
-        
-    return listas1, 0, type_value
-
-@app.callback(
-    
-    
     Output('replace_analysis_prediction','children'),
     Output('btn_update_pre','n_clicks'),
     Input('btn_update_pre','n_clicks'),
-    Input('type_dropdown_pre','value'),    
-    Input('zone_dropdown_pre','value'), 
-    Input('my-date-picker-range_pre','start_date'),
-    Input('my-date-picker-range_pre','end_date'),
-)
-
-def analysis_datas(n_clicks,types,zones,start_date,end_date):
+)  
+def page_change_pre(n_clicks):
     if n_clicks is None or n_clicks==0:
         return prediction.imagen_test, 0
-    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
-        return prediction.prediction, 0
-    return prediction.alert_no_dropdows, 0
+    return prediction.prediction, 0
+
+
+
+
+
+
+
+
+
+
+
 
 
 # MAP date interaction
