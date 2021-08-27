@@ -32,7 +32,7 @@ DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubf
 
 titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id_pre', className='item-selection',),],)
 titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id_pre', className='item-selection',),],)
-titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id_pre', className='item-selection hidden',),],)
+titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id_pre', className='item-selection',),],)
 
 title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month_pre', className='item-selection',),],)
 title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor_pre', className='item-selection',),],)

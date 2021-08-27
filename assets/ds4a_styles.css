@@ -238,6 +238,7 @@ html {
 }
 .DateInput, .DateInput_1{
     width: 226px !important;
+    
 }
 .DateRangePickerInput {
     position:center;
@@ -269,8 +270,8 @@ html {
 .SingleDatePicker, .SingleDatePicker_1{
     width: 226px;
 }
-.SingleDatePickerInput{
-    width: 226px;
+.SingleDatePickerInput, .SingleDatePickerInput_1, .SingleDatePickerInput__withBorder, .SingleDatePickerInput__withBorder_2, .SingleDatePickerInput__showClearDate, .SingleDatePickerInput__showClearDate_3{
+    width: 226px; 
 }
 
 #jumboContainer{
