@@ -142,7 +142,7 @@ a:hover {
 #ds4a-image{
     width: 80%;
 }
-#ds4a-image__pre{
+#ds4a-image_pre{
     width: 80%;
 }
 #ds4a-logo-masivo {
@@ -158,19 +158,17 @@ a:hover {
 #titleRoute_id, #titleZone_id, #titleAnalysisType_id, #title_month, #title_exlutor{
     margin-bottom: 0px;
 }
+#titleRoute_id_pre, #titleZone_id_pre, #titleAnalysisType_id_pre, #title_month_pre, #title_exlutor_pre{
+    margin-bottom: 0px;
+}
 
-#btn{
+#btn, #btn_pre{
     padding-left: 4px;
     border-left-style: solid;
     position: relative;
     left: 166px;
 }
-#btn_pre{
-    padding-left: 4px;
-    border-left-style: solid;
-    margin-right: 0px;
-    margin-left: 154px;
-}
+
 .hidden {
     display: none;
 }
@@ -225,17 +223,7 @@ html {
     background-color: #649ee3;
 }
 
-/* .dash-dropdown{
-    
-}
-.Select-control{
-    
-} */
-/* .Rowbody_0, .Rowbody_1, .Rowbody_2, .Rowbody_3{
-    margin-left: 0rem;ju
-    margin-right: 0rem;
-    width: var(--widthLef);   
-} */
+
 
 .DateInput_input, .DateInput_input_1 {
     text-align: center;
@@ -284,11 +272,7 @@ html {
 .SingleDatePickerInput{
     width: 226px;
 }
-#date_picker_excluder{
-     
-    width: 226px;
-     
-}
+
 #jumboContainer{
     margin-left: 270px;
 }
@@ -299,16 +283,6 @@ html {
     text-align: center !important;
 }
 
-#date_picker_excluder_pre{
-    height: 1rem;
-    width:8rem; 
-    position:center;
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 49px; 
-}
 
 
 hr {
@@ -321,7 +295,7 @@ hr {
     border-top-width: 0px;
 
 }
-#card_text{
+#card_text, #card_text_pre{
     width:5.5rem;
     
 }

@@ -1,7 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-from lib import title, sidebar_predict
+from lib import title, sidebar_pred
 from app import app
 
 prediction= html.Div(
@@ -68,7 +68,7 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
 
 prediction_page=html.Div([dcc.Location(id='prediciton-url',pathname='/predictic_model'),
                         title.navbar,
-                        sidebar_predict.sidebar,
+                        sidebar_pred.sidebar,
                         html.Div(id='replace_analysis_prediction',children=[imagen_test]),
                 ],className="container-fluid bg-app",
 )

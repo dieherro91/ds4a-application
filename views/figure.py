@@ -11,27 +11,28 @@ family_font = 'Helvetica Neue'
 
 def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
     df=models.validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a)
-    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", size="validations", 
+    fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", 
+                            size="validations", 
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
-                            zoom=11,height=400,)
-    
+                            zoom=11,height=400, mapbox_style='open-street-map')
     if (route != ''):
         df2=models.position_route(ZoneValue,route)
-        fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude', hover_data=['commertial_route','bus_stop','distance'])
+        fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude',hover_data=['distance','bus_stop'])
         fig2.update_traces(marker_symbol='circle',marker_color='black')
         fig.add_trace(fig2.data[0])
     
     
     fig.update_layout(#title="validations between {} / {} for {} in {}".format(start_date,end_date,route,ZoneValue),
-                                font=dict(
-                                    family='Sherif',
+                         font=dict(
+                                    family='Helvetica Neue',
                                     size=16,
                                     color = 'black',                                    
                                     ),
+
+                        height=400,                                
                                 
-                                
-                      margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
-                      legend=dict(  title='validation type',
+                         margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
+                         legend=dict(  title='validation type',
                                     yanchor="top",
                                     y=0.99,
                                     xanchor="left",
@@ -43,7 +44,8 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
                                     
                                                 ),
                                 ),
-                       mapbox_style="open-street-map")    
+                        
+    )
     return fig 
 
 

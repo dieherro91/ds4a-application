@@ -45,7 +45,6 @@ from flask import session, copy_current_request_context
 
 # local imports
 
-app.config.suppress_callback_exceptions = True
 
 ###################################################3
 ###################################################
@@ -239,19 +238,18 @@ listas=[]   # list where i saved the exclude dates don't deleted
 @app.callback(
     Output('contador', 'children'),
     Output('btn', 'n_clicks'),
-    Output('type_dropdown','value'),
+    
     
     Input('date_picker_excluder', 'date'),
     Input('btn', 'n_clicks'),
-    Input('type_dropdown','value'),
 )
-def excluder_date_function(date_value,btn,type_value):
+def excluder_date_function(date_value,btn):
     if date_value is not None:
         listas.append(date_value)
     if btn != 0:
         listas.clear()
-        return listas, 0, ''
-    return listas, 0, type_value
+        return listas, 0,
+    return listas, 0
 
 ###################################################  Callback ##################
 
