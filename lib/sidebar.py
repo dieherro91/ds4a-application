@@ -83,7 +83,7 @@ date_excluder=html.Div(children=[
         clearable=True,),
         
     html.Hr(),
-    html.Button('clear list', id='btn', n_clicks=0,style = {"float":"right"}),
+    html.Button('clear list', id='btn', n_clicks=0,),
     dbc.Card(id='card_text',children=[html.H6(" ",id="contador",style = {"float":"left"},),]),
     ],)
 

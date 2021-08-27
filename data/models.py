@@ -346,3 +346,31 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
     resultados_demanda.drop(['index'], axis=1, inplace=True)
     
     return resultados_demanda
+
+
+#################################################### prediction ##################################
+
+
+
+def auxiliar_prediction():
+    df_fe2 = pd.read_sql("WITH stops AS (\
+                                SELECT ruta.ruta_sae, ruta.ruta_comercial, paradero.cenefa\
+                                FROM paradero_ruta \
+                                JOIN paradero ON paradero_ruta.id_paradero = paradero.id_paradero \
+                                JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta \
+                             )\
+                       SELECT * FROM stops", connect_db.conn())
+    connect_db.conn().close()
+    #Here we count how many routes pass by each stop:
+    df_fe2 = df_fe2.groupby("cenefa").nunique("ruta_comercial").reset_index()
+    df_fe2.rename(columns={'ruta_comercial':'cantidad_rutas'}, inplace=True)
+
+    #Here we create 2 connectivity metrics. One using MinMaxScaling and the other one
+    #applying log:
+    min_value = df_fe2['cantidad_rutas'].min()
+    max_value = df_fe2['cantidad_rutas'].max()
+    df_fe2['connectivity_score'] = df_fe2['cantidad_rutas'].apply(lambda row: round(4 * (row - min_value)/(max_value - min_value)))
+    df_fe2['connectivity_log_score'] = df_fe2['cantidad_rutas'].apply(lambda value: round(np.log(value)))
+    df_fe2.sort_values(by=['connectivity_score'], ascending=False)  
+    return df_fe2
+
