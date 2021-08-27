@@ -13,6 +13,7 @@ import dash_bootstrap_components as dbc
 import json
 from datetime import datetime as dt
 from datetime import date
+from datetime import timedelta
 
 # Recall app
 from app import app
@@ -34,7 +35,8 @@ titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titl
 titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id_pre', className='item-selection',),],)
 titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id_pre', className='item-selection',),],)
 
-title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month_pre', className='item-selection',),],)
+title_date_range=html.Div(children=[html.H6('TRAINING DATE', id='title_month_pre', className='item-selection',),],)
+title_date_range_pre=html.Div(children=[html.H6('PREDICTION DATE', id='title_month_pre_date', className='item-selection',),],)
 title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor_pre', className='item-selection',),],)
 #############################################################################
 # State Dropdown Card
@@ -65,11 +67,12 @@ date_selector=html.Div(children=[
         max_date_allowed=models.max_date(),
         initial_visible_month=date(2021, 4, 15),
         clearable =True,
-        #end_date=date(2021, 4, 15),
+        end_date=date(2021, 4, 15),
         #start_date=date(2021, 4, 15),
         month_format='YYYY-MM-DD',
         
     ),],)
+#
 date_excluder=html.Div(children=[
     
     title_date_exclutor,
@@ -88,8 +91,27 @@ date_excluder=html.Div(children=[
     ],)
 
 
-bottoms_update=html.Div(children=[html.Button('analysis Data', id='btn_update_pre', n_clicks=0,
-                                              style={'margin-left':'60px','margin-right': '60px'}),
+date_prediction=html.Div(children=[
+    
+    title_date_range_pre,
+    dcc.DatePickerSingle(
+        id='date_picker_predictor_pre',
+        calendar_orientation='horizontal',
+        #min_date_allowed=models.min_date(),
+        #max_date_allowed=models.max_date(),
+        initial_visible_month=date(2021, 4, 15),        
+        month_format='YYYY-MM-DD',
+        clearable=True,),
+        
+    html.Hr(),
+    ],)
+
+
+
+
+
+bottoms_update=html.Div(children=[html.Button('Prediction Data', id='btn_update_pre', n_clicks=0,
+                                              style={'margin-left':'50px','margin-right': '50px'}),
                                   ]
                        )
 ##############################################################################
@@ -118,6 +140,7 @@ sidebar = html.Div(
         html.Hr(),
         date_selector,
         html.Hr(),
+        date_prediction,
         html.Div([bottoms_update]),
         html.Hr(),
         

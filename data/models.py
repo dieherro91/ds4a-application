@@ -1,6 +1,6 @@
 
 import pandas as pd
-
+import xgboost as xgb
 import numpy as np
 from data import connect_db
 
@@ -101,6 +101,7 @@ def filtro_ruta4(route):
     if (route==' '):
         return ' '
     return "AND ruta_comercial=" +"\'"+ route +"\' "
+
 ##################################################################################################################
 """
 def verificacion_fechas(start_date,end_date,ZoneValue,route,a): ##################################################
@@ -353,6 +354,7 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
 
 
 def auxiliar_prediction():
+
     df_fe2 = pd.read_sql("WITH stops AS (\
                                 SELECT ruta.ruta_sae, ruta.ruta_comercial, paradero.cenefa\
                                 FROM paradero_ruta \
@@ -360,7 +362,7 @@ def auxiliar_prediction():
                                 JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta \
                              )\
                        SELECT * FROM stops", connect_db.conn())
-    connect_db.conn().close()
+    connect_db.conn().Close()
     #Here we count how many routes pass by each stop:
     df_fe2 = df_fe2.groupby("cenefa").nunique("ruta_comercial").reset_index()
     df_fe2.rename(columns={'ruta_comercial':'cantidad_rutas'}, inplace=True)
@@ -371,6 +373,95 @@ def auxiliar_prediction():
     max_value = df_fe2['cantidad_rutas'].max()
     df_fe2['connectivity_score'] = df_fe2['cantidad_rutas'].apply(lambda row: round(4 * (row - min_value)/(max_value - min_value)))
     df_fe2['connectivity_log_score'] = df_fe2['cantidad_rutas'].apply(lambda value: round(np.log(value)))
-    df_fe2.sort_values(by=['connectivity_score'], ascending=False)  
+    
     return df_fe2
+
+def df_validaciones(ZoneValue,route,start_date,end_date,a):
+
+    df_validaciones = pd.read_sql("WITH validaciones AS (\
+                            SELECT fecha_trx AS fecha_servicio, \
+                            date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 60) * interval '1 minute') AS hora_servicio,\
+                            paradero.id_paradero, \
+                            ruta_comercial,\
+                            cenefa, \
+                            vehiculo_id, \
+                            posicion,\
+                            latitud,\
+                            longitud\
+                            FROM validacion\
+                            JOIN paradero_ruta ON paradero_ruta.id_paradero_ruta = validacion.paradero_ruta_id \
+                            JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
+                            JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
+                            JOIN operador ON operador.id_operador = validacion.operador_id \
+                            WHERE "+a+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+"  \
+                            )\
+                            SELECT fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion, latitud, longitud, count(*) AS cantidad_pasajeros\
+                            FROM validaciones \
+                            " + filtro_ruta1(route) +
+                            "GROUP BY fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion, latitud, longitud\
+                            ORDER BY fecha_servicio, ruta_comercial, hora_servicio ASC, posicion ASC;", connect_db.conn())
+    connect_db.conn().Close()
+    return df_validaciones
+
+
+def pre_processing(df_validaciones):
+    df_validaciones = df_validaciones.drop(columns=['posicion']).groupby(by = ['fecha_servicio','hora_servicio','cenefa']).sum().reset_index()
+    ''' This function uses the input DataFrame and pre-process it to use it in a RandomForestRegressor.
+    It adds the connectivity score feature, and it also adds to features of sine and cosine of the seconds of a certain moment of the day.
+    '''
+    # Primero se agregan los puntajes de conectividad
+    df_fe2=auxiliar_prediction()
+    df_validaciones_fe = df_validaciones.merge(df_fe2[['cenefa','cantidad_rutas','connectivity_score', 'connectivity_log_score']], left_on = 'cenefa', right_on = 'cenefa')
+
+    #Creamos la categoría de mes y de día de la semana:
+    df_validaciones_fe['mes'] =pd.to_datetime(df_validaciones_fe['fecha_servicio']).dt.month.astype('int')
+    df_validaciones_fe['dia_semana'] = pd.to_datetime(df_validaciones_fe['fecha_servicio']).dt.weekday
+    df_validaciones_fe['sin_dia_semana'] = np.sin(2*np.pi*(df_validaciones_fe['dia_semana']/7))
+    df_validaciones_fe['cos_dia_semana'] = np.cos(2*np.pi*(df_validaciones_fe['dia_semana']/7))
+
+
+    #Agregamos una columna que indique si un día es festivo o no:
+    festivos = ['20210101', '20210106', '20210322', '20210401', '20210402', '20210501', '20210517', '20210607', '20210614', '20210705', '20210720', '20210807', '20210816', '20211018', '20211101', '20211115', '20211208', '20211225']
+    df_validaciones_fe['es_festivo'] = df_validaciones_fe.fecha_servicio.astype(str).str.replace('-','').apply(lambda row: row in festivos).astype(int)
+
+
+    #Realizamos One-hot encoding para las columnas categóricas que quizás usemos en el modelo:
+    #df_validaciones_fe = pd.get_dummies(df_validaciones_fe, columns=['dia_semana'])
+    #df_validaciones_fe = pd.get_dummies(df_validaciones_fe, columns=['dia_semana','cenefa'])
+
+
+    #Transformamos la hora de servicio, para que sí tenga su característica cíclica (ejemplo: 23:55 está a 10 minutos de 00:05, no 23 horas y 50 minutos)
+    df_validaciones_fe['seconds'] = df_validaciones_fe.hora_servicio.dt.seconds
+    seconds_in_day = 24*60*60
+    df_validaciones_fe['sin_time'] = np.sin(2*np.pi*df_validaciones_fe.seconds/seconds_in_day)
+    df_validaciones_fe['cos_time'] = np.cos(2*np.pi*df_validaciones_fe.seconds/seconds_in_day) 
+    df_validaciones_fe = df_validaciones_fe.sort_values(by=['fecha_servicio','hora_servicio']).reset_index(drop=True)
+
+    return df_validaciones_fe
+
+def df_reduced_1(ZoneValue,route,start_date,end_date,a):
+    # union de las dos funciones para preprocesing
+    return pre_processing(df_validaciones(ZoneValue,route,start_date,end_date,a))
+
+def split_train_test(ZoneValue,route,start_date,end_date,a,test_size=0.2):
+    df_reduced=df_reduced_1(ZoneValue,route,start_date,end_date,a)
+    first_date = df_reduced['fecha_servicio'].min()
+    final_date = df_reduced['fecha_servicio'].max()
+    delta = final_date - first_date
+    train_delta = (1- test_size) * delta
+    final_train = first_date + train_delta
+
+    df_train = df_reduced[df_reduced['fecha_servicio'] <= final_train]
+    df_test = df_reduced[df_reduced['fecha_servicio'] > final_train]
+
+    X_train = df_train.drop(columns = ['fecha_servicio','hora_servicio','ruta_comercial','vehiculo_id','latitud','longitud','cantidad_pasajeros','cantidad_rutas','connectivity_log_score','seconds','cenefa','dia_semana'])
+    y_train = df_train[['cantidad_pasajeros']]
+
+    X_test = df_test.drop(columns = ['fecha_servicio','hora_servicio','ruta_comercial','vehiculo_id','latitud','longitud','cantidad_pasajeros','cantidad_rutas','connectivity_log_score','seconds','cenefa','dia_semana'])
+    y_test = df_test[['cantidad_pasajeros']]
+    
+    return X_train, X_test, y_train, y_test
+    
+
+
 

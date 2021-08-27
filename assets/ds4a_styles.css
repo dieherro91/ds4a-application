@@ -152,7 +152,6 @@ a:hover {
 #title-principal{
     text-align: center;
     padding-top: 10px;
-    /* margin-bottom: 0; */
     
 }
 #titleRoute_id, #titleZone_id, #titleAnalysisType_id, #title_month, #title_exlutor{
@@ -162,7 +161,7 @@ a:hover {
     margin-bottom: 0px;
 }
 
-#btn, #btn_pre{
+#dd, #btn_pre{
     padding-left: 4px;
     border-left-style: solid;
     position: relative;
@@ -266,7 +265,10 @@ html {
     top: -80px !important;
     left: 250px !important;
 }
-
+.SingleDatePicker_picker, .SingleDatePicker_picker_1, .SingleDatePicker_picker__directionLeft, .SingleDatePicker_picker__directionLeft_2{
+    top: -140px !important;
+    left: 240px !important;
+}
 .SingleDatePicker, .SingleDatePicker_1{
     width: 226px;
 }

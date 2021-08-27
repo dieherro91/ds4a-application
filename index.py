@@ -12,6 +12,9 @@ from dash import no_update
 import plotly.graph_objects as go
 import plotly.express as px
 
+import datetime
+from datetime import date
+import time
 # Dash Bootstrap Components
 import dash_bootstrap_components as dbc
 
@@ -268,10 +271,12 @@ def saved_plot1(types,zones,route,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         
         if (types=='Zone Analysis'):
+            time.sleep(1)
             return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
         if (types=='Route Analysis' and route !=''):
+            time.sleep(1)
             return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
-        
+    time.sleep(1)    
     return variable_empty
 
 @app.callback(
@@ -287,7 +292,9 @@ def saved_plot2(types,zones,start_date,end_date):
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
+            time.sleep(1)
             return figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+    time.sleep(1)
     return variable_empty
 
 @app.callback(
@@ -303,7 +310,9 @@ def saved_plot3(types,zones,start_date,end_date):
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
-            return figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a) 
+            time.sleep(1)
+            return figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a)
+    time.sleep(1)
     return variable_empty
 
 @app.callback(
@@ -320,10 +329,12 @@ def saved_plot4(types,zones,route,start_date,end_date):
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
-            route=' '
+            time.sleep(1)
             return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
         if (types=='Route Analysis' and route !=''):
+            time.sleep(1)
             return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+    time.sleep(1)
     return variable_empty
 
 @app.callback(
@@ -340,9 +351,12 @@ def saved_plot5(types,zones,route,start_date,end_date):
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
+            time.sleep(1)
             return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
         if (types=='Route Analysis' and route !=''):
+            time.sleep(1)
             return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)   
+    time.sleep(1)
     return variable_empty
 
 @app.callback(
@@ -359,9 +373,12 @@ def saved_plot6(types,zones,route,start_date,end_date):
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
+            time.sleep(1)
             return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
         if (types=='Route Analysis' and route !=''):
+            time.sleep(1)
             return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+    time.sleep(1)
     return variable_empty
 
 
@@ -379,24 +396,39 @@ def saved_plot7(types,zones,route,start_date,end_date):
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
+            time.sleep(1)
             return figure.histogram_validations(start_date,end_date,zones,route,a)
         if (types=='Route Analysis' and route !=''):
+            time.sleep(1)
             return figure.histogram_validations(start_date,end_date,zones,route,a)
+    time.sleep(1)
     return variable_empty
 
    
 @app.callback(
     Output('replace_analysis','children'),
     Output('btn_update','n_clicks'),
+    Output('confirm', 'displayed'),
     Input('btn_update','n_clicks'),
 )  
 def page_change(n_clicks):
     if n_clicks is None or n_clicks==0:
-        return stats.imagen_test, 0
-    return stats.stats, 0
+
+        return stats.imagen_test, 0, False
+    
+    return stats.stats, 0, True
 
     
 
+##########################################################################################################################
+# Predictic Callsbacks  : 
+##########################################################################################################################
+##########################################################################################################################
+# Predictic Callsbacks  : 
+##########################################################################################################################
+##########################################################################################################################
+# Predictic Callsbacks  : 
+##########################################################################################################################
 ##########################################################################################################################
 # Predictic Callsbacks  : 
 ##########################################################################################################################
@@ -412,8 +444,43 @@ def page_change_pre(n_clicks):
         return prediction.imagen_test, 0
     return prediction.prediction, 0
 
+@app.callback(
+    Output('route_dropdown_pre','options'),
+    Input('zone_dropdown_pre','value'), 
+)
+def drowdownSelection_route(zone_drop_value):
+    lit=[{'label':'loading...','value':'loading...'}]
+    if (zone_drop_value is None or zone_drop_value==''):
+        return lit
+    return models.ruta_comercial(zone_drop_value)
 
 
+listas_pre=[]   # list where i saved the exclude dates don't deleted
+
+@app.callback(
+    Output('contador_pre', 'children'),
+    Output('btn_pre', 'n_clicks'),
+    
+    Input('date_picker_excluder_pre', 'date'),
+    Input('btn_pre', 'n_clicks'),
+)
+def excluder_date_function(date_value,btn):
+    if date_value is not None:
+        listas_pre.append(date_value)
+    if btn != 0:
+        listas_pre.clear()
+        return listas_pre, 0,
+    return listas_pre, 0
+
+@app.callback(
+    Output('date_picker_predictor_pre','min_date_allowed'),
+    Output('date_picker_predictor_pre','max_date_allowed'),
+    Input('my-date-picker-range_pre','end_date'),
+)
+def limit_prediction(end_date):
+    plus_one_day=datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=1)
+    plus_seven_days = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=7)
+    return plus_one_day , plus_seven_days
 
 
 

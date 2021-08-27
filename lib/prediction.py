@@ -56,7 +56,7 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
                 DS4A_Img,
                 ] ,className="text-center"),
                 html.P(
-                    "Random Forest and Linear Regression",
+                    "XGBoost Regressor",
                     className="lead",
                 ),
             ],
