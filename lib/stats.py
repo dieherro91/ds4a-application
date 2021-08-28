@@ -127,7 +127,7 @@ stats = html.Div(
     className="ds4a-body",
 )
 
-DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("pexels-nataliya-vaitkevich-7172856.jpg"), style={"width" : "420px" })],)
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("graphic_with_hand.jpg"), style={"width" : "420px" })],)
 imagen_test= dbc.Jumbotron(id='jumboContainer',children=[
         dbc.Container(
             [

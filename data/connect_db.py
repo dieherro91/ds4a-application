@@ -3,7 +3,7 @@ import psycopg2, psycopg2.extras
 
 
 
-DB = 'masivo_sitp_4'
+DB = 'masivo_sitp_3'
 USER = 'postgres'
 PORT =5432
 PASSWORD = '4ng3lDS4A*83'
