@@ -37,7 +37,7 @@
     top:0;
     left:0;
     width:100%;
-    height:2.2rem;
+    height:2rem;
     background-color: var(--main-color);
     color:var(--main-color);
     z-index: 700; 
@@ -142,7 +142,7 @@ a:hover {
 #ds4a-image{
     width: 80%;
 }
-#ds4a-image__pre{
+#ds4a-image_pre{
     width: 80%;
 }
 #ds4a-logo-masivo {
@@ -152,25 +152,22 @@ a:hover {
 #title-principal{
     text-align: center;
     padding-top: 10px;
-    /* margin-bottom: 0; */
     
 }
 #titleRoute_id, #titleZone_id, #titleAnalysisType_id, #title_month, #title_exlutor{
     margin-bottom: 0px;
 }
+#titleRoute_id_pre, #titleZone_id_pre, #titleAnalysisType_id_pre, #title_month_pre, #title_exlutor_pre{
+    margin-bottom: 0px;
+}
 
-#btn{
+#btn, #btn_pre{
     padding-left: 4px;
     border-left-style: solid;
-    margin-right: 0px;
-    margin-left: 154px;
+    position: relative;
+    left: 166px;
 }
-#btn_pre{
-    padding-left: 4px;
-    border-left-style: solid;
-    margin-right: 0px;
-    margin-left: 154px;
-}
+
 .hidden {
     display: none;
 }
@@ -225,17 +222,7 @@ html {
     background-color: #649ee3;
 }
 
-/* .dash-dropdown{
-    
-}
-.Select-control{
-    
-} */
-/* .Rowbody_0, .Rowbody_1, .Rowbody_2, .Rowbody_3{
-    margin-left: 0rem;ju
-    margin-right: 0rem;
-    width: var(--widthLef);   
-} */
+
 
 .DateInput_input, .DateInput_input_1 {
     text-align: center;
@@ -246,47 +233,59 @@ html {
     background-color: #fff;      
     padding-left: 0px;
     padding-right: 0px;
+    width: 226px !important;
+}
+.DateInput, .DateInput_1{
+    width: 226px !important;
+    
 }
 .DateRangePickerInput {
     position:center;
     background-color: var(--main-color);
     border-color: var(--main-color);
-    margin-left: 3rem;
-    margin-right: 2rem;
     width:8rem; 
     height: 1rem;
     padding-left: 0px;
     padding-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
-.SingleDatePickerInput__showClearDate {
-    
-    width:1rem;
-    height: 1rem;
+
+.DateRangePickerInput_arrow_svg {
+    vertical-align: middle;
+    fill: #484848;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+.DateRangePickerInput_clearDates{
+    left:0;
+}
+.DateRangePicker_picker, .DateRangePicker_picker_1,.DateRangePicker_picker__directionLeft,.DateRangePicker_picker__directionLeft_2{
+    top: -80px !important;
+    left: 250px !important;
+}
+.SingleDatePicker_picker, .SingleDatePicker_picker_1, .SingleDatePicker_picker__directionLeft, .SingleDatePicker_picker__directionLeft_2{
+    top: -140px !important;
+    left: 240px !important;
+}
+.SingleDatePicker, .SingleDatePicker_1{
+    width: 226px;
+}
+.SingleDatePickerInput, .SingleDatePickerInput_1, .SingleDatePickerInput__withBorder, .SingleDatePickerInput__withBorder_2, .SingleDatePickerInput__showClearDate, .SingleDatePickerInput__showClearDate_3{
+    width: 226px; 
 }
 
 #jumboContainer{
-    left:240px;
+    margin-left: 270px;
 }
-#date_picker_excluder{
-    height: 1rem;
-    width:8rem; 
-    position:center;
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 49px; 
+#jumboContainer_predict{
+    margin-left: 270px;
 }
-#date_picker_excluder_pre{
-    height: 1rem;
-    width:8rem; 
-    position:center;
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 49px; 
+.lead{
+    text-align: center !important;
 }
+
 
 
 hr {
@@ -299,7 +298,7 @@ hr {
     border-top-width: 0px;
 
 }
-#card_text{
+#card_text, #card_text_pre{
     width:5.5rem;
     
 }

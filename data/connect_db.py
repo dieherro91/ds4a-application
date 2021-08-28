@@ -1,9 +1,9 @@
 import psycopg2, psycopg2.extras
-import pandas as pd
 
 
 
-DB = 'masivo_sitp_3'
+
+DB = 'masivo_sitp_4'
 USER = 'postgres'
 PORT =5432
 PASSWORD = '4ng3lDS4A*83'
@@ -13,3 +13,4 @@ def conn():
     conn = psycopg2.connect(database=DB,user=USER,password=PASSWORD,host=HOST, port=PORT)
     return conn
 #######################################sidebar dropdown ######################################################################
+ 
