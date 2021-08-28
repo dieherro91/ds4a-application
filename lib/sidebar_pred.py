@@ -11,6 +11,7 @@ import dash_bootstrap_components as dbc
 
 # Data
 import json
+from lib import homes
 from datetime import datetime as dt
 from datetime import date
 from datetime import timedelta
@@ -50,7 +51,7 @@ drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown_pre',options=[
                                           style={'font-size':'12'},
                                           placeholder="Select analysis type",),],)
 
-drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown_pre',options=models.listZone(),value='',
+drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown_pre',options=homes.list_zones,value='',
                                           style={'font-size':'12'},
                                           placeholder="Select a zone",),],)
 
@@ -63,11 +64,12 @@ date_selector=html.Div(children=[
     dcc.DatePickerRange(
         id='my-date-picker-range_pre',
         calendar_orientation='horizontal',
-        min_date_allowed=models.min_date(),
-        max_date_allowed=models.max_date(),
+        min_date_allowed=homes.date_min,
+        max_date_allowed=homes.date_max,
+        start_date=homes.date_min,
         initial_visible_month=date(2021, 4, 15),
         clearable =True,
-        end_date=date(2021, 4, 15),
+        end_date=homes.date_max,
         #start_date=date(2021, 4, 15),
         month_format='YYYY-MM-DD',
         
@@ -79,15 +81,15 @@ date_excluder=html.Div(children=[
     dcc.DatePickerSingle(
         id='date_picker_excluder_pre',
         calendar_orientation='horizontal',
-        min_date_allowed=models.min_date(),
-        max_date_allowed=models.max_date(),
+        min_date_allowed=homes.date_min,
+        max_date_allowed=homes.date_max,
         initial_visible_month=date(2021, 4, 15),        
         month_format='YYYY-MM-DD',
         clearable=True,),
         
     html.Hr(),
     html.Button('clear list', id='btn_pre', n_clicks=0,),
-    dbc.Card(id='card_text_pre',children=[html.H6(" ",id="contador_pre",style = {"float":"left"},),]),
+    dbc.Card(id='card_text_pre',children=[html.H6(" ",id="contador_pre",style = {"float":"left",'width': '85px'},),]),
     ],)
 
 
@@ -97,8 +99,7 @@ date_prediction=html.Div(children=[
     dcc.DatePickerSingle(
         id='date_picker_predictor_pre',
         calendar_orientation='horizontal',
-        #min_date_allowed=models.min_date(),
-        #max_date_allowed=models.max_date(),
+        
         initial_visible_month=date(2021, 4, 15),        
         month_format='YYYY-MM-DD',
         clearable=True,),
@@ -138,9 +139,10 @@ sidebar = html.Div(
         html.Hr(),
         date_excluder,
         html.Hr(),
+        date_prediction,
+        html.Hr(),
         date_selector,
         html.Hr(),
-        date_prediction,
         html.Div([bottoms_update]),
         html.Hr(),
         

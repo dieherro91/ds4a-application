@@ -2,6 +2,7 @@
 import pandas as pd
 import xgboost as xgb
 import numpy as np
+from sklearn.cluster import KMeans
 from data import connect_db
 
 
@@ -487,11 +488,12 @@ def data_frame_cluster(ZoneValue):
 
     df["dist"] = measure(df.latitud.shift(), df.longitud.shift(), df.loc[1:, 'latitud'], df.loc[1:, 'longitud'])
     df2= df.groupby("ruta_comercial", as_index=False).agg({"id_paradero": "count", "cant_pasajeros": "sum", "dist": "sum"})
-    df2.rename(columns={'ruta_comercial':'commertial_route',
+    df2.rename(columns={'ruta_comercial':'route',
                         'id_paradero':'num_bus_stops',
                         'cant_pasajeros':'num_validations',
                         'dist':'length_bus_route'},
                inplace=True)
     return df2
+
 
 

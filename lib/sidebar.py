@@ -17,6 +17,9 @@ from datetime import date
 # Recall app
 from app import app
 from data import models
+from lib import homes
+
+
 
 ####################################################################################
 # Add the DS4A_Img
@@ -48,7 +51,7 @@ drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[
                                           style={'font-size':'12'},
                                           placeholder="Select analysis type",),],)
 
-drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=models.listZone(),value='',
+drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown',options=homes.list_zones,value='',
                                           style={'font-size':'12'},
                                           placeholder="Select a zone",),],)
 
@@ -61,8 +64,8 @@ date_selector=html.Div(children=[
     dcc.DatePickerRange(
         id='my-date-picker-range',
         calendar_orientation='horizontal',
-        min_date_allowed=models.min_date(),
-        max_date_allowed=models.max_date(),
+        min_date_allowed=homes.date_min,
+        max_date_allowed=homes.date_max,
         initial_visible_month=date(2021, 4, 15),
         clearable =True,
         #end_date=date(2021, 4, 15),
@@ -76,15 +79,15 @@ date_excluder=html.Div(children=[
     dcc.DatePickerSingle(
         id='date_picker_excluder',
         calendar_orientation='horizontal',
-        min_date_allowed=models.min_date(),
-        max_date_allowed=models.max_date(),
+        min_date_allowed=homes.date_min,
+        max_date_allowed=homes.date_max,
         initial_visible_month=date(2021, 4, 15),        
         month_format='YYYY-MM-DD',
         clearable=True,),
         
     html.Hr(),
     html.Button('clear list', id='btn', n_clicks=0,),
-    dbc.Card(id='card_text',children=[html.H6(" ",id="contador",style = {"float":"left"},),]),
+    dbc.Card(id='card_text',children=[html.H6(" ",id="contador",style = {"float":"left",'width': '85px'},),]),
     ],)
 
 
@@ -114,9 +117,9 @@ sidebar = html.Div(
         html.Hr(),
         html.Div([titleRoute, drop_route,]),
         html.Hr(),
-        date_excluder,
-        html.Hr(),
         date_selector,
+        html.Hr(),
+        date_excluder,
         html.Hr(),
         html.Div([bottoms_update]),
         html.Hr(),

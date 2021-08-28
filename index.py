@@ -214,9 +214,11 @@ def drowdownSelection(types_drop_value):
 )
 def drowdownSelection_route(zone_drop_value):
     lit=[{'label':'loading...','value':'loading...'}]
+    
     if (zone_drop_value is None or zone_drop_value==''):
         return lit
-    return models.ruta_comercial(zone_drop_value)
+    
+    return homes.wer[zone_drop_value]
 
 #############################################################################################################
 
@@ -234,7 +236,7 @@ def drowdownSelection_route(zone_drop_value):
 variable_empty={ "layout": {
     "xaxis": {
         "visible": False }, "yaxis": {"visible": False},
-    "annotations": [{"text": "Select filters for the data","xref": "paper",'bgcolor':"#ffffff","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#ffffff",'plot_bgcolor':"#ffffff"}}
+    "annotations": [{"text": "Missing filters for the data","xref": "paper",'bgcolor':"#ffffff","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#ffffff",'plot_bgcolor':"#ffffff"}}
 
 ############################################################excluder data##################
     
@@ -256,7 +258,7 @@ def excluder_date_function(date_value,btn):
         return listas, 0,
     return listas, 0
 
-###################################################  Callback ##################
+###################################################  Callbacks plots       ##########################
 
 @app.callback(
     Output('map_graph_route','figure'),
@@ -274,11 +276,19 @@ def saved_plot1(types,zones,route,start_date,end_date):
         
         if (types=='Zone Analysis'):
             time.sleep(1)
-            return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
+            try:
+                fig=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
+            except:
+                fig=variable_empty                
+            return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            return figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
-    time.sleep(1)    
+            try:
+                fig=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
+    time.sleep(1)
     return variable_empty
 
 @app.callback(
@@ -295,7 +305,11 @@ def saved_plot2(types,zones,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
             time.sleep(1)
-            return figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+            try:
+                fig=figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+            except:
+                fig=variable_empty
+            return fig
     time.sleep(1)
     return variable_empty
 
@@ -313,7 +327,11 @@ def saved_plot3(types,zones,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
             time.sleep(1)
-            return figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a)
+            try:
+                fig=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a)
+            except:
+                fig=variable_empty
+            return fig
     time.sleep(1)
     return variable_empty
 
@@ -332,10 +350,18 @@ def saved_plot4(types,zones,route,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
-            return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            return figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
     time.sleep(1)
     return variable_empty
 
@@ -376,10 +402,18 @@ def saved_plot6(types,zones,route,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
-            return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            return figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
     time.sleep(1)
     return variable_empty
 
@@ -399,10 +433,18 @@ def saved_plot7(types,zones,route,start_date,end_date):
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
-            return figure.histogram_validations(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.histogram_validations(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            return figure.histogram_validations(start_date,end_date,zones,route,a)
+            try:
+                fig=figure.histogram_validations(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+            return fig
     time.sleep(1)
     return variable_empty
 
@@ -454,6 +496,8 @@ def drowdownSelection_route(zone_drop_value):
     lit=[{'label':'loading...','value':'loading...'}]
     if (zone_drop_value is None or zone_drop_value==''):
         return lit
+    #models.ruta_comercial(zones)
+    #homes.wer[zone_drop_value]
     return models.ruta_comercial(zone_drop_value)
 
 
@@ -488,17 +532,49 @@ def limit_prediction(end_date):
 
 @app.callback(
     Output('clustering', 'figure'),
+    Output('table_cluster','data'),
+
     Input("cluster-count", "value"),
     Input('zone_dropdown_pre', 'value'),
+    Input('route_dropdown_pre', 'value'),
 )
-def adadasds(n_clusters,zones):
+def making_cluster(n_clusters,zones,route):
     time.sleep(1)
-    return figure.cluster(zones,n_clusters)   
+    try:
+        fig, df=figure.cluster(zones,n_clusters,route)
+        #df =models.cluster_df_table(zones,n_clusters,route)
+        data=df.to_dict('records')
+    except:
+        fig=variable_empty
+        data=[{'cluster': 'faltan filtros',}]
+    return fig, data
 
 
+"""
+@app.callback(
+    
+    
+    Output('table_cluster','data'),
 
+    #Input("cluster-count", "value"),
+    Input('zone_dropdown_pre', 'value'),
+    Input('route_dropdown_pre', 'value'),
+)
+def making__table_cluster(zones,route):
+    time.sleep(1)
 
+    try:
+        df =models.cluster_df_table(zones,5,route)
+        data=df.to_dict('records')
+    except:        
+        data=[{'cluster': 3,
+                'commertial_route': '113B',
+                'distance': 50559.59710794781,
+                'num_bus_stops': 134,
+                'num_validations': 86857}]
 
+    return data
+"""
 
 # MAP date interaction
 

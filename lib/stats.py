@@ -95,29 +95,29 @@ stats = html.Div(
         # Place the different graph components here.
         
         dbc.Row([
-            dbc.Col([map_validaciones_ubication_zone_route], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
+            dbc.Col([map_validaciones_ubication_zone_route],align="center", width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
         ], ),
         
        html.Br(), 
         
        dbc.Row([
             
-            dbc.Col([scatter_num_zonal,],width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
-            dbc.Col([bar_average_number_buses_per_day_zone_all,],width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
+            dbc.Col([scatter_num_zonal,],align="center",width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
+            dbc.Col([bar_average_number_buses_per_day_zone_all,],align="center",width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
                         
                 ],),
         
         html.Br(),
         
        dbc.Row([
-           dbc.Col([heat_map_route,], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
-           dbc.Col([bar_total_validations_hour], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
+           dbc.Col([heat_map_route,],align="center", width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
+           dbc.Col([bar_total_validations_hour],align="center", width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
        
                ] ), 
         
         dbc.Row([
-            dbc.Col([bar_average_number_buses_per_hour],width="6"),
-            dbc.Col([histogram_validations_route],width="6"),
+            dbc.Col([bar_average_number_buses_per_hour],align="center",width="6"),
+            dbc.Col([histogram_validations_route],align="center",width="6"),
            
                ] ), 
 
