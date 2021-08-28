@@ -41,7 +41,7 @@ scatter_num_zonal=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-2",
             type="default",
             children=[html.H4("Validations vs Number of Buses Per Day Week", 
-            className="card-title  text-muted font-graphics"),dcc.Graph(id='scatter_graph_zone',),],),),])
+            className="card-title"),dcc.Graph(id='scatter_graph_zone',),],),),])
 
 bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-3",

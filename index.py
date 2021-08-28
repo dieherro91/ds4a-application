@@ -12,6 +12,8 @@ from dash import no_update
 import plotly.graph_objects as go
 import plotly.express as px
 
+from flask import session, copy_current_request_context
+
 import datetime
 from datetime import date
 import time
@@ -44,7 +46,7 @@ from auth import authenticate_user, validate_login_session
 from server import app, server
 
 
-from flask import session, copy_current_request_context
+
 
 # local imports
 
@@ -484,7 +486,14 @@ def limit_prediction(end_date):
 
 
 
-
+@app.callback(
+    Output('clustering', 'figure'),
+    Input("cluster-count", "value"),
+    Input('zone_dropdown_pre', 'value'),
+)
+def adadasds(n_clusters,zones):
+    time.sleep(1)
+    return figure.cluster(zones,n_clusters)   
 
 
 

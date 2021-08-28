@@ -462,6 +462,36 @@ def split_train_test(ZoneValue,route,start_date,end_date,a,test_size=0.2):
     
     return X_train, X_test, y_train, y_test
     
+###########################################   Cluster #################################
 
+def measure(lat1, lon1, lat2, lon2):
+    R = 6378.137
+    dLat = lat2 * np.pi / 180 - lat1 * np.pi / 180
+    dLon = lon2 * np.pi / 180 - lon1 * np.pi / 180
+    a = np.sin(dLat/2) * np.sin(dLat/2) + np.cos(lat1 * np.pi / 180) * np.cos(lat2 * np.pi / 180) * np.sin(dLon/2) * np.sin(dLon/2)
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
+    d = R * c
+    return d * 1000
+
+def data_frame_cluster(ZoneValue):
+    df = pd.read_sql("SELECT ruta_comercial, paradero.id_paradero, count(id_validacion) as cant_pasajeros, \
+                  posicion, latitud, longitud FROM public.validacion vd \
+                  INNER JOIN paradero_ruta p_r ON p_r.id_paradero_ruta=vd.paradero_ruta_id \
+                  INNER JOIN ruta ON ruta.id_ruta=p_r.id_ruta \
+                  INNER JOIN paradero on paradero.id_paradero=p_r.id_paradero \
+                  INNER JOIN operador ON operador.id_operador=vd.operador_id\
+                  WHERE operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+"\
+                  GROUP BY ruta_comercial, paradero.id_paradero, posicion, latitud, longitud \
+                  ORDER BY ruta_comercial, posicion ASC;", connect_db.conn())
+    connect_db.conn().close()
+
+    df["dist"] = measure(df.latitud.shift(), df.longitud.shift(), df.loc[1:, 'latitud'], df.loc[1:, 'longitud'])
+    df2= df.groupby("ruta_comercial", as_index=False).agg({"id_paradero": "count", "cant_pasajeros": "sum", "dist": "sum"})
+    df2.rename(columns={'ruta_comercial':'commertial_route',
+                        'id_paradero':'num_bus_stops',
+                        'cant_pasajeros':'num_validations',
+                        'dist':'length_bus_route'},
+               inplace=True)
+    return df2
 
 

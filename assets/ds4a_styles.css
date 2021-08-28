@@ -161,7 +161,7 @@ a:hover {
     margin-bottom: 0px;
 }
 
-#dd, #btn_pre{
+#btn, #btn_pre{
     padding-left: 4px;
     border-left-style: solid;
     position: relative;

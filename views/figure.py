@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from pandas.api.types import CategoricalDtype
+from sklearn.cluster import KMeans
 
 family_font = 'Helvetica Neue'
 
@@ -175,3 +176,31 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
     
     return fig
 
+################################################# cluster ##########################################
+
+def cluster(ZoneValue,n_clusters):
+    df2=models.data_frame_cluster(ZoneValue)
+    kmeans = KMeans(n_clusters=max(n_clusters, 1), algorithm='auto')
+    kmeans.fit(df2[["length_bus_route", "num_bus_stops","num_validations"]])
+    centers = kmeans.cluster_centers_
+    df2['cluster'] = kmeans.labels_
+    listen=[]
+    for c in range(n_clusters):
+        listen.append("Cluster {}".format(c))
+    dictr={'length_bus_route':centers[:, 0],
+            'num_bus_stops':centers[:, 1],
+            'num_validations':centers[:,2],
+            'cluster':listen}
+    centros=pd.DataFrame(dictr)
+    
+    fig = px.scatter_3d(df2, x='length_bus_route', y='num_bus_stops', 
+                      z='num_validations',hover_name='commertial_route', 
+                        color=kmeans.labels_.astype(float),height=350)
+
+
+    fig2=px.scatter_3d(centros,x='length_bus_route',y='num_bus_stops',z='num_validations',hover_name='cluster')
+    fig.update_traces(marker_coloraxis=None)
+    fig.update_layout(margin=dict(l=0, r=0, b=0, t=0))
+    fig2.update_traces(marker_symbol='diamond',marker_color='black',marker={'size': 4})
+    fig.add_trace(fig2.data[0])
+    return fig

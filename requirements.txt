@@ -13,3 +13,5 @@ ipython-sql
 
 flask
 xgboost
+
+sklearn
