@@ -19,8 +19,8 @@ login_users=html.Div([
                     dbc.Col(
                         dbc.Card([
                              html.H4('Login',className='card-title muted text-center', style={'color':'black'}),
-                             dbc.Input(id='login-email',placeholder='User-App',value='DgoRomr'),
-                             dbc.Input(id='login-password',placeholder='Assigned password',type='password', value='adjsfbq5'),
+                             dbc.Input(id='login-email',placeholder='User-App',value=''),
+                             dbc.Input(id='login-password',placeholder='Assigned password',type='password', value=''),
                              dbc.Button('Submit',id='login-button',color='primary',block=True),
                              html.Br(),
                              html.Div(id='login-alert'),
@@ -35,17 +35,17 @@ login_users=html.Div([
                                   ),width=6,
                      ),justify='center',
                  ),
-                # html.Br(),
-                # dbc.Row(
-                #      dbc.Col(
-                #          html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png",className="imagen_center",
-                #                   width="566px",height="50px",),width=6,
-                #      ), justify='center',
+                 html.Br(),
+                dbc.Row(
+                     dbc.Col(
+                          html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png",className="imagen_center",
+                                   width="566px",height="50px",),width=6,
+                      ), justify='center',
                      
-                #  ),
-                #  html.Br(),
+                  ),
+                 html.Br(),
                  
-                 ]#
+                 ]
             )
         ], className="login"
     )

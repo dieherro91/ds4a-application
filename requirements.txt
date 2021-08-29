@@ -1,11 +1,17 @@
 dash
 plotly
+plotly.express
 pandas
 dash_bootstrap_components
+dash_extensions
+dash-extensions
+
 psycopg2
 
 scipy
 ipython-sql 
 
 flask
-functools
+xgboost
+
+sklearn

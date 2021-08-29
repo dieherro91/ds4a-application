@@ -17,10 +17,10 @@ Logout_buttom=dbc.Button('Logout',id='logout-button',color='danger',block=True,s
 
 search_bar=dbc.Row(id='bar_nav_internal',
     children=[
-    dbc.Col([dbc.Card(id='col_home',children=[dcc.Link('home', href='/home'),],),],align="center"),
-    dbc.Col([dbc.Card(id='col_analysis',children=[dcc.Link('zones and route analysis', href='/analysis_data'),],),],align="center"),
-    dbc.Col([dbc.Card(id='col_predictic',children=[dcc.Link('predictic model', href='/predictic_model'),],),], align="center"),
-        dbc.Col([dbc.Card(id='col_team-83',children=[dcc.Link('team-83', href='/About_Us'),],),], align="center"),
+    dbc.Col([dbc.Card(id='col_home',children=[dcc.Link('Home', href='/home'),],),],align="center"),
+    dbc.Col([dbc.Card(id='col_analysis',children=[dcc.Link('Analysis', href='/analysis_data'),],),],align="center"),
+    dbc.Col([dbc.Card(id='col_predictic',children=[dcc.Link('Prediction', href='/predictic_model'),],),], align="center"),
+        dbc.Col([dbc.Card(id='col_team-83',children=[dcc.Link('Team', href='/About_Us'),],),], align="center"),
     dbc.Col([dbc.Card(id='col_logout',children=[Logout_buttom,],),], align="center"),
     ])
 
@@ -30,8 +30,8 @@ navbar = dbc.Navbar(id='nav_bar',children=[
             # Use row and col to control vertical alignment of logo / brand
             dbc.Row(
                 [
-                    dbc.Col(html.Img(src='https://www.masivocapital.co/images/ImagenesMC/LOGO-MASIVO-01.png', height="30px"),),
-                    dbc.Col(dbc.NavbarBrand("Masivo Capital Data Analysis", className="title_nav_bar"),),
+                    dbc.Col(html.Img(src='https://www.masivocapital.co/images/ImagenesMC/LOGO-MASIVO-01.png', height="70px"),),
+                    # dbc.Col(dbc.NavbarBrand("Masivo Capital Data Analysis", className="title_nav_bar"),),
                 ],
                 align="center",
                 no_gutters=True,
