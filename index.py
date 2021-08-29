@@ -498,7 +498,7 @@ def drowdownSelection_route(zone_drop_value):
         return lit
     #models.ruta_comercial(zones)
     #homes.wer[zone_drop_value]
-    return models.ruta_comercial(zone_drop_value)
+    return homes.wer[zone_drop_value]
 
 
 listas_pre=[]   # list where i saved the exclude dates don't deleted

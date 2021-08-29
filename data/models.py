@@ -30,12 +30,11 @@ def ruta_comercial(ZoneValue):
     )\
     SELECT filtro2.ruta_comercial FROM filtro2\
     INNER JOIN filtro1 ON filtro1.paradero_ruta_id=filtro2.id_paradero_ruta\
-    GROUP BY filtro2.ruta_comercial\
-    LIMIT(20);",connect_db.conn())
+    GROUP BY filtro2.ruta_comercial;",connect_db.conn())
     connect_db.conn().close()
     
     listRoutefinal=list()
-    
+    #" +"\'"+ ZoneValue +"\'"+" \
     df_name_buses['ruta_comercial'].apply(str)
     for i in range(len(df_name_buses['ruta_comercial'])):
         values=df_name_buses['ruta_comercial'].loc[i]
