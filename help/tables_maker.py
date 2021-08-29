@@ -1,4 +1,5 @@
 import dash_html_components as html
+
 def generate_table(dataframe, max_rows=10):
     return html.Table([
         html.Thead(
@@ -10,5 +11,3 @@ def generate_table(dataframe, max_rows=10):
             ]) for i in range(min(len(dataframe), max_rows))
         ])
     ])
-def prueba():
-    return "prueba"
