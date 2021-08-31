@@ -16,22 +16,12 @@ from datetime import date
 
 # Recall app
 from app import app
-from data import models
-from lib import homes
+
+from pages import homes
 
 
 
-####################################################################################
-# Add the DS4A_Img
-####################################################################################
-
-# DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("c1_logo_tagline.svg"), id="ds4a-image",)],)
 DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image",)],className='text-center')
-
-#DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",)],)
-############################################################################# 
-# Titles
-#############################################################################
 
 titleAnalysisType=html.Div(children=[html.H6('ANALYSIS TYPE SELECTION', id='titleAnalysisType_id', className='item-selection',),],)
 titleZone=html.Div(children=[html.H6('ZONE SELECTION', id='titleZone_id', className='item-selection',),],)
@@ -39,10 +29,11 @@ titleRoute=html.Div(children=[html.H6('ROUTE SELECTION', id='titleRoute_id', cla
 
 title_date_range=html.Div(children=[html.H6('DATE SELECTOR', id='title_month', className='item-selection',),],)
 title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor', className='item-selection',),],)
-#############################################################################
-# State Dropdown Card
-#############################################################################
 
+
+#############################################################################
+# Dropdown 
+#############################################################################
 
 
 drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown',options=[

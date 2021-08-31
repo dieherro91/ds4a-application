@@ -12,5 +12,3 @@ HOST='ds4a-83rds2.ckmtgfcimlii.us-east-2.rds.amazonaws.com'
 def conn():
     conn = psycopg2.connect(database=DB,user=USER,password=PASSWORD,host=HOST, port=PORT)
     return conn
-#######################################sidebar dropdown ######################################################################
- 

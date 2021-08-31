@@ -1,17 +1,16 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+from app import app
 
-
-login_users=html.Div([
-    
+login_users=html.Div([    
     dcc.Location(id='login-url',pathname='/login',refresh=False),
     # view_login
     dbc.Container(
         children=[
             dbc.Row(
                      dbc.Col(
-                         html.Img(src='https://www.masivocapital.co/images/ImagenesMC/LOGO-MASIVO-01.png',className="imagen_center",
+                         html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"),className="imagen_center",
                                   width="287px",height="192px",),width=6, 
                      ),justify='center',
                  ),
@@ -31,14 +30,14 @@ login_users=html.Div([
                 html.Br(),
                 dbc.Row(
                      dbc.Col(
-                         html.Img(src='https://css.mintic.gov.co/mt/mintic/new/img/logo-MinTIC.png',className="imagen_center",
+                         html.Img(src=app.get_asset_url("logo-MinTIC.png"),className="imagen_center",
                                   ),width=6,
                      ),justify='center',
                  ),
-                 html.Br(),
-                dbc.Row(
+                 html.Br(),#
+                dbc.Row(#
                      dbc.Col(
-                          html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png",className="imagen_center",
+                          html.Img(src=app.get_asset_url("c1logo_color.webp"),className="imagen_center",
                                    width="566px",height="50px",),width=6,
                       ), justify='center',
                      

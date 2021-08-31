@@ -48,14 +48,11 @@ fluid_jumbotron = dbc.Jumbotron(
             [
                 html.Div([
                 html.H1("Team 83 - Cohort 5", className="display-5"),
-                html.P(
-                    "________________",
-                    className="lead",
-                ),
+                html.P("________________",
+                       className="lead",),
                 p_1,
                 ] ,className="text-center"),
-                html.P(
-                    "___________",
+                html.P("___________",
                     className="lead",
                 ),
             ],
@@ -65,13 +62,9 @@ fluid_jumbotron = dbc.Jumbotron(
     fluid=True,
 )
 about_us_page= dbc.Container(
-                
                 id='container_home',
-                children=[
-                    dcc.Location(id='team_83_about-url',pathname='/About_Us'),
-                    title.navbar,
-                   
-                    fluid_jumbotron
-   
-                         ]
-)
+                children=[dcc.Location(id='team_83_about-url',pathname='/About_Us'),
+                          title.navbar, 
+                          fluid_jumbotron
+                          ]
+                            )

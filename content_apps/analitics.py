@@ -90,7 +90,7 @@ dcc.Graph(id='bar_total_valitations',),],),),])
 # Here the layout for the plots to use. width={"size": 3, "order": 2, "offset": 3}
 ##################################################################################style={width=100%,}
 
-stats = html.Div(
+analitics_stats = html.Div(
     [
         # Place the different graph components here.
         

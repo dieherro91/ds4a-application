@@ -1,123 +1,35 @@
-
 import pandas as pd
 import xgboost as xgb
 import numpy as np
-from sklearn.cluster import KMeans
 from data import connect_db
-
-
-def listZone():    
-    df_vehi_ope=pd.read_sql("SELECT descripcion_operador FROM operador;",connect_db.conn())    
-    connect_db.conn().close()
-    listZonefinal=list()
-    
-    df_vehi_ope['descripcion_operador'].apply(str)
-    for i in range(len(df_vehi_ope['descripcion_operador'])):
-        listZonefinal.append({'label':df_vehi_ope['descripcion_operador'].loc[i],'value':df_vehi_ope['descripcion_operador'].loc[i]})
-
-    return listZonefinal
-
-def ruta_comercial(ZoneValue):
-    df_name_buses=pd.read_sql("WITH filtro1 AS(\
-    SELECT operador.descripcion_operador, validacion.paradero_ruta_id FROM operador\
-    INNER JOIN validacion ON validacion.operador_id=operador.id_operador\
-    WHERE operador.descripcion_operador= " +"\'"+ ZoneValue +"\'"+" \
-    GROUP BY operador.descripcion_operador,validacion.paradero_ruta_id\
-    ), filtro2 AS(\
-    SELECT ruta.ruta_comercial,paradero_ruta.id_paradero_ruta FROM ruta\
-    INNER JOIN paradero_ruta ON paradero_ruta.id_ruta=ruta.id_ruta\
-    GROUP BY ruta.ruta_comercial,paradero_ruta.id_paradero_ruta\
-    )\
-    SELECT filtro2.ruta_comercial FROM filtro2\
-    INNER JOIN filtro1 ON filtro1.paradero_ruta_id=filtro2.id_paradero_ruta\
-    GROUP BY filtro2.ruta_comercial;",connect_db.conn())
-    connect_db.conn().close()
-    
-    listRoutefinal=list()
-    #" +"\'"+ ZoneValue +"\'"+" \
-    df_name_buses['ruta_comercial'].apply(str)
-    for i in range(len(df_name_buses['ruta_comercial'])):
-        values=df_name_buses['ruta_comercial'].loc[i]
-        listRoutefinal.append({'label':values,'value':values})
-    
-    return listRoutefinal
-
-def month():
-    df_month=pd.read_sql("SELECT CAST(EXTRACT(month FROM fecha_trx) AS INTEGER) as month  FROM validacion \
-    GROUP BY month;",connect_db.conn())
-    connect_db.conn().close()   
-    df_month['month']=df_month['month'].astype(str)  
-    month_list=list()
-    for i in range(len(df_month['month'])):
-        month_list.append({'label':df_month['month'].loc[i],'value':df_month['month'].loc[i]})
-    return month_list
-
-def day():
-    df_day=pd.read_sql(" SELECT EXTRACT(day FROM fecha_trx)as day FROM validacion \
-    GROUP BY day;",connect_db.conn())
-    connect_db.conn().close()
-    df_day['day']=df_day['day'].astype(str)
-    day_list=list()
-    for i in range(len(df_day['day'])):
-        day_list.append({'label':df_day['day'].loc[i],'value':df_day['day'].loc[i]}) 
-    return day_list
-
-def max_date():
-    df_max_date=pd.read_sql("SELECT MAX(fecha_trx) FROM validacion",connect_db.conn())
-    connect_db.conn().close()
-    return df_max_date.iloc[0,0]
-
-def min_date():
-    df_min_date=pd.read_sql("SELECT MIN(fecha_trx) FROM validacion",connect_db.conn())
-    connect_db.conn().close()
-    return df_min_date.iloc[0,0]
-#month = start_date,end_date
-
-
+from pages import homes
 
 def exclude(listas):
     a=' '
     for item in listas:
-        a= a + 'fecha_trx != '+"\'"+ item +"\'"+' AND '
-        
+        a= a + 'fecha_trx != '+"\'"+ item +"\'"+' AND '  
     return a
 ######################################################filters for dataBase #######################
 def range_date_postgreSQL(start_date,end_date):
     return 'fecha_trx >= '+"\'"+ start_date +"\'"+' AND fecha_trx <= '+"\'"+ end_date +"\'"+' '
 
 def filtro_ruta1(route):
-    if (route==' '):
+    if (route==' ' or route==''  ):
         return ' '
     return "WHERE validaciones.ruta_comercial=" +"\'"+ route +"\' "
 def filtro_ruta2(route):
-    if (route==' '):
+    if (route==' ' or route==''):
         return ' '
     return "WHERE filtro2.ruta_comercial=" +"\'"+ route +"\' "
 def filtro_ruta3(route):
-    if (route==' '):
+    if (route==' ' or route==''):
         return ' '
     return "WHERE ruta_comercial=" +"\'"+ route +"\' "
 def filtro_ruta4(route):
-    if (route==' '):
+    if (route==' ' or route==''):
         return ' '
     return "AND ruta_comercial=" +"\'"+ route +"\' "
 
-##################################################################################################################
-"""
-def verificacion_fechas(start_date,end_date,ZoneValue,route,a): ##################################################
-    df_demparaderos = pd.read_sql(" \
-        SELECT DISTINCT date_trunc('minute', hora_trx)-((extract(minute FROM hora_trx)::integer % 5) * interval '1 minute') AS \
-                                                                hora_servicio FROM validacion\
-        JOIN paradero_ruta ON paradero_ruta.id_paradero_ruta = validacion.paradero_ruta_id \
-        JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
-        JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
-        JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE "+a+ range_date_postgreSQL(start_date,end_date) + "AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" AND \
-                                                                        ruta_comercial= " +"\'"+ route +"\'"+" ;",connect_db.conn())
-    connect_db.conn().close()
-    
-    return df_demparaderos['hora_servicio'].dt.components.days
-"""
 ################################################   MAP ##############################################################
 def validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
     df_validaciones_ubication_zone_route=pd.read_sql(" \
@@ -156,7 +68,6 @@ def position_route(ZoneValue,route):
     ORDER BY posicion;",connect_db.conn())
     connect_db.conn().close()
     return df_estaciones
-
 
 ############################################Scatter ####################################SELECT EXTRACT(day FROM fecha_trx)as day FROM
 def scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,route,a):
@@ -233,18 +144,21 @@ def heatmap_interctive(start_date,end_date,ZoneValue,route,a):
         JOIN ruta ON ruta.id_ruta = paradero_ruta.id_ruta\
         JOIN paradero ON paradero.id_paradero = paradero_ruta.id_paradero\
         JOIN operador ON operador.id_operador = validacion.operador_id \
-        WHERE "+a+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" \
-        )\
-        SELECT fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion, count(*) AS cantidad_pasajeros\
+        WHERE "+a+ range_date_postgreSQL(start_date,end_date) + " AND operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+" )\
+        SELECT fecha_servicio, hora_servicio, ruta_comercial, cenefa,vehiculo_id,  posicion, count(*) AS cantidad_pasajeros\
         FROM validaciones\
         "+filtro_ruta1(route)+
-        "GROUP BY fecha_servicio, hora_servicio, ruta_comercial, cenefa, vehiculo_id, posicion \
+        "GROUP BY fecha_servicio, hora_servicio, ruta_comercial,vehiculo_id, cenefa,  posicion \
         ORDER BY fecha_servicio, ruta_comercial, hora_servicio ASC, posicion ASC;",connect_db.conn())
     connect_db.conn().close()
+    dates_input = df_demparaderos['hora_servicio'].values.astype('datetime64[ns]')
+    df_demparaderos['hora_servicio_aux']=pd.to_datetime(dates_input,format="%H:%M")
     
-    df_demparaderos['hora'] = df_demparaderos['hora_servicio'].dt.components.hours
-    df_demparaderos['minutos'] = df_demparaderos['hora_servicio'].dt.components.minutes
-    df_demparaderos['hora_validacion'] = (pd.to_datetime(df_demparaderos['hora'].astype(str) + ':' +       df_demparaderos['minutos'].astype(str), format='%H:%M'))
+    df_demparaderos['hora'] = df_demparaderos['hora_servicio_aux'].dt.hour
+    df_demparaderos['minutos'] = df_demparaderos['hora_servicio_aux'].dt.minute
+    df_demparaderos.drop(columns=['hora_servicio_aux'])
+
+    df_demparaderos['hora_validacion'] = (pd.to_datetime(df_demparaderos['hora'].astype(str) + ':' + df_demparaderos['minutos'].astype(str), format='%H:%M'))
 
     df_demparaderos = df_demparaderos[['fecha_servicio', 'hora_validacion', 
                                        'cenefa', 'vehiculo_id', 'posicion', 'cantidad_pasajeros','hora','minutos']]
@@ -325,9 +239,14 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
         "GROUP BY fecha_servicio, hora_servicio, cenefa, vehiculo_id, posicion\
         ORDER BY fecha_servicio, hora_servicio ASC, posicion ASC;",connect_db.conn())
     connect_db.conn().close()
+    dates_input = df_demparaderos['hora_servicio'].values.astype('datetime64[ns]')
+    df_demparaderos['hora_servicio_aux']=pd.to_datetime(dates_input,format="%H:%M")
     
-    df_demparaderos['hora'] = df_demparaderos['hora_servicio'].dt.components.hours
-    df_demparaderos['minutos'] = df_demparaderos['hora_servicio'].dt.components.minutes
+    df_demparaderos['hora'] = df_demparaderos['hora_servicio_aux'].dt.hour
+    df_demparaderos['minutos'] = df_demparaderos['hora_servicio_aux'].dt.minute
+    df_demparaderos.drop(columns=['hora_servicio_aux'])
+    
+    
     df_demparaderos['hora_validacion'] = (pd.to_datetime(df_demparaderos['hora'].astype(str) + ':' + 
                                                          df_demparaderos['minutos'].astype(str), format='%H:%M'))
     df_demparaderos = df_demparaderos[['fecha_servicio', 'hora_validacion', 'cenefa',
@@ -349,7 +268,48 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
     return resultados_demanda
 
 
-#################################################### prediction ##################################
+
+#################################################################################################################
+#################################################### prediction #################################################
+#################################################################################################################
+
+
+
+
+###########################################   Cluster #################################
+
+def measure(lat1, lon1, lat2, lon2):
+    R = 6378.137
+    dLat = lat2 * np.pi / 180 - lat1 * np.pi / 180
+    dLon = lon2 * np.pi / 180 - lon1 * np.pi / 180
+    a = np.sin(dLat/2) * np.sin(dLat/2) + np.cos(lat1 * np.pi / 180) * np.cos(lat2 * np.pi / 180) * np.sin(dLon/2) * np.sin(dLon/2)
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
+    d = R * c
+    return d * 1000
+
+
+
+def data_frame_cluster(ZoneValue):
+    df_1=homes.df_cluster
+    df=df_1[(df_1['zone']==ZoneValue)]
+    df.drop(columns=['zone'])
+
+    df["dist"] = measure(df.latitud.shift(), df.longitud.shift(), df.loc[1:, 'latitud'], df.loc[1:, 'longitud'])
+    df2= df.groupby("ruta_comercial", as_index=False).agg({"id_paradero": "count", "cant_pasajeros": "sum", "dist": "sum"})
+    df2.rename(columns={'ruta_comercial':'route',
+                        'id_paradero':'num_bus_stops',
+                        'cant_pasajeros':'num_validations',
+                        'dist':'length_bus_route'},
+               inplace=True)
+    return df2
+
+
+
+
+
+
+###########################################  XGBoost #################################
+
 
 
 
@@ -462,37 +422,7 @@ def split_train_test(ZoneValue,route,start_date,end_date,a,test_size=0.2):
     
     return X_train, X_test, y_train, y_test
     
-###########################################   Cluster #################################
 
-def measure(lat1, lon1, lat2, lon2):
-    R = 6378.137
-    dLat = lat2 * np.pi / 180 - lat1 * np.pi / 180
-    dLon = lon2 * np.pi / 180 - lon1 * np.pi / 180
-    a = np.sin(dLat/2) * np.sin(dLat/2) + np.cos(lat1 * np.pi / 180) * np.cos(lat2 * np.pi / 180) * np.sin(dLon/2) * np.sin(dLon/2)
-    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
-    d = R * c
-    return d * 1000
-
-def data_frame_cluster(ZoneValue):
-    df = pd.read_sql("SELECT ruta_comercial, paradero.id_paradero, count(id_validacion) as cant_pasajeros, \
-                  posicion, latitud, longitud FROM public.validacion vd \
-                  INNER JOIN paradero_ruta p_r ON p_r.id_paradero_ruta=vd.paradero_ruta_id \
-                  INNER JOIN ruta ON ruta.id_ruta=p_r.id_ruta \
-                  INNER JOIN paradero on paradero.id_paradero=p_r.id_paradero \
-                  INNER JOIN operador ON operador.id_operador=vd.operador_id\
-                  WHERE operador.descripcion_operador=" +"\'"+ ZoneValue +"\'"+"\
-                  GROUP BY ruta_comercial, paradero.id_paradero, posicion, latitud, longitud \
-                  ORDER BY ruta_comercial, posicion ASC;", connect_db.conn())
-    connect_db.conn().close()
-
-    df["dist"] = measure(df.latitud.shift(), df.longitud.shift(), df.loc[1:, 'latitud'], df.loc[1:, 'longitud'])
-    df2= df.groupby("ruta_comercial", as_index=False).agg({"id_paradero": "count", "cant_pasajeros": "sum", "dist": "sum"})
-    df2.rename(columns={'ruta_comercial':'route',
-                        'id_paradero':'num_bus_stops',
-                        'cant_pasajeros':'num_validations',
-                        'dist':'length_bus_route'},
-               inplace=True)
-    return df2
 
 
 

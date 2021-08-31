@@ -12,7 +12,7 @@ clustering_predictor=dbc.Card([dbc.CardBody(dcc.Loading(
             children=[html.H4("Clustering Routes", className="card-title"), 
                       dcc.Graph(id='clustering',),
                       dbc.Label("Cluster count"),
-                      dbc.Input(id='cluster-count', type="number", value=5),],),),])
+                      dbc.Input(id='cluster-count', type="number", value=6),],),),])
 
 table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-8",
@@ -85,7 +85,6 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
                 html.P(
                     "In this page you could visualized and predict"
                     "validations with",
-                    
                     className="lead",
                 ),
                 DS4A_Img,

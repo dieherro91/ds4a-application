@@ -1,33 +1,18 @@
 # Basics Requirements
-import pathlib
-import dash
 from dash.dependencies import Input, Output, State, ClientsideFunction
 import dash_core_components as dcc
 import dash_html_components as html
-
-
-# Dash Bootstrap Components
 import dash_bootstrap_components as dbc
 
-# Data
-import json
-from lib import homes
-from datetime import datetime as dt
+from pages import homes
 from datetime import date
-from datetime import timedelta
+
 
 # Recall app
 from app import app
-from data import models
 
-####################################################################################
-# Add the DS4A_Img
-####################################################################################
-
-# DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("c1_logo_tagline.svg"), id="ds4a-image",)],)
-DS4A_Img = html.Div(children=[html.Img(src="https://www.correlation-one.com/hubfs/c1logo_color.png", id="ds4a-image_pre",)],className='text-center')
-
-#DS4A_Img2 = html.Div(children=[html.Img(src=app.get_asset_url("LOGO-MASIVO-01.png"), id="ds4a-image2",)],)
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("c1logo_color.webp"), id="ds4a-image_pre",)],className='text-center')
+ 
 ############################################################################# 
 # Titles
 #############################################################################
@@ -40,10 +25,8 @@ title_date_range=html.Div(children=[html.H6('TRAINING DATE', id='title_month_pre
 title_date_range_pre=html.Div(children=[html.H6('PREDICTION DATE', id='title_month_pre_date', className='item-selection',),],)
 title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exlutor_pre', className='item-selection',),],)
 #############################################################################
-# State Dropdown Card
+# Dropdown Card
 #############################################################################
-
-
 
 drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown_pre',options=[
         {'label': 'Route Analysis', 'value': 'Route Analysis'},
@@ -72,11 +55,9 @@ date_selector=html.Div(children=[
         end_date=homes.date_max,
         #start_date=date(2021, 4, 15),
         month_format='YYYY-MM-DD',
-        
     ),],)
-#
+
 date_excluder=html.Div(children=[
-    
     title_date_exclutor,
     dcc.DatePickerSingle(
         id='date_picker_excluder_pre',
@@ -86,52 +67,32 @@ date_excluder=html.Div(children=[
         initial_visible_month=date(2021, 4, 15),        
         month_format='YYYY-MM-DD',
         clearable=True,),
-        
     html.Hr(),
     html.Button('clear list', id='btn_pre', n_clicks=0,),
     dbc.Card(id='card_text_pre',children=[html.H6(" ",id="contador_pre",style = {"float":"left",'width': '85px'},),]),
     ],)
 
-
 date_prediction=html.Div(children=[
-    
     title_date_range_pre,
     dcc.DatePickerSingle(
         id='date_picker_predictor_pre',
         calendar_orientation='horizontal',
-        
-        initial_visible_month=date(2021, 4, 15),        
+        initial_visible_month=date(2021, 7, 5),        
         month_format='YYYY-MM-DD',
         clearable=True,),
-        
     html.Hr(),
     ],)
 
-
-
-
-
 bottoms_update=html.Div(children=[html.Button('Prediction Data', id='btn_update_pre', n_clicks=0,
                                               style={'margin-left':'50px','margin-right': '50px'}),
-                                  ]
-                       )
-##############################################################################
-# Date Picker Card
-##############################################################################
-
+                                  ])
 
 #############################################################################
 # Sidebar Layout
 #############################################################################
 sidebar = html.Div(
     [ 
-        DS4A_Img,  # Add the DS4A_Img located in the assets folder
-        ####################################################
-        # Place the rest of Layout here
-        #html.h1
-        
-        #html.Hr(),
-        #html.Div([titleAnalysisType, drop_Type,]),
+        DS4A_Img,
         html.Hr(), 
         html.Div([titleZone, drop_zone,]),        
         html.Hr(),
@@ -145,7 +106,6 @@ sidebar = html.Div(
         html.Hr(),
         html.Div([bottoms_update]),
         html.Hr(),
-        
     ],
     className="ds4a-sidebar",
 )
