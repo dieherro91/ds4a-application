@@ -10,7 +10,7 @@ family_font = 'Helvetica Neue'
 #########################################################################################################
 
 
-##################Validations for the bus stop #################################################
+##################Validations for the bus stop street map #################################################
 #this function return the street map figure with the number of validations with longitude and latitude
 #with the filters and conditions given for the user in the interface page
 def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
@@ -47,7 +47,7 @@ def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
     return fig
 
 ######################### Average number of buses per day used per zone ###############################
-#this function return a bar figure with the 15 routes for the with the average number of buses per day
+#this function Return a bar figure with the 15 highest average number of buses per day
 #with the filters and conditions given for the user in the interface page
 def average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue,route,a)

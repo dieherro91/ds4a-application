@@ -10,16 +10,18 @@ import pandas as pd
 ################################################################################################
 ################################# DropDowns options needed #####################################
 ################################################################################################
-
+#Search in the database the maximun date available.
 def max_date():
     df_max_date=pd.read_sql("SELECT MAX(fecha_trx) FROM validacion",connect_db.conn())
     connect_db.conn().close()
     return df_max_date.iloc[0,0]
 
+# Search in the database the maximun date available.
 def min_date():
     df_min_date=pd.read_sql("SELECT MIN(fecha_trx) FROM validacion",connect_db.conn())
     connect_db.conn().close()
     return df_min_date.iloc[0,0]
+
 
 def listZone():    
     df_vehi_ope=pd.read_sql("SELECT descripcion_operador FROM operador;",connect_db.conn())    

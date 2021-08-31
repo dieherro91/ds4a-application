@@ -17,7 +17,7 @@ def measure(lat1, lon1, lat2, lon2):
 
 ################################################# cluster ##########################################
 #data_frame_cluster function orders the data from the data frame "homes.df_cluster" #
-#which is obtained at the begging of the page beacause is not depended for the users filters
+#which is obtained at the beginning of the page beacause is not depended for the users filters
 def data_frame_cluster(ZoneValue):
     df_1=homes.df_cluster
     df=df_1[(df_1['zone']==ZoneValue)]
