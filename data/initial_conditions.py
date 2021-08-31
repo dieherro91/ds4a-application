@@ -1,5 +1,15 @@
+
+#In this file the initial conditions is made to accelerate the dropdowns filters that not depend of a date
+# also it make one searche for the clustering plot at the beginning of the page
+
 from data import connect_db
 import pandas as pd
+
+
+
+################################################################################################
+################################# DropDowns options needed #####################################
+################################################################################################
 
 def max_date():
     df_max_date=pd.read_sql("SELECT MAX(fecha_trx) FROM validacion",connect_db.conn())
@@ -39,13 +49,17 @@ def ruta_comercial(ZoneValue):
     connect_db.conn().close()
     
     listRoutefinal=list()
-    #" +"\'"+ ZoneValue +"\'"+" \
     df_name_buses['ruta_comercial'].apply(str)
     for i in range(len(df_name_buses['ruta_comercial'])):
         values=df_name_buses['ruta_comercial'].loc[i]
         listRoutefinal.append({'label':values,'value':values})
     
     return listRoutefinal
+
+
+################################################################################################
+################################### clusterin initial information ##############################
+################################################################################################
 
 def data_frame_cluster():
     df = pd.read_sql("SELECT ruta_comercial, paradero.id_paradero, count(id_validacion) as cant_pasajeros, \
@@ -55,7 +69,8 @@ def data_frame_cluster():
                   INNER JOIN paradero on paradero.id_paradero=p_r.id_paradero \
                   INNER JOIN operador ON operador.id_operador=vd.operador_id\
                   \
-                  GROUP BY ruta_comercial, paradero.id_paradero, posicion, latitud, longitud,operador.descripcion_operador \
+                  GROUP BY ruta_comercial, paradero.id_paradero, posicion, \
+                                            latitud, longitud,operador.descripcion_operador \
                   ORDER BY ruta_comercial, posicion ASC;", connect_db.conn())
     connect_db.conn().close()
     return df

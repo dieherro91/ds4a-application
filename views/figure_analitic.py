@@ -1,16 +1,18 @@
+
+#In this file are made the figures of the analysis app.
+
 from data import models_analysis
-import pandas as pd
 import plotly.express as px
 from pandas.api.types import CategoricalDtype
-from sklearn.cluster import KMeans
 
-
-
+#Font use for the figures
 family_font = 'Helvetica Neue'
-
-
 #########################################################################################################
 
+
+##################Validations for the bus stop #################################################
+#this function return the street map figure with the number of validations with longitude and latitude
+#with the filters and conditions given for the user in the interface page
 def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a)
     fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", 
@@ -22,20 +24,20 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
         fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude',hover_data=['distance','bus_stop'])
         fig2.update_traces(marker_symbol='circle',marker_color='black')
         fig.add_trace(fig2.data[0])
-    
-    
-    fig.update_layout(font=dict(family='Helvetica Neue',size=16,color = 'black',),
+    fig.update_layout(font=dict(family=family_font,size=16,color = 'black',),
                     height=400,
                     margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
                     legend=dict(title='validation type',yanchor="top",y=0.99,xanchor="left",x=0.01,
-                                    font =dict(family='Helvetica Neue',size=14,color = 'black',),
+                                    font =dict(family=family_font,size=14,color = 'black',),
                                 ),
                     )
     return fig 
 
 
-#########################################################################################################
-#SCATTER zonal
+###########Average validations per bus vs number of buses used per zone #################
+#this function return a Scatter figure with the number of validations per buses vs num buses 
+#for all the zone and grouped by day of the week
+#with the filters and conditions given for the user in the interface page
 def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,route,a)
     fig=px.scatter(df, y="average_validations_per_bus",x="number_of_buses", color="commertial_route",
@@ -44,15 +46,19 @@ def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
     fig.update_layout(font=dict(family=family_font,size=16,color = 'black',))
     return fig
 
-#########################################################################################################
-# average number buses route zonal 
+######################### Average number of buses per day used per zone ###############################
+#this function return a bar figure with the 15 routes for the with the average number of buses per day
+#with the filters and conditions given for the user in the interface page
 def average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='commertial_route', y='avg_num_bus_per_day', height=400 )
     fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     return fig
 
-###########################################################################################################
+######################### Total validations for each bus stop and hour #############################
+#this function return a heat map and a bar plot figures with the total validations
+# for each bus stop and hour of the day
+#with the filters and conditions given for the user in the interface page
 def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
     resultados=models_analysis.heatmap_interctive(start_date,end_date,ZoneValue,route,a)
     cat_type = CategoricalDtype(categories=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'], ordered=True)
@@ -88,15 +94,18 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
     fig_bar.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     return fig , fig_bar
 
-############ bar plot average num bus per hour#########################################################
+######################### average bus per hour #########################################
+#this function return a bar figure with average number of buses for each hour of the day
+#with the filters and conditions given for the user in the interface page
 def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='hour', y='avg_num_bus', height=400 )
     fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))    
     return fig
 
-#########################################################################################################
-#HISTOGRAM
+#########################validations per travel route ###########################
+#this function return a histogram plot with validations per travel route
+#with the filters and conditions given for the user in the interface page
 def histogram_validations(start_date,end_date,ZoneValue,route,a):
     resultados_demanda=models_analysis.histogram_validations(start_date,end_date,ZoneValue,route,a)
     fig=px.histogram(resultados_demanda, x='cumsum_demanda',labels={'cumsum_demanda':'Número de validaciones por viaje'},
@@ -107,35 +116,7 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
     fig.update_layout(font=dict(family='Sherif',size=16,color = 'black',))
     return fig
 
-################################################# cluster ##########################################
 
-def cluster(ZoneValue,n_clusters,route):
-    df2=models_analysis.data_frame_cluster(ZoneValue)
-    kmeans = KMeans(n_clusters=max(n_clusters, 1), algorithm='auto')
-    kmeans.fit(df2[["length_bus_route", "num_bus_stops","num_validations"]])
-    centers = kmeans.cluster_centers_
-    df2['cluster'] = kmeans.labels_
-    listen=[]
-    for c in range(n_clusters):
-        listen.append("Cluster {}".format(c))
-    dictr={'length_bus_route':centers[:, 0],
-            'num_bus_stops':centers[:, 1],
-            'num_validations':centers[:,2],
-            'cluster':listen}
-    centros=pd.DataFrame(dictr)
-    fig = px.scatter_3d(df2, x='length_bus_route', y='num_bus_stops',z='num_validations',
-                            hover_name='route',color='cluster',height=350)
-
-    fig2=px.scatter_3d(centros,x='length_bus_route',y='num_bus_stops',z='num_validations',hover_name='cluster')
-    fig.update_traces(marker_coloraxis=None)
-    fig.update_layout(margin=dict(l=0, r=0, b=0, t=0))
-    fig2.update_traces(marker_symbol='diamond',marker_color='black',marker={'size': 4})
-    fig.add_trace(fig2.data[0])
-
-    filter=df2[(df2['route']==route)].loc[:,'cluster'].values[0] 
-    df_similar=df2[(df2['cluster']==filter)]
-    df_similar.loc[:,'length_bus_route']=df_similar['length_bus_route'].round(decimals = 1)
-    return fig, df_similar
 
 
 

@@ -1,3 +1,6 @@
+
+#In this file are the layout for the homes page and the initial preload of data.
+
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
@@ -6,13 +9,15 @@ from lib import title
 from app import app
 from data import initial_conditions
 
+
+#####################################################################################
+################################## the initial preload of data ######################
+#####################################################################################
 date_max=initial_conditions.max_date()
 date_min=initial_conditions.min_date()
 
 list_zones=initial_conditions.listZone()
 list_aux_zone=[]
-
-
 
 agd=dict()
 for zone in list_zones:
@@ -23,10 +28,17 @@ for zones in list_aux_zone:
 
 
 df_cluster=initial_conditions.data_frame_cluster()
-####################################################################
+#####################################################################################
+#####################################################################################
 
+#Imagen for the initial layout in the home page
 DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],)
 
+
+
+#####################################################################################
+# Home Layout
+#####################################################################################
 fluid_jumbotron = dbc.Jumbotron(
     [
         dbc.Container(
@@ -52,6 +64,11 @@ fluid_jumbotron = dbc.Jumbotron(
     ],
     fluid=True,
 )
+
+
+#################################################################################
+# Here the constructor for the home page with the navegation bar
+#################################################################################
 main_home_page= dbc.Container(
                 id='container_home',
                 children=[

@@ -1,12 +1,14 @@
+
+#In this file are the layout for the team-83 (About us) page
+
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 from lib import title
 from app import app
 
-DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],)
+############################# profiles of the members of the team 83#####################################
 profiles = list()
-
 profiles =  [["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", "Jose_Miguel.png","https://linkedin.com" ],
             ["Diego Hernando Romero Roa", "Chemical Engineer", "dihromeroro@unal.edu.co", "Diego_Romero.png", "https://linkedin.com"],
             ["Angel Alberto Castro Lancheros", "Physicist", "aa.castro10@uniandes.edu.co","angel_image.jpg", "https://linkedin.com"],
@@ -17,7 +19,6 @@ profiles =  [["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", 
 
 output_profiles = []
 for profile in profiles:
-
     output_profiles.append(dbc.Col(dbc.Card(
         [
             html.Div([dbc.CardImg(src="assets/profiles/"+profile[3], top=True)], className="overflow-hidden w-100 item-image"),
@@ -25,23 +26,22 @@ for profile in profiles:
                 [
                     html.H5(profile[0], className="card-title"),
                     html.P(
-                        profile[1],
-                        className="card-text",
-                    ),
+                            profile[1],
+                            className="card-text",
+                            ),
                     dbc.Button("Linkedin", color="primary", href=profile[4]),
                 ]
-            ),
+                        ),
         ],
         style={"width": "14rem"},
      ), className="back-card mb-4", width=3
     )
    )
+p_1 = dbc.Row(output_profiles)
 
-# p_1 = html.Div(children=output_profiles)
-p_1 = dbc.Row(
-    output_profiles
-)
-
+#####################################################################################
+# Team 83 Layout
+#####################################################################################
 fluid_jumbotron = dbc.Jumbotron(
     [
         dbc.Container(
@@ -61,6 +61,10 @@ fluid_jumbotron = dbc.Jumbotron(
     ],
     fluid=True,
 )
+
+#################################################################################
+# Here the constructor for the home page with the about us page 
+#################################################################################
 about_us_page= dbc.Container(
                 id='container_home',
                 children=[dcc.Location(id='team_83_about-url',pathname='/About_Us'),

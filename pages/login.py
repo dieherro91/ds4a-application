@@ -1,8 +1,15 @@
+
+#In this file are the layout for the login page.
+
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+
 from app import app
 
+#####################################################################################
+# Login Layout
+#####################################################################################
 login_users=html.Div([    
     dcc.Location(id='login-url',pathname='/login',refresh=False),
     # view_login
