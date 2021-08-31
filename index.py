@@ -2,35 +2,31 @@
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.exceptions import PreventUpdate
 from dash import no_update
-import plotly.graph_objects as go
-import plotly.express as px
-from flask import session, copy_current_request_context
+from flask import session
 import datetime
 import time
 import dash_bootstrap_components as dbc
 
-
 from app import app
-
 
 ###########################################################
 #
 #           APP LAYOUT:
 #
 ###########################################################
-
 from pages import  login, homes, team_83
-from data import models
+from data import models_analysis
 from views import figure
 from content_apps import  analitics, prediction
 from auth import authenticate_user, validate_login_session
 from server import app
 
-
-###################################################3
 ###################################################
+###################################################
+
+
+
 # login layout content
 def login_layout():
     return login.login_users
@@ -249,7 +245,7 @@ def excluder_date_function(date_value,btn):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         
@@ -280,7 +276,7 @@ def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot2(n_clicks,types,zones,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
@@ -303,7 +299,7 @@ def saved_plot2(n_clicks,types,zones,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot3(n_clicks,types,zones,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
@@ -328,26 +324,30 @@ def saved_plot3(n_clicks,types,zones,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot4_5(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig, fig_1=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+                fig, fig_1=figure.heat_map_interactivition(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
                 fig_1=variable_empty
             return fig , fig_1
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            fig, fig_1=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
-            
+            try:
+                fig, fig_1=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+                fig_1=variable_empty
             return fig, fig_1
     time.sleep(1)
     return variable_empty, variable_empty
 
-"""@app.callback(
+"""
+@app.callback(
     Output('bar_total_valitations','figure'),
         
     Input('btn_update','n_clicks'),
@@ -358,7 +358,7 @@ def saved_plot4_5(n_clicks,types,zones,route,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot5(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
@@ -368,7 +368,8 @@ def saved_plot5(n_clicks,types,zones,route,start_date,end_date):
             time.sleep(1)
             return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)   
     time.sleep(1)
-    return variable_empty"""
+    return variable_empty
+"""
 
 @app.callback(
     Output('average_number_buses_per_hour','figure'),
@@ -381,13 +382,13 @@ def saved_plot5(n_clicks,types,zones,route,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot6(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
@@ -413,13 +414,13 @@ def saved_plot6(n_clicks,types,zones,route,start_date,end_date):
     State('my-date-picker-range','end_date'),
 )
 def saved_plot7(n_clicks,types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig=figure.histogram_validations(start_date,end_date,zones,route,a)
+                fig=figure.histogram_validations(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
@@ -464,16 +465,6 @@ def page_change(n_clicks):
 
 
 @app.callback(
-    Output('replace_analysis_prediction','children'),
-    Output('btn_update_pre','n_clicks'),
-    Input('btn_update_pre','n_clicks'),
-)  
-def page_change_pre(n_clicks):
-    if n_clicks is None or n_clicks==0:
-        return prediction.imagen_test, 0
-    return prediction.prediction, 0
-
-@app.callback(
     Output('route_dropdown_pre','options'),
     Input('zone_dropdown_pre','value'), 
 )
@@ -481,8 +472,6 @@ def drowdownSelection_route(zone_drop_value):
     lit=[{'label':'loading...','value':'loading...'}]
     if (zone_drop_value is None or zone_drop_value==''):
         return lit
-    #models.ruta_comercial(zones)
-    #homes.wer[zone_drop_value]
     return homes.wer[zone_drop_value]
 
 
@@ -516,8 +505,6 @@ def limit_prediction(end_date):
     plus_seven_days = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=7)
     return plus_one_day , plus_seven_days
 
-
-
 @app.callback(
     Output('clustering', 'figure'),
     Output('table_cluster','data'),
@@ -530,13 +517,24 @@ def making_cluster(n_clusters,zones,route):
     time.sleep(1)
     try:
         fig, df=figure.cluster(zones,n_clusters,route)
-        #df =models.cluster_df_table(zones,n_clusters,route)
         data=df.to_dict('records')
     except:
         fig=variable_empty
         data=[{'cluster': 'faltan filtros',}]
     return fig, data
 
+
+
+
+@app.callback(
+    Output('replace_analysis_prediction','children'),
+    Output('btn_update_pre','n_clicks'),
+    Input('btn_update_pre','n_clicks'),
+)  
+def page_change_pre(n_clicks):
+    if n_clicks is None or n_clicks==0:
+        return prediction.imagen_test, 0
+    return prediction.prediction, 0
 ###########################################################################################################
 
 if __name__ == "__main__":

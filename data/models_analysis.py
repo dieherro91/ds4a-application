@@ -1,5 +1,4 @@
 import pandas as pd
-import xgboost as xgb
 import numpy as np
 from data import connect_db
 from pages import homes

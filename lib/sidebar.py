@@ -1,7 +1,4 @@
 # Basics Requirements
-import pathlib
-import dash
-from dash.dependencies import Input, Output, State, ClientsideFunction
 import dash_core_components as dcc
 import dash_html_components as html
 
@@ -10,12 +7,9 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 # Data
-import json
-from datetime import datetime as dt
 from datetime import date
 
 # Recall app
-from app import app
 
 from pages import homes
 

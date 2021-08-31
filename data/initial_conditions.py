@@ -1,4 +1,3 @@
-from data import models
 from data import connect_db
 import pandas as pd
 

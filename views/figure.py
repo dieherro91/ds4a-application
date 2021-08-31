@@ -1,4 +1,4 @@
-from data import models
+from data import models_analysis
 import pandas as pd
 import plotly.express as px
 from pandas.api.types import CategoricalDtype
@@ -12,13 +12,13 @@ family_font = 'Helvetica Neue'
 #########################################################################################################
 
 def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a):
-    df=models.validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a)
+    df=models_analysis.validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route,a)
     fig = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="validations",hover_name="bus_stop", 
                             size="validations", 
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
                             zoom=11,height=400, mapbox_style='open-street-map')
     if (route != ''):
-        df2=models.position_route(ZoneValue,route)
+        df2=models_analysis.position_route(ZoneValue,route)
         fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude',hover_data=['distance','bus_stop'])
         fig2.update_traces(marker_symbol='circle',marker_color='black')
         fig.add_trace(fig2.data[0])
@@ -37,7 +37,7 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
 #########################################################################################################
 #SCATTER zonal
 def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
-    df=models.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,route,a)
+    df=models_analysis.scatter_numPasajeros_numBuses_zonal(start_date,end_date,ZoneValue,route,a)
     fig=px.scatter(df, y="average_validations_per_bus",x="number_of_buses", color="commertial_route",
                     hover_data=["commertial_route","day_of_week"], #animation_frame="validation_type",
                     height=400)
@@ -47,14 +47,14 @@ def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
 #########################################################################################################
 # average number buses route zonal 
 def average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue,route,a):
-    df=models.average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue,route,a)
+    df=models_analysis.average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='commertial_route', y='avg_num_bus_per_day', height=400 )
     fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     return fig
 
 ###########################################################################################################
 def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
-    resultados=models.heatmap_interctive(start_date,end_date,ZoneValue,route,a)
+    resultados=models_analysis.heatmap_interctive(start_date,end_date,ZoneValue,route,a)
     cat_type = CategoricalDtype(categories=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'], ordered=True)
     resultados['nombre_dia'] = resultados['nombre_dia'].astype(cat_type)
     cat_type = CategoricalDtype(categories=[0,1,2,3,4,5,6], ordered=True)
@@ -90,7 +90,7 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
 
 ############ bar plot average num bus per hour#########################################################
 def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
-    df=models.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a)
+    df=models_analysis.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='hour', y='avg_num_bus', height=400 )
     fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))    
     return fig
@@ -98,7 +98,7 @@ def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
 #########################################################################################################
 #HISTOGRAM
 def histogram_validations(start_date,end_date,ZoneValue,route,a):
-    resultados_demanda=models.histogram_validations(start_date,end_date,ZoneValue,route,a)
+    resultados_demanda=models_analysis.histogram_validations(start_date,end_date,ZoneValue,route,a)
     fig=px.histogram(resultados_demanda, x='cumsum_demanda',labels={'cumsum_demanda':'Número de validaciones por viaje'},
                          height=400)
     fig.update_layout(xaxis_title_text = 'Number validations per ride', bargap = 0.1)
@@ -110,7 +110,7 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
 ################################################# cluster ##########################################
 
 def cluster(ZoneValue,n_clusters,route):
-    df2=models.data_frame_cluster(ZoneValue)
+    df2=models_analysis.data_frame_cluster(ZoneValue)
     kmeans = KMeans(n_clusters=max(n_clusters, 1), algorithm='auto')
     kmeans.fit(df2[["length_bus_route", "num_bus_stops","num_validations"]])
     centers = kmeans.cluster_centers_
