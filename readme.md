@@ -7,6 +7,16 @@ Not being aware of the travel patterns of people moving within the city can gene
 
 That is why solutions are required to Maximize occupancy of the vehicles of the Integrated Public Transport System (SITP) to minimize operational costs.
 
+The project aims to Evaluate passenger demand of the SITP service and predict the number of passengers that should be mobilized for a certain route on a specific day of the week within a given 1 hour time interval.
+
+Some of the questions we attempted to answer are: 
+* What is the passenger demand based on day of the week and hour?
+* What is the passenger demand by bus stop?
+* How many passengers will be mobilized on a specific day of the week for a certain route (in intervals of one hour)?
+
+
+<Br>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
