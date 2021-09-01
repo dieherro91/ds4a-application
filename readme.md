@@ -61,6 +61,14 @@ In this folder are all the files related to the access of the database EC2 in aw
 
 <Br>
 
+* __list_training_data.py__
+  
+  The file is used to compared the routes available for the prediction analysis.
+
+  - __list_routes_available_predictc(__*ZoneValue*__)__ : Return a list of dictionaries for the dropdown of route selection, the list was compared the information available in the prediction of the model and the available in the databe
+
+<Br>
+
 * __models_analysis.py__
   
    The functions in this file are divided in two parts one for the filters of the user queries and the the second for the queries require for the figure plots in the analitic page.

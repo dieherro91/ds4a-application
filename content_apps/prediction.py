@@ -45,6 +45,12 @@ table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
                     ],
         ),),],)
 
+map_prediction=dbc.Card([dbc.CardBody(dcc.Loading(id="loading-9",type="default",
+            children=[html.H4("Prediction Map Validations", className="card-title"), 
+                      dcc.Graph(id='map_graph_prediction_route',),
+                      ],
+    ),),])
+
 #################################################################################
 # Here the layout for the plots to use.
 #################################################################################
@@ -59,7 +65,7 @@ prediction= html.Div(
         html.Br(),
         
         dbc.Row([
-            dbc.Col([], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
+            dbc.Col([map_prediction], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
         ], ),
         
        html.Br(), 

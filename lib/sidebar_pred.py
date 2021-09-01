@@ -4,6 +4,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import datetime
 
 from pages import homes
 from datetime import date
@@ -24,15 +25,6 @@ title_date_exclutor=html.Div(children=[html.H6('DATE EXCLUDER', id='title_exluto
 #############################################################################
 # Dropdowns layout
 #############################################################################
-drop_Type=html.Div(children=[dcc.Dropdown(id='type_dropdown_pre',options=[
-                                        {'label': 'Route Analysis', 'value': 'Route Analysis'},
-                                        {'label': 'Zone Analysis', 'value': 'Zone Analysis'}
-                                                                        ],
-                                        value='',
-                                        style={'font-size':'12'},
-                                        placeholder="Select analysis type",),
-                            ],
-                    )
 drop_zone=html.Div(children=[dcc.Dropdown(id='zone_dropdown_pre',options=homes.list_zones,
                                         value='',
                                         style={'font-size':'12'},
@@ -48,53 +40,29 @@ drop_route=html.Div(children=[dcc.Dropdown(id='route_dropdown_pre',options=[],
                     )
 
 #############################################################################
-# Date picker selector, date excluder and date prediction layout
+# Date prediction layout
 #############################################################################
-date_selector=html.Div(children=[title_date_range,
-                                dcc.DatePickerRange(
-                                    id='my-date-picker-range_pre',
-                                    calendar_orientation='horizontal',
-                                    min_date_allowed=homes.date_min,
-                                    max_date_allowed=homes.date_max,
-                                    start_date=homes.date_min,
-                                    initial_visible_month=date(2021, 4, 15),
-                                    clearable =True,
-                                    end_date=homes.date_max,
-                                    month_format='YYYY-MM-DD',
-                                                    ),
-                                ],
-                        )
-date_excluder=html.Div(children=[title_date_exclutor,
-                                dcc.DatePickerSingle(
-                                    id='date_picker_excluder_pre',
-                                    calendar_orientation='horizontal',
-                                    min_date_allowed=homes.date_min,
-                                    max_date_allowed=homes.date_max,
-                                    initial_visible_month=date(2021, 4, 15),        
-                                    month_format='YYYY-MM-DD',clearable=True,
-                                                    ),
-                                html.Hr(),
-                                html.Button('clear list', id='btn_pre', n_clicks=0,),
-                                dbc.Card(id='card_text_pre',
-                                    children=[html.H6(" ",
-                                                    id="contador_pre",
-                                                    style = {"float":"left",'width': '85px'},
-                                                        ),
-                                                ]
-                                            ),
-                                ],
-                        )
 date_prediction=html.Div(children=[
                             title_date_range_pre,
                             dcc.DatePickerSingle(
                                 id='date_picker_predictor_pre',
                                 calendar_orientation='horizontal',
-                                initial_visible_month=date(2021, 7, 5),
+                                initial_visible_month=homes.date_max,
+                                min_date_allowed=homes.date_max + datetime.timedelta(days=1),
                                 month_format='YYYY-MM-DD',
                                 clearable=True,),
-                            html.Hr(),
                                 ],
                         )
+
+#############################################################################
+# CheckList
+#############################################################################
+ckecklist_strike=dcc.Checklist(id='strike_day',options=[
+                            {'label': 'Strike day', 'value': 'striking' },
+                                                        ],
+                            value=['striking'],
+                            labelStyle={'display': 'inline-block'},
+                                )  
 
 
 #############################################################################
@@ -118,11 +86,8 @@ sidebar = html.Div(
         html.Hr(),
         html.Div([titleRoute, drop_route,]),
         html.Hr(),
-        date_excluder,
-        html.Hr(),
         date_prediction,
-        html.Hr(),
-        date_selector,
+        ckecklist_strike,
         html.Hr(),
         html.Div([bottoms_update]),
         html.Hr(),

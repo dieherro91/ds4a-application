@@ -9,3 +9,4 @@ ipython-sql
 flask
 xgboost
 sklearn
+joblib

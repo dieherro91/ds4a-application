@@ -330,6 +330,11 @@ hr {
     
     display: block;
     margin-left: auto;
-    margin-right: auto;
-    
+    margin-right: auto;  
+}
+
+#strike_day{
+    font-size: 14px;
+    height: 1rem;
+    color:white;
 }

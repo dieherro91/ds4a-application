@@ -10,11 +10,11 @@ from flask import session
 import datetime
 import time
 import dash_bootstrap_components as dbc
-
+import plotly.express as px
 from app import app
 
 from pages import  login, homes, team_83
-from data import models_analysis
+from data import models_analysis, list_training_data
 from views import figure_analitic, figure_prediction
 from content_apps import  analitics, prediction
 from auth import authenticate_user, validate_login_session
@@ -443,38 +443,9 @@ def drowdownSelection_route(zone_drop_value):
     lit=[{'label':'loading...','value':'loading...'}]
     if (zone_drop_value is None or zone_drop_value==''):
         return lit
-    return homes.wer[zone_drop_value]
-
-#callback that saves de dates to exclude for the apredictive queries
-listas_pre=[]   # list where i saved the exclude dates don't deleted
-@app.callback(
-    Output('contador_pre', 'children'),
-    Output('btn_pre', 'n_clicks'),
     
-    Input('date_picker_excluder_pre', 'date'),
-    Input('btn_pre', 'n_clicks'),
-    running=[
-        (Output("btn_pre", "disabled"), True, False),
-    ],
-)
-def excluder_date_function(date_value,btn):
-    if date_value is not None:
-        listas_pre.append(date_value)
-    if btn != 0:
-        listas_pre.clear()
-        return listas_pre, 0,
-    return listas_pre, 0
+    return list_training_data.list_routes_available_predictc(zone_drop_value)
 
-#Callback for the max and minimun date posible to choose for the prediction
-@app.callback(
-    Output('date_picker_predictor_pre','min_date_allowed'),
-    Output('date_picker_predictor_pre','max_date_allowed'),
-    Input('my-date-picker-range_pre','end_date'),
-)
-def limit_prediction(end_date):
-    plus_one_day=datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=1)
-    plus_seven_days = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=7)
-    return plus_one_day , plus_seven_days
 
 
 #############################################################################################################
@@ -508,6 +479,21 @@ def making_cluster(n_clusters,zones,route):
         data=[{'cluster': 'faltan filtros',}]
     return fig, data
 
+
+
+@app.callback(
+    Output('map_graph_prediction_route','figure'),
+
+    Input('btn_update_pre','n_clicks'),
+    State('route_dropdown_pre','value'),
+    State('strike_day','value'),
+    State('date_picker_predictor_pre','value'),
+)
+def drowdownSelection_route(n_clicks,route_drop_value,strike,day):
+    print(strike)
+    if (strike=='striking'):
+        return variable_empty
+    return px.scatter()
 
 
 
