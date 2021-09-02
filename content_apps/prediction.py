@@ -28,10 +28,10 @@ table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
             children=[html.H4("Similar Clustering Routes", className="card-title"), 
                 dash_table.DataTable(id='table_cluster',
                     columns=[{"name":'route', "id": 'route'},
-                            {"name": 'num_bus_stops', "id": 'num_bus_stops'},
-                            {"name": 'num_validations', "id": 'num_validations'},
+                            {"name": 'num bus stops', "id": 'num_bus_stops'},
+                            {"name": 'num passengers', "id": 'num_validations'},
                             {"name": 'cluster', "id": 'cluster'},
-                            {"name": 'length_bus_route', "id": 'length_bus_route'},
+                            {"name": 'length bus route', "id": 'length_bus_route'},
                             ],
                     style_header={'backgroundColor': 'rgb(43, 139, 206)'},
                     style_cell={'textAlign': 'center',
@@ -46,7 +46,12 @@ table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
         ),),],)
 
 map_prediction=dbc.Card([dbc.CardBody(dcc.Loading(id="loading-9",type="default",
-            children=[html.H4("Prediction Map Validations", className="card-title"), 
+            children=[html.H4("Prediction Map Validations", className="card-title"),
+                    dcc.RadioItems(id='selection_graph',
+                    options=[{'label': 'Map street', 'value': 'Map_street'},
+                            {'label': 'Bar hours', 'value': 'Bar_hours'}
+                            ],
+                    value='Map_street'),
                       dcc.Graph(id='map_graph_prediction_route',),
                       ],
     ),),])

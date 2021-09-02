@@ -1,6 +1,6 @@
 
 #In this file are all the queries and functions that is needed for the predictive page plots
-
+import pandas as pd
 import numpy as np
 from pages import homes
 
@@ -31,3 +31,25 @@ def data_frame_cluster(ZoneValue):
                         'dist':'length_bus_route'},
                inplace=True)
     return df2
+
+
+#this function return a dataframe with the inputs necesaries for the prediction
+def dataframe_prediction(ZoneValue,route):
+    df_input={'connectivity_score':[5,2],
+            'order_cenefa':[30,29],
+            'dia_semana':[3,2],
+            'es_findesemana':[0,0],
+            'semana':[2,3],
+            'es_festivo':[1,1],
+            'paro':[0,2],
+            'sin_time':[0.75,0.34],
+            'cos_time':[0.55,0.33],
+            'hora_pico':[0,1],
+            'cantidad_pasajeros_shifted':[5,2],
+            'cenefa':['101A08','sfdfsdf'],
+            'latitud':[4.627852,4.62780],
+            'longitud':[-74.186899,-74.1860],
+            'hour':[15,18],
+            }
+    df=pd.DataFrame(df_input)
+    return df

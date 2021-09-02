@@ -5,6 +5,7 @@ import os
 from pages import homes
 from joblib import load
 
+#This function compere the list of routes from de database an the route files in the trainnin_data folder
 def list_routes_available_predictc(ZoneValue):
     DATA_DIR = os.getcwd()
     sav_path = os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data")
@@ -33,3 +34,14 @@ def list_routes_available_predictc(ZoneValue):
         return list_drop_route
 
     return list_drop_route
+
+
+#this function return a list with the predicted passengers from the "df" information for the "route" selected
+def prediction_evaluation(df,route):
+    DATA_DIR = os.getcwd()
+    sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
+    randon_forest_model = load(sav_path)
+    list_output_prediction=randon_forest_model.predict(df)
+    return list_output_prediction
+
+#

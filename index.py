@@ -14,7 +14,7 @@ import plotly.express as px
 from app import app
 
 from pages import  login, homes, team_83
-from data import models_analysis, list_training_data
+from data import models_analysis, list_training_data, models_prediction
 from views import figure_analitic, figure_prediction
 from content_apps import  analitics, prediction
 from auth import authenticate_user, validate_login_session
@@ -485,15 +485,19 @@ def making_cluster(n_clusters,zones,route):
     Output('map_graph_prediction_route','figure'),
 
     Input('btn_update_pre','n_clicks'),
+    Input("selection_graph", "value"),
+    State('zone_dropdown_pre', 'value'),
     State('route_dropdown_pre','value'),
     State('strike_day','value'),
     State('date_picker_predictor_pre','value'),
+    
 )
-def drowdownSelection_route(n_clicks,route_drop_value,strike,day):
-    print(strike)
+def drowdownSelection_route(n_clicks,graph,zones,route,strike,day):
+    animations=figure_prediction.map_street_predicted(zones,route)
+
     if (strike=='striking'):
-        return variable_empty
-    return px.scatter()
+        return animations[graph]
+    return animations[graph]
 
 
 
