@@ -48,8 +48,8 @@ table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
 map_prediction=dbc.Card([dbc.CardBody(dcc.Loading(id="loading-9",type="default",
             children=[html.H4("Prediction Map Validations", className="card-title"),
                     dcc.RadioItems(id='selection_graph',
-                    options=[{'label': 'Map street', 'value': 'Map_street'},
-                            {'label': 'Bar hours', 'value': 'Bar_hours'}
+                    options=[{'label': 'Map street  ', 'value': 'Map_street'},
+                            {'label': '  Bar hours', 'value': 'Bar_hours'}
                             ],
                     value='Map_street'),
                       dcc.Graph(id='map_graph_prediction_route',),

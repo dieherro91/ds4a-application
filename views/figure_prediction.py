@@ -43,8 +43,8 @@ def cluster(ZoneValue,n_clusters,route):
 
 
 
-def map_street_predicted(ZoneValue,route):
-    df=models_prediction.dataframe_prediction(ZoneValue,route)
+def map_street_predicted(ZoneValue,route,dates,strike):
+    df=models_prediction.dataframe_prediction(ZoneValue,route,dates,strike)
     df_pred=df[['connectivity_score','order_cenefa','dia_semana','es_findesemana','semana',
    'es_festivo','paro','sin_time','cos_time','hora_pico','cantidad_pasajeros_shifted']].copy()
     list_output_predict=list_training_data.prediction_evaluation(df_pred,route)

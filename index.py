@@ -492,11 +492,11 @@ def making_cluster(n_clusters,zones,route):
     State('date_picker_predictor_pre','value'),
     
 )
-def drowdownSelection_route(n_clicks,graph,zones,route,strike,day):
-    animations=figure_prediction.map_street_predicted(zones,route)
+def drowdownSelection_route(n_clicks,graph,zones,route,strike,days):
+    animations=figure_prediction.map_street_predicted(zones,route,days,strike)
 
     if (strike=='striking'):
-        return animations[graph]
+        return variable_empty
     return animations[graph]
 
 
