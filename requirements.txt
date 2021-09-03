@@ -9,4 +9,4 @@ scipy
 ipython-sql 
 flask
 sklearn
-joblib
+resreg
