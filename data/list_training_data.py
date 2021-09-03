@@ -14,8 +14,8 @@ def list_routes_available_predictc(ZoneValue):
 
     list_files_available=[]
     for item in list_files:
-        if (item!= '.gitignore' and item != '__init__.py'):
-            list_files_available.append(item[:-4])
+        if (item!= '.gitignore' and item != '__init__.py' and item != '__init__.py'):
+            list_files_available.append(item[:-5])
     
     list_db=homes.wer[ZoneValue]
     list_routes_db=[]
@@ -39,7 +39,7 @@ def list_routes_available_predictc(ZoneValue):
 #this function return a list with the predicted passengers from the "df" information for the "route" selected
 def prediction_evaluation(df,route):
     DATA_DIR = os.getcwd()
-    sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
+    sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.json')
     randon_forest_model = load(open(sav_path, 'rb'))
     list_output_prediction=randon_forest_model.predict(df)
     return list_output_prediction
