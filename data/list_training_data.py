@@ -4,6 +4,7 @@
 import os
 from pages import homes
 from pickle import load
+import gzip
 
 #This function compere the list of routes from de database an the route files in the trainnin_data folder
 def list_routes_available_predictc(ZoneValue):
@@ -14,8 +15,8 @@ def list_routes_available_predictc(ZoneValue):
 
     list_files_available=[]
     for item in list_files:
-        if (item!= '.gitignore' and item != '__init__.py'):
-            list_files_available.append(item[:-4])
+        if (item!= '.gitignore' and item != '__init__.py' and item != '__init__.py'):
+            list_files_available.append(item[:-8])
     
     list_db=homes.wer[ZoneValue]
     list_routes_db=[]
@@ -39,8 +40,10 @@ def list_routes_available_predictc(ZoneValue):
 #this function return a list with the predicted passengers from the "df" information for the "route" selected
 def prediction_evaluation(df,route):
     DATA_DIR = os.getcwd()
-    sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
-    randon_forest_model = load(sav_path)
+    sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.json.gz')
+    with gzip.open(sav_path, 'rb') as sav_file:
+        randon_forest_model = load(sav_path)
+    
     list_output_prediction=randon_forest_model.predict(df)
     return list_output_prediction
 
