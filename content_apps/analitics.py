@@ -113,6 +113,7 @@ imagen_test= dbc.Jumbotron(id='jumboContainer',children=[
                     className="lead",
                 ),
                 DS4A_Img,
+                html.H6(id='refrencia2', children=["https://www.lavozdelanzarote.com/uploads/s1/20/77/80/8/beneficio_1_766x440.jpeg"]),
                 ] ,className="text-center"),
                 html.P(
                     "                                "

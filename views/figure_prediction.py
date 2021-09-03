@@ -57,11 +57,25 @@ def map_street_predicted(ZoneValue,route,dates,strike):
 
 
     animations = {
-    'Map_street': px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",hover_name="cenefa", 
+    'Map_street': px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",
                             size="passengers", animation_frame='hora_servicio',# animation_group="order_cenefa",
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
                             zoom=11,height=500, mapbox_style='open-street-map', 
-                            range_color=[0,df["passengers"].max()],hover_data=['cenefa','es_festivo','paro'],
+                            range_color=[0,df["passengers"].max()],
+                            labels={'hora_servicio':'hour',
+                                    'cenefa':'bus stop',
+                                    'posicion':'Distance (m)'},
+                            hover_name="cenefa", 
+                            hover_data={
+                            'latitud':False,
+                            'longitud':False,
+                            'cenefa':True,
+                            'cenefa':'<b>cenefa<b>',
+                            'hora_servicio':True,
+                            'posicion':True,
+                            'passengers':True,
+                            'passengers':':.2f',
+                            },
                           )
     ,
 

@@ -108,7 +108,8 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
                     className="lead",
                 ),
                 DS4A_Img,
-                ] ,className="text-center"),
+                html.H6(id='refrencia1', children=["https://www.ehcos.com/wp-content/uploads/2017/03/What-Doctors-and-Nurses-Expect-of-Big-Data-Predictive-Analytics-in-the-ICU.png"]),
+                ] ,className="text-center"), 
                 html.P(
                     "Random Forest",
                     className="lead",
