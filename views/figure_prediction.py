@@ -27,14 +27,14 @@ def cluster(ZoneValue,n_clusters,route):
             'num_validations':centers[:,2],
             'cluster':listen}
     centros=pd.DataFrame(dictr)
-    fig = px.scatter_3d(df2, x='length_bus_route', y='num_bus_stops',z='num_validations',
+    fig = px.scatter_3d(df2, x='num_bus_stops', y='length_bus_route',z='num_validations',
                             labels={"length_bus_route": "Distance (m)",
                                     "num_bus_stops": "number of buses",
                                     "num_validations": "number of passengers",
                                     },
                             hover_name='route',color='cluster',height=450)
 
-    fig2=px.scatter_3d(centros,x='length_bus_route',y='num_bus_stops',z='num_validations',hover_name='cluster')
+    fig2=px.scatter_3d(centros,x='num_bus_stops',y='length_bus_route',z='num_validations',hover_name='cluster')
     fig.update_traces(marker_coloraxis=None)
     fig.update_layout(margin=dict(l=0, r=0, b=0, t=0))
     fig2.update_traces(marker_symbol='diamond',marker_color='black',marker={'size': 4})

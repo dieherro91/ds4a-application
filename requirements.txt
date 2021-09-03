@@ -1,5 +1,5 @@
 dash
-numpy==1.19.5
+numpy
 plotly
 plotly.express
 pandas
@@ -10,3 +10,5 @@ ipython-sql
 flask
 sklearn
 resreg
+pickle
+xgboost

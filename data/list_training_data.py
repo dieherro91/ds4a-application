@@ -3,7 +3,7 @@
 
 import os
 from pages import homes
-from joblib import load
+from pickle import load
 
 #This function compere the list of routes from de database an the route files in the trainnin_data folder
 def list_routes_available_predictc(ZoneValue):
