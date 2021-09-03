@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from pages import homes
 from data import connect_db
+import datetime
 
 # measure function calculates the distance between bus stops
 def measure(lat1, lon1, lat2, lon2):  
@@ -33,6 +34,8 @@ def data_frame_cluster(ZoneValue):
     return df2
 
 ############################################################################################################
+
+
 def get_info_stops_route(route,input_date):
 
     df_stops_route = pd.read_sql("SELECT DISTINCT cenefa,  min(posicion) as posicion, avg(latitud) as latitud, avg(longitud) as longitud FROM public.paradero_ruta AS par_ruta \
@@ -42,7 +45,7 @@ def get_info_stops_route(route,input_date):
     GROUP BY cenefa \
     ORDER BY posicion ASC;", connect_db.conn())
     connect_db.conn().close()
-
+    datet=input_date
     df_stops_route['date_pred'] = input_date
 
     return df_stops_route
@@ -162,7 +165,7 @@ def pre_processing_pred(df, peak_hours):  # tiene ligeros cambios con respecto a
     df['dia_semana'] = pd.to_datetime(df['fecha_servicio']).dt.weekday
     df['es_findesemana'] = df['dia_semana'].isin([5, 6]).astype(int)
     df['semana'] = pd.to_datetime(df['fecha_servicio']).dt.isocalendar().week.astype('int')
-    
+
   
     # Holidays_variable:
     holidays = ['20210101', '20210106', '20210322', '20210401', '20210402', '20210501', '20210517', '20210607', '20210614',
@@ -293,8 +296,9 @@ def get_validation_day_before(df_shift, asu):
 
 
 
-def dataframe_prediction(input_zona,input_ruta,input_date,strike=0):
-    df_conn = get_connectivity()
+def dataframe_prediction(input_zona,input_ruta,input_date,strike):
+    df_conn = homes.df_conectivity
+
     df = get_validation_route(input_zona,input_ruta)
 
     df_no_extreme = drop_extreme_values(df)

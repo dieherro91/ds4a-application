@@ -46,12 +46,18 @@ table_cluster=dbc.Card([dbc.CardBody(dcc.Loading(
         ),),],)
 
 map_prediction=dbc.Card([dbc.CardBody(dcc.Loading(id="loading-9",type="default",
-            children=[html.H4("Prediction Map Validations", className="card-title"),
+            children=[html.H4("Prediction Passengers", className="card-title"),
                     dcc.RadioItems(id='selection_graph',
                     options=[{'label': 'Map street  ', 'value': 'Map_street'},
                             {'label': '  Bar hours', 'value': 'Bar_hours'}
                             ],
-                    value='Map_street'),
+                    value='Map_street',
+                    labelStyle={'display': 'block'},
+                    style={'font-size':'20px'},
+                    className='radio_buttom',
+                    labelClassName="date-group-labels",
+                    #labelCheckedClassName="date-group-labels-checked",
+                    ),
                       dcc.Graph(id='map_graph_prediction_route',),
                       ],
     ),),])
@@ -62,6 +68,7 @@ map_prediction=dbc.Card([dbc.CardBody(dcc.Loading(id="loading-9",type="default",
 prediction= html.Div(
     [
         # Place the different graph components here.
+        
         dbc.Row([
             dbc.Col([clustering_predictor],align="center",width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),
             dbc.Col([table_cluster],align="center",width="6", className='mt-1 mb-2 pl-1.5 pr-1.5'),       
@@ -71,14 +78,11 @@ prediction= html.Div(
         
         dbc.Row([
             dbc.Col([map_prediction], width="12", className='mt-1 mb-2 pl-1.5 pr-1.5')
-        ], ),
+        ], ),#map_prediction
         
        html.Br(), 
      
-       dbc.Row([
-           dbc.Col([], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),
-           dbc.Col([], width="6",className='mt-1 mb-2 pl-1.5 pr-1.5'),   
-               ] ), 
+       
         
         dbc.Row([
             dbc.Col([],width="6"),
@@ -106,7 +110,7 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
                 DS4A_Img,
                 ] ,className="text-center"),
                 html.P(
-                    "XGBoost Regressor",
+                    "Random Forest",
                     className="lead",
                 ),
             ],

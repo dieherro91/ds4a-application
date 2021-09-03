@@ -10,11 +10,10 @@ from flask import session
 import datetime
 import time
 import dash_bootstrap_components as dbc
-import plotly.express as px
 from app import app
 
 from pages import  login, homes, team_83
-from data import models_analysis, list_training_data, models_prediction
+from data import models_analysis, list_training_data
 from views import figure_analitic, figure_prediction
 from content_apps import  analitics, prediction
 from auth import authenticate_user, validate_login_session
@@ -480,24 +479,30 @@ def making_cluster(n_clusters,zones,route):
     return fig, data
 
 
-
 @app.callback(
     Output('map_graph_prediction_route','figure'),
 
     Input('btn_update_pre','n_clicks'),
     Input("selection_graph", "value"),
+    Input('strike_day','value'),
     State('zone_dropdown_pre', 'value'),
     State('route_dropdown_pre','value'),
-    State('strike_day','value'),
-    State('date_picker_predictor_pre','value'),
+    State('date_picker_predictor_pre','date'),
     
 )
-def drowdownSelection_route(n_clicks,graph,zones,route,strike,days):
+def drowdownSelection_route(n_clicks,graph,strike,zones,route,days):
     animations=figure_prediction.map_street_predicted(zones,route,days,strike)
 
-    if (strike=='striking'):
+    if (strike == 'normal'):
+        strikes=0
+        animations=figure_prediction.map_street_predicted(zones,route,days,strikes)
+        return animations[graph]
+    if (strike == 'strike'):
+        strikes=1
+        animations=figure_prediction.map_street_predicted(zones,route,days,strikes)
+        return animations[graph]
+    else:
         return variable_empty
-    return animations[graph]
 
 
 

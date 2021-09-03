@@ -1,7 +1,7 @@
 
 #In this file are made the figures of the predictive app.
 
-from data import models_prediction, models_analysis, list_training_data
+from data import models_prediction, list_training_data
 import pandas as pd
 import plotly.express as px
 from sklearn.cluster import KMeans
@@ -28,6 +28,10 @@ def cluster(ZoneValue,n_clusters,route):
             'cluster':listen}
     centros=pd.DataFrame(dictr)
     fig = px.scatter_3d(df2, x='length_bus_route', y='num_bus_stops',z='num_validations',
+                            labels={"length_bus_route": "Distance (m)",
+                                    "num_bus_stops": "number of buses",
+                                    "num_validations": "number of passengers",
+                                    },
                             hover_name='route',color='cluster',height=450)
 
     fig2=px.scatter_3d(centros,x='length_bus_route',y='num_bus_stops',z='num_validations',hover_name='cluster')
@@ -42,26 +46,29 @@ def cluster(ZoneValue,n_clusters,route):
     return fig, df_similar
 
 
-
+#input_zona,input_ruta,input_date,strike=0
 def map_street_predicted(ZoneValue,route,dates,strike):
     df=models_prediction.dataframe_prediction(ZoneValue,route,dates,strike)
     df_pred=df[['connectivity_score','order_cenefa','dia_semana','es_findesemana','semana',
    'es_festivo','paro','sin_time','cos_time','hora_pico','cantidad_pasajeros_shifted']].copy()
     list_output_predict=list_training_data.prediction_evaluation(df_pred,route)
+    df['hora_servicio']=df['hora_servicio'].astype(int)
     df.insert(14,'passengers',list_output_predict,allow_duplicates=True)
 
 
     animations = {
     'Map_street': px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",hover_name="cenefa", 
-                            size="passengers", animation_frame='hour', animation_group="cenefa",
+                            size="passengers", animation_frame='hora_servicio',# animation_group="order_cenefa",
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
-                            zoom=11,height=500, mapbox_style='open-street-map')
+                            zoom=11,height=500, mapbox_style='open-street-map', 
+                            range_color=[0,df["passengers"].max()],hover_data=['cenefa','es_festivo','paro'],
+                          )
     ,
 
-    'Bar_hours': px.bar(
-        df, x="hour", y="passengers", #color="continent", 
-        animation_frame="cenefa", animation_group="cenefa",
-        range_y=[0,(df["passengers"].max()+10)],range_x=[0,23],
+    'Bar_hours': px.bar(df, x='hora_servicio', y="passengers", color="passengers", 
+        animation_frame="cenefa",range_color=[0,df["passengers"].max()],# animation_group="order_cenefa",
+        range_y=[0,(df["passengers"].max()+1)],range_x=[3,24],hover_data=['cenefa','es_festivo','paro'],
+        color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
         ),
                 }
 

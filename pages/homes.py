@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 
 from lib import title
 from app import app
-from data import initial_conditions
+from data import initial_conditions, models_prediction
 
 
 #####################################################################################
@@ -28,6 +28,7 @@ for zones in list_aux_zone:
 
 
 df_cluster=initial_conditions.data_frame_cluster()
+df_conectivity=models_prediction.get_connectivity()
 #####################################################################################
 #####################################################################################
 

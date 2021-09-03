@@ -7,9 +7,8 @@ import dash_bootstrap_components as dbc
 import datetime
 
 from pages import homes
-from datetime import date
+import datetime
 
-from app import app
 
 ############################################################################# 
 # Titles of the dropdows and filters for the side bar for the predictive page
@@ -57,11 +56,15 @@ date_prediction=html.Div(children=[
 #############################################################################
 # CheckList
 #############################################################################
-ckecklist_strike=dcc.Checklist(id='strike_day',options=[
-                            {'label': 'Strike day', 'value': 'striking' },
+ckecklist_strike=dcc.RadioItems(id='strike_day',options=[
+                            {'label': 'Strike day', 'value': 'strike' },
+                            {'label': 'Normal day', 'value': 'normal' },
                                                         ],
-                            value=['striking'],
+                            value='normal',
                             labelStyle={'display': 'inline-block'},
+                            className='radio_buttom',
+                            labelClassName="date-group-labels",
+                            #labelCheckedClassName="date-group-labels-checked",
                                 )  
 
 
