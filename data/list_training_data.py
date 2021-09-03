@@ -40,7 +40,7 @@ def list_routes_available_predictc(ZoneValue):
 def prediction_evaluation(df,route):
     DATA_DIR = os.getcwd()
     sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
-    randon_forest_model = load(sav_path)
+    randon_forest_model = load(open(sav_path, 'rb'))
     list_output_prediction=randon_forest_model.predict(df)
     return list_output_prediction
 
