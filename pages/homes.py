@@ -33,7 +33,7 @@ df_conectivity=models_prediction.get_connectivity()
 #####################################################################################
 
 #Imagen for the initial layout in the home page
-DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],)
+DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],className="page-img")
 
 
 
@@ -45,18 +45,18 @@ fluid_jumbotron = dbc.Jumbotron(
         dbc.Container(
             [
                 html.Div([
-                html.H1("Masivo Capital", className="display-5"),
+                html.H1("Masivo Capital", className="display-5 mt-2"),
                 html.P(
-                    "Monitoreo del desempeño de operadores en la vía,"
-                    "optimización de asignación de flota para movilización de  pasajeros.",
+                    "Monitoring the performance of operators on the road,"
+                    "optimization of fleet allocation for passenger mobilization.",
                     className="lead",
                 ),
                 DS4A_Img,
                 ] ,className="text-center"),
                 html.P(
-                    "Gracias al analisis de la información proporcionada por el transmilenio a través   "
-                    "de las operaciones diarias realizadas, podemos mejorar el servicio, disminuir costo de operación."
-                    "Incremetar o maximizar la movilidad de pasajeros",
+                    "Thanks to the analysis of the information provided by the transmilenio through the daily operations carried out, "
+                    "we can improve the service, reduce operating costs, increase or maximize passenger mobility."
+                    ,
                     className="lead",
                 ),
             ],

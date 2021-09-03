@@ -31,6 +31,21 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
     font-family: "KarlaExtraBold";
     src: url('/assets/Karla/Karla-ExtraBold.ttf');
 }
+
+@font-face {
+    font-family: "KarlaRegular";
+    src: url('/assets/Karla/Karla-Regular.ttf');
+}
+
+@font-face {
+    font-family: "KarlaMedium";
+    src: url('/assets/Karla/Karla-Medium.ttf');
+}
+
+@font-face {
+    font-family: "KarlaSemiBold";
+    src: url('/assets/Karla/Karla-SemiBold.ttf');
+}
   body{
     /* font-family: Nunito,sans-serif; */
     font-size: .9rem;
@@ -47,7 +62,20 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
   .stats .card-title{
     font-size: 1.125rem;
     color: #6c757d!important;
+    
+  }
+
+  #page-content p{
+      font-family: "karlaRegular";
+  }
+
+  .display-5, .card-title{
     font-family: 'KarlaBold';
+  }
+
+  .page-img{
+      margin-top: 10px;
+      margin-bottom: 10px;
   }
 
   /* .card {
@@ -69,7 +97,7 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
   }
   .item-image img {
     
-        max-height: 200px;
+        max-height: 250px;
         margin: 0 -100%;
         max-width: none;
         width: auto;
@@ -90,6 +118,9 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
     color:var(--main-color);
     z-index: 700; 
     
+}
+#bar_nav_internal a {
+    font-family: "KarlaBold";
 }
 .bg-dark{
     background-color: var(--main-color) !important;
@@ -175,10 +206,11 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
     /* bottom:100%; */
     /* height: 40rem; */
     margin-top: 30px;
-    width: 16rem;
+    /* width: 16rem; */
     padding: 2rem 1rem;
     z-index: 600;
     background-color: var(--main-color); 
+    font-family: 'karlaSemiBold';
 }
 
 .item-selection {
@@ -360,15 +392,9 @@ hr {
     
 }
 
-.legendtitletext{
-    font-family: 'KarlaBold';
-}
-
-
-
-.karlatext{
-    font-family: 'KarlaBold';
-}
+    .karlatext{
+        font-family: 'KarlaBold';
+    }
 
 
 #strike_day{

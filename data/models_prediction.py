@@ -207,7 +207,8 @@ def get_connectivity():
                           SELECT * FROM stops", connect_db.conn())
     connect_db.conn().close()
     # Here we count how many routes pass by each stop:
-    df_conn = df_conn.groupby("cenefa").nunique("ruta_comercial").reset_index()
+    # df_conn = df_conn.groupby("cenefa").nunique("ruta_comercial").reset_index()
+    df_conn=df_conn.groupby("cenefa").agg({"ruta_comercial": lambda x: x.nunique()}).reset_index()
     df_conn.rename(columns={'ruta_comercial':'cantidad_rutas'}, inplace=True)
 
     # Here we create 2 connectivity metrics. One using MinMaxScaling and the other one applying log:

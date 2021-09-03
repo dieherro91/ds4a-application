@@ -101,7 +101,7 @@ imagen_test= dbc.Jumbotron(id='jumboContainer_predict',children=[
         dbc.Container(
             [
                 html.Div([
-                html.H2("Predictive Analysis", className="display-5"),
+                html.H2("Predictive Analysis", className="display-5 mt-2"),
                 html.P(
                     "In this page you could visualized and predict"
                     "validations with",

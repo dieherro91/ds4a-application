@@ -47,14 +47,14 @@ fluid_jumbotron = dbc.Jumbotron(
         dbc.Container(
             [
                 html.Div([
-                html.H1("Team 83 - Cohort 5", className="display-5"),
-                html.P("________________",
-                       className="lead",),
+                html.H1("Team 83 - Cohort 5", className="display-5 mt-2"),
+                # html.P("________________",
+                #        className="lead",),
                 p_1,
                 ] ,className="text-center"),
-                html.P("___________",
-                    className="lead",
-                ),
+                # html.P("___________",
+                #     className="lead",
+                # ),
             ],
             fluid=True,
         )
