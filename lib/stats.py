@@ -29,7 +29,7 @@ from data import connect_db
 map_validaciones_ubication_zone_route=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-1",
             type="default",
-            children=[html.H4("Map Validations", className="card-title"), 
+            children=[html.H4("Map Validations", className="card-title karlatext"), 
 dcc.Graph(id='map_graph_route',),],),),])
 
 
@@ -41,12 +41,12 @@ scatter_num_zonal=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-2",
             type="default",
             children=[html.H4("Validations vs Number of Buses Per Day Week", 
-            className="card-title"),dcc.Graph(id='scatter_graph_zone',),],),),])
+            className="card-title karlatext "),dcc.Graph(id='scatter_graph_zone',),],),),])
 
 bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-3",
             type="default",
-            children=[html.H4("Average Quantity Buses per Zone", className="card-title"), 
+            children=[html.H4("Average Quantity Buses per Zone", className="card-title karlatext"), 
                                                     dcc.Graph(id='average_number_buses_per_day_all_routes',),],),),])
 
 ###############################################################
@@ -56,7 +56,7 @@ bar_average_number_buses_per_day_zone_all=dbc.Card([dbc.CardBody(dcc.Loading(
 histogram_validations_route=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-4",
             type="default",
-            children=[html.H4("Histogram Validations Per Travel Route", className="card-title"), 
+            children=[html.H4("Histogram Validations Per Travel Route", className="card-title karlatext"), 
             dcc.Graph(id='histogram_validation',),]),),])
 
 ###############################################################
@@ -65,7 +65,7 @@ histogram_validations_route=dbc.Card([dbc.CardBody(dcc.Loading(
 heat_map_route=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-5",
             type="default",
-            children=[html.H4("Validations Per Hour by Bus Stop", className="card-title"), 
+            children=[html.H4("Validations Per Hour by Bus Stop", className="card-title karlatext"), 
 dcc.Graph(id='heatmap_validation',),],),),])
 
 #######################################    only_zone_graphs      ###################################################
@@ -74,7 +74,7 @@ dcc.Graph(id='heatmap_validation',),],),),])
 bar_average_number_buses_per_hour=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-6",
             type="default",
-            children=[html.H4("Average and Number Buses Per Hour", className="card-title"), 
+            children=[html.H4("Average and Number Buses Per Hour", className="card-title karlatext"), 
 dcc.Graph(id='average_number_buses_per_hour',),],),),])
 
 ############################################################################################################
@@ -82,7 +82,7 @@ dcc.Graph(id='average_number_buses_per_hour',),],),),])
 bar_total_validations_hour=dbc.Card([dbc.CardBody(dcc.Loading(
             id="loading-7",
             type="default",
-            children=[html.H4("Total Validations Per Hour", className="card-title"), 
+            children=[html.H4("Total Validations Per Hour", className="card-title karlatext"), 
 dcc.Graph(id='bar_total_valitations',),],),),])
 
 

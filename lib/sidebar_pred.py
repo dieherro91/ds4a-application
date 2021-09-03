@@ -125,7 +125,7 @@ bottoms_update=html.Div(children=[html.Button('Prediction Data', id='btn_update_
 #############################################################################
 sidebar = html.Div(
     [ 
-        DS4A_Img,  # Add the DS4A_Img located in the assets folder
+        # DS4A_Img,  
         ####################################################
         # Place the rest of Layout here
         #html.h1

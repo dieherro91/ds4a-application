@@ -7,13 +7,13 @@ from app import app
 DS4A_Img = html.Div(children=[html.Img(src=app.get_asset_url("auto-transporte.jpg"), style={"width" : "700px" })],)
 profiles = list()
 
-profiles =  [["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", "Jose_Miguel.png","https://linkedin.com" ],
-            ["Diego Hernando Romero Roa", "Chemical Engineer", "dihromeroro@unal.edu.co", "Diego_Romero.png", "https://linkedin.com"],
-            ["Angel Alberto Castro Lancheros", "Physicist", "aa.castro10@uniandes.edu.co","angel_image.jpg", "https://linkedin.com"],
-            ["Alejandra Perpiñán Barrios", "Petroleum Engineer", "maperpinanb@unal.edu.co","profile.png", "https://linkedin.com"],
-            ["Julián Esteban Londoño", "Physics Engineer", "julondonor@unal.edu.co","profile.png", "https://www.linkedin.com/in/julondonor"],
-            ["Jose Antonio Aviles Pacheco", "Systems Engineer", "joseavilesmnt@gmail.com", "profile.png", "https://www.linkedin.com/in/joseavilespacheco/"],
-            ["Juan Pablo Gutiérrez Restrepo", "Computer Scientist", "jgutierrezre@unal.edu.co", "profile.png", "https://linkedin.com"]]
+profiles =  [["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", "Jose_Miguel.png","https://www.linkedin.com/in/jmferrariop/" ],
+            ["Diego Hernando Romero Roa", "Chemical Engineer", "dihromeroro@unal.edu.co", "Diego_Romero.png", "https://www.linkedin.com/in/diego-hernando-romero-roa-6744b7195/"],
+            ["Angel Alberto Castro Lancheros", "Physicist", "aa.castro10@uniandes.edu.co","angel_image.jpg", "https://www.linkedin.com/in/angel-alberto-castro-lancheros-42358726/"],
+            ["Alejandra Perpiñán Barrios", "Petroleum Engineer", "maperpinanb@unal.edu.co","Alejandra.jpg", "https://www.linkedin.com/in/maria-perpi%C3%B1an-barrios/"],
+            ["Julián Esteban Londoño", "Physics Engineer", "julondonor@unal.edu.co","juliann.jpg", "https://www.linkedin.com/in/julondonor"],
+            ["Jose Antonio Aviles Pacheco", "Systems Engineer", "joseavilesmnt@gmail.com", "aviles.jpg", "https://www.linkedin.com/in/joseavilespacheco/"],
+            ["Juan Pablo Gutiérrez Restrepo", "Computer Scientist", "jgutierrezre@unal.edu.co", "Juan-Pablo.png", "https://www.linkedin.com/in/jgutierrezre/"]]
 
 output_profiles = []
 for profile in profiles:
@@ -47,7 +47,7 @@ fluid_jumbotron = dbc.Jumbotron(
         dbc.Container(
             [
                 html.Div([
-                html.H1("Team 83 - Cohort 5", className="display-5"),
+                html.H1("Team 83 - Cohort 5", className="display-5 legendtext"),
                 html.P(
                     "________________",
                     className="lead",

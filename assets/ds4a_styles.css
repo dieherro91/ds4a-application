@@ -5,7 +5,32 @@
     --header-color: #649ee3;
     --widthLef: 100%;
   }
+  
+@font-face {
+font-family: "MontserratBlack";
+src: url('/assets/Montserrat/Montserrat-Black.ttf');
+}
 
+@font-face {
+    font-family: "MontserratBold";
+    src: url('/assets/Montserrat/Montserrat-Bold.ttf');
+    }
+
+
+@font-face {
+    font-family: "MontserratSemiBold";
+    src: url('/assets/Montserrat/Montserrat-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: "KarlaBold";
+    src: url('/assets/Karla/Karla-Bold.ttf');
+}
+
+@font-face {
+    font-family: "KarlaExtraBold";
+    src: url('/assets/Karla/Karla-ExtraBold.ttf');
+}
   body{
     /* font-family: Nunito,sans-serif; */
     font-size: .9rem;
@@ -21,7 +46,8 @@
   /*Size font title graphics*/
   .stats .card-title{
     font-size: 1.125rem;
-    color: #6c757d!important
+    color: #6c757d!important;
+    font-family: 'KarlaBold';
   }
 
   /* .card {
@@ -332,4 +358,14 @@ hr {
     margin-left: auto;
     margin-right: auto;
     
+}
+
+.legendtitletext{
+    font-family: 'KarlaBold';
+}
+
+
+
+.karlatext{
+    font-family: 'KarlaBold';
 }
