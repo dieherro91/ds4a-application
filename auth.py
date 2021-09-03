@@ -1,4 +1,8 @@
-#este codigo no es del grupo 83 es de https://github.com/russellromney/basic-dash-auth-flow
+
+#In his file are the functions for the auntentification in the login page.
+##NOTE IMPORTANT all the functions in this file weren't made for team 83 
+##NOTE this functions were extract from https://github.com/russellromney/basic-dash-auth-flow
+
 from functools import wraps
 import dash_core_components as dcc
 import dash_html_components as html

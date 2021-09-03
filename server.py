@@ -1,4 +1,7 @@
-#este codigo no es del grupo 83 es de https://github.com/russellromney/basic-dash-auth-flow
+#In his file are the functions for the server in the login page.
+##NOTE IMPORTANT all the functions in this file weren't made for team 83 
+##NOTE this functions were extract from https://github.com/russellromney/basic-dash-auth-flow
+
 import dash
 import dash_bootstrap_components as dbc
 

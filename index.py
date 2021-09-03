@@ -1,58 +1,27 @@
-# Basics Requirements
-import pathlib
-import os
-import dash
-from dash.dependencies import Input, Output, State, ClientsideFunction
-from dash.exceptions import PreventUpdate
+
+### this  file is the main page were the code is executed
+#  in this file are all the callbacks in the page
+
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.exceptions import PreventUpdate
 from dash import no_update
-
-import plotly.graph_objects as go
-import plotly.express as px
-
-from flask import session, copy_current_request_context
-
+from flask import session
 import datetime
-from datetime import date
 import time
-# Dash Bootstrap Components
 import dash_bootstrap_components as dbc
-
-# Data
-import math
-import numpy as np
-import datetime as dt
-import pandas as pd
-import json
-
-# Recall app
 from app import app
 
-
-###########################################################
-#
-#           APP LAYOUT:
-#
-###########################################################
-
-# LOAD THE DIFFERENT FILES
-from lib import title, sidebar, stats, login, homes, prediction, team_83
-from data import models
-from views import figure
-
+from pages import  login, homes, team_83
+from data import models_analysis, list_training_data
+from views import figure_analitic, figure_prediction
+from content_apps import  analitics, prediction
 from auth import authenticate_user, validate_login_session
-from server import app, server
+from server import app
 
-
-
-
-# local imports
-
-
-###################################################3
 ###################################################
+###################################################
+
 # login layout content
 def login_layout():
     return login.login_users
@@ -63,22 +32,22 @@ def app_layout():
     return homes.main_home_page
 
 #################################################################
-#### this fragment is the main app \(._.)/ for callbacks home
+#### the fragment below is the "main app" \(._.)/ for callbacks home an links
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content',)
 ], className='wrapper-container')
 
 #################################################################
-#########analysis page
+#########function that calls the analysis page
 def analysis_page():
-    return stats.analysis_page
+    return analitics.analysis_page
 
-#########prediction page
+#########function that calls the prediction page
 def prediction_part():
     return prediction.prediction_page
 
-#########about_us page
+#########function that calls the about_us page
 def about_us_team():
     return team_83.about_us_page
 
@@ -183,7 +152,7 @@ def logout_(n_clicks):
 
 
 #############################################################
-# Analysis plot Callsbacks  : 
+# Analysis plot Callsbacks for the analitic page  : 
 #############################################################
 @app.callback(
     Output('route_dropdown','value'),
@@ -191,7 +160,7 @@ def logout_(n_clicks):
     Output('route_dropdown','style'),
 
     Input('type_dropdown','value'),   
-)#
+)
 def drowdownSelection(types_drop_value):
     if types_drop_value == '':
         return '',True, {'display': 'none'}
@@ -207,7 +176,9 @@ def drowdownSelection(types_drop_value):
 
 #################################################################
 # # dropdown sidebar values route in the app.
-#################################################################    
+################################################################# 
+
+#Callback to show the routes available for the zone selected 
 @app.callback(
     Output('route_dropdown','options'),
     Input('zone_dropdown','value'), 
@@ -222,30 +193,26 @@ def drowdownSelection_route(zone_drop_value):
 
 #############################################################################################################
 
-                                                        #Graficos callbacks
+            #Graficos callbacks for analitc page
 
 #############################################################################################################
-#############################################################
-# scatter PLOT : Add sidebar interaction here
-#############################################################
 
-#############################################################
-# button sidebar CATEGORY : interaction here
-#############################################################
-#blank graph
+
+#blank graph used for the exception when filters dont have data or problems ocurrurs with the plot
+text_for_blanck_graph="Missing filters for the data, (click again)"
 variable_empty={ "layout": {
     "xaxis": {
         "visible": False }, "yaxis": {"visible": False},
-    "annotations": [{"text": "Missing filters for the data","xref": "paper",'bgcolor':"#ffffff","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#ffffff",'plot_bgcolor':"#ffffff"}}
+    "annotations": [{"text": text_for_blanck_graph,"xref": "paper",'bgcolor':"#ffffff","yref":"paper","showarrow": False,"font": {"size":28}}],'bgcolor':"#073559",'paper_bgcolor':"#ffffff",'plot_bgcolor':"#ffffff"}}
 
 ############################################################excluder data##################
-    
-listas=[]   # list where i saved the exclude dates don't deleted
 
+
+#callback for saving the dates to exclude for the queries.
+listas=[]   # list where i saved the exclude dates don't deleted
 @app.callback(
     Output('contador', 'children'),
     Output('btn', 'n_clicks'),
-    
     
     Input('date_picker_excluder', 'date'),
     Input('btn', 'n_clicks'),
@@ -258,197 +225,193 @@ def excluder_date_function(date_value,btn):
         return listas, 0,
     return listas, 0
 
-###################################################  Callbacks plots       ##########################
+###################################################  Callbacks plots ###########################################
 
+#### callback for the street map validations figure
 @app.callback(
     Output('map_graph_route','figure'),
         
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('route_dropdown','value'), 
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def saved_plot1(types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+def saved_plot1(n_clicks,types,zones,route,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
+                fig=figure_analitic.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty                
             return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
             try:
-                fig=figure.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
+                fig=figure_analitic.graph1_validaciones_ubication_zone_route(start_date,end_date,zones,route,a)
             except:
                 fig=variable_empty
             return fig
     time.sleep(1)
     return variable_empty
 
+#### callback for the scatter Average validations per bus vs number of buses used per zone figure
 @app.callback(
     Output('scatter_graph_zone','figure'),
         
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def saved_plot2(types,zones,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+def saved_plot2(n_clicks,types,zones,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
             time.sleep(1)
             try:
-                fig=figure.make_graph_zonal(start_date,end_date,zones,' ',a)
+                fig=figure_analitic.make_graph_zonal(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
     time.sleep(1)
     return variable_empty
 
+#callback for the bar plot Average number of buses per day used per zone figure
 @app.callback(
     Output('average_number_buses_per_day_all_routes','figure'),
 
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def saved_plot3(types,zones,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+def saved_plot3(n_clicks,types,zones,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (zones is not None):
             time.sleep(1)
             try:
-                fig=figure.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a)
+                fig=figure_analitic.average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
     time.sleep(1)
     return variable_empty
 
+# callback return 2 figures for Total validations for each bus stop and hour figures.
 @app.callback(
     Output('heatmap_validation','figure'),
-    
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
-)
-def saved_plot4(types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
-
-    if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
-        if (types=='Zone Analysis'):
-            time.sleep(1)
-            try:
-                fig=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
-            except:
-                fig=variable_empty
-            return fig
-        if (types=='Route Analysis' and route !=''):
-            time.sleep(1)
-            try:
-                fig=figure.heat_map_interactivition(start_date,end_date,zones,route,a)
-            except:
-                fig=variable_empty
-            return fig
-    time.sleep(1)
-    return variable_empty
-
-@app.callback(
     Output('bar_total_valitations','figure'),
-        
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
-)
-def saved_plot5(types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
     
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('route_dropdown','value'), 
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
+)
+def saved_plot4_5(n_clicks,types,zones,route,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
+
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
-            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)
+            try:
+                fig, fig_1=figure_analitic.heat_map_interactivition(start_date,end_date,zones,' ',a)
+            except:
+                fig=variable_empty
+                fig_1=variable_empty
+            return fig , fig_1
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
-            return figure.bar_total_valitations_route_hour(start_date,end_date,zones,route,a)   
+            try:
+                fig, fig_1=figure_analitic.heat_map_interactivition(start_date,end_date,zones,route,a)
+            except:
+                fig=variable_empty
+                fig_1=variable_empty
+            return fig, fig_1
     time.sleep(1)
-    return variable_empty
+    return variable_empty, variable_empty
 
+#callback for the bar plot average bus per hour figure
 @app.callback(
     Output('average_number_buses_per_hour','figure'),
 
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('route_dropdown','value'), 
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def saved_plot6(types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+def saved_plot6(n_clicks,types,zones,route,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
 
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+                fig=figure_analitic.average_number_buses_per_hour_route(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
             try:
-                fig=figure.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
+                fig=figure_analitic.average_number_buses_per_hour_route(start_date,end_date,zones,route,a)
             except:
                 fig=variable_empty
             return fig
     time.sleep(1)
     return variable_empty
 
-
+#callback for the histogram validations per travel route 
 @app.callback(    
     Output('histogram_validation', 'figure'),
     
-    Input('type_dropdown','value'),    
-    Input('zone_dropdown','value'),
-    Input('route_dropdown','value'), 
-    Input('my-date-picker-range','start_date'),
-    Input('my-date-picker-range','end_date'),
+    Input('btn_update','n_clicks'),
+    State('type_dropdown','value'),    
+    State('zone_dropdown','value'),
+    State('route_dropdown','value'), 
+    State('my-date-picker-range','start_date'),
+    State('my-date-picker-range','end_date'),
 )
-def saved_plot7(types,zones,route,start_date,end_date):
-    a=models.exclude(listas)  #exclude from the analysis the list values in the analysis
+def saved_plot7(n_clicks,types,zones,route,start_date,end_date):
+    a=models_analysis.exclude(listas)  #exclude from the analysis the list values in the analysis
     
     if (types!= '' and zones != '' and start_date != '' and end_date != '' ):
         if (types=='Zone Analysis'):
             time.sleep(1)
             try:
-                fig=figure.histogram_validations(start_date,end_date,zones,route,a)
+                fig=figure_analitic.histogram_validations(start_date,end_date,zones,' ',a)
             except:
                 fig=variable_empty
             return fig
         if (types=='Route Analysis' and route !=''):
             time.sleep(1)
             try:
-                fig=figure.histogram_validations(start_date,end_date,zones,route,a)
+                fig=figure_analitic.histogram_validations(start_date,end_date,zones,route,a)
             except:
                 fig=variable_empty
             return fig
     time.sleep(1)
     return variable_empty
 
-   
+#############################################################
+# button sidebar analysis page
+#############################################################
+
+#Callback that trigger the plots for the analitic page
 @app.callback(
     Output('replace_analysis','children'),
     Output('btn_update','n_clicks'),
@@ -458,26 +421,96 @@ def saved_plot7(types,zones,route,start_date,end_date):
 def page_change(n_clicks):
     if n_clicks is None or n_clicks==0:
 
-        return stats.imagen_test, 0, False
+        return analitics.imagen_test, 0, False
     
-    return stats.stats, 0, True
+    return analitics.analitics_stats, 0, True
 
     
 
-##########################################################################################################################
+
+#############################################################
 # Predictic Callsbacks  : 
-##########################################################################################################################
-##########################################################################################################################
-# Predictic Callsbacks  : 
-##########################################################################################################################
-##########################################################################################################################
-# Predictic Callsbacks  : 
-##########################################################################################################################
-##########################################################################################################################
-# Predictic Callsbacks  : 
-##########################################################################################################################
+#############################################################
+#############################################################
+
+#callback how shows the routes available for the zone value
+@app.callback(
+    Output('route_dropdown_pre','options'),
+    Input('zone_dropdown_pre','value'), 
+)
+def drowdownSelection_route(zone_drop_value):
+    lit=[{'label':'loading...','value':'loading...'}]
+    if (zone_drop_value is None or zone_drop_value==''):
+        return lit
+    
+    return list_training_data.list_routes_available_predictc(zone_drop_value)
 
 
+
+#############################################################################################################
+
+            #Graficos callbacks for analitc page
+
+#############################################################################################################
+
+
+
+
+
+###################################################  Callbacks plots       ##########################
+
+#Callback that make the figure for the clusterin and the table it change for the numbre of clusters selected
+@app.callback(
+    Output('clustering', 'figure'),
+    Output('table_cluster','data'),
+
+    Input("cluster-count", "value"),
+    State('zone_dropdown_pre', 'value'),
+    State('route_dropdown_pre', 'value'),
+)
+def making_cluster(n_clusters,zones,route):
+    time.sleep(1)
+    try:
+        fig, df=figure_prediction.cluster(zones,n_clusters,route)
+        data=df.to_dict('records')
+    except:
+        fig=variable_empty
+        data=[{'cluster': 'faltan filtros',}]
+    return fig, data
+
+
+@app.callback(
+    Output('map_graph_prediction_route','figure'),
+
+    Input('btn_update_pre','n_clicks'),
+    Input("selection_graph", "value"),
+    Input('strike_day','value'),
+    State('zone_dropdown_pre', 'value'),
+    State('route_dropdown_pre','value'),
+    State('date_picker_predictor_pre','date'),
+    
+)
+def drowdownSelection_route(n_clicks,graph,strike,zones,route,days):
+    animations=figure_prediction.map_street_predicted(zones,route,days,strike)
+
+    if (strike == 'normal'):
+        strikes=0
+        animations=figure_prediction.map_street_predicted(zones,route,days,strikes)
+        return animations[graph]
+    if (strike == 'strike'):
+        strikes=1
+        animations=figure_prediction.map_street_predicted(zones,route,days,strikes)
+        return animations[graph]
+    else:
+        return variable_empty
+
+
+
+#############################################################
+# button sidebar predictive page
+#############################################################
+
+#Callback that trigger the plots for the predictive page
 @app.callback(
     Output('replace_analysis_prediction','children'),
     Output('btn_update_pre','n_clicks'),
@@ -487,99 +520,9 @@ def page_change_pre(n_clicks):
     if n_clicks is None or n_clicks==0:
         return prediction.imagen_test, 0
     return prediction.prediction, 0
-
-@app.callback(
-    Output('route_dropdown_pre','options'),
-    Input('zone_dropdown_pre','value'), 
-)
-def drowdownSelection_route(zone_drop_value):
-    lit=[{'label':'loading...','value':'loading...'}]
-    if (zone_drop_value is None or zone_drop_value==''):
-        return lit
-    #models.ruta_comercial(zones)
-    #homes.wer[zone_drop_value]
-    return models.ruta_comercial(zone_drop_value)
+###########################################################################################################
 
 
-listas_pre=[]   # list where i saved the exclude dates don't deleted
-
-@app.callback(
-    Output('contador_pre', 'children'),
-    Output('btn_pre', 'n_clicks'),
-    
-    Input('date_picker_excluder_pre', 'date'),
-    Input('btn_pre', 'n_clicks'),
-)
-def excluder_date_function(date_value,btn):
-    if date_value is not None:
-        listas_pre.append(date_value)
-    if btn != 0:
-        listas_pre.clear()
-        return listas_pre, 0,
-    return listas_pre, 0
-
-@app.callback(
-    Output('date_picker_predictor_pre','min_date_allowed'),
-    Output('date_picker_predictor_pre','max_date_allowed'),
-    Input('my-date-picker-range_pre','end_date'),
-)
-def limit_prediction(end_date):
-    plus_one_day=datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=1)
-    plus_seven_days = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=7)
-    return plus_one_day , plus_seven_days
-
-
-
-@app.callback(
-    Output('clustering', 'figure'),
-    Output('table_cluster','data'),
-
-    Input("cluster-count", "value"),
-    Input('zone_dropdown_pre', 'value'),
-    Input('route_dropdown_pre', 'value'),
-)
-def making_cluster(n_clusters,zones,route):
-    time.sleep(1)
-    try:
-        fig, df=figure.cluster(zones,n_clusters,route)
-        #df =models.cluster_df_table(zones,n_clusters,route)
-        data=df.to_dict('records')
-    except:
-        fig=variable_empty
-        data=[{'cluster': 'faltan filtros',}]
-    return fig, data
-
-
-"""
-@app.callback(
-    
-    
-    Output('table_cluster','data'),
-
-    #Input("cluster-count", "value"),
-    Input('zone_dropdown_pre', 'value'),
-    Input('route_dropdown_pre', 'value'),
-)
-def making__table_cluster(zones,route):
-    time.sleep(1)
-
-    try:
-        df =models.cluster_df_table(zones,5,route)
-        data=df.to_dict('records')
-    except:        
-        data=[{'cluster': 3,
-                'commertial_route': '113B',
-                'distance': 50559.59710794781,
-                'num_bus_stops': 134,
-                'num_validations': 86857}]
-
-    return data
-"""
-
-# MAP date interaction
-
-
-# MAP click interaction
 
 
 if __name__ == "__main__":

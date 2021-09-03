@@ -369,3 +369,20 @@ hr {
 .karlatext{
     font-family: 'KarlaBold';
 }
+
+
+#strike_day{
+    font-size: 14px;
+    height: 1rem;
+    color:white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.date-group-labels{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+#refrencia1, #refrencia2{
+    font-size: 9px;
+}
