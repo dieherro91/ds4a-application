@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 
 
 #Font use for the figures
-family_font = 'Helvetica Neue'
+family_font = 'KarlaMedium'
 #########################################################################################################
 
 ################################################# cluster ##########################################
@@ -36,7 +36,7 @@ def cluster(ZoneValue,n_clusters,route):
 
     fig2=px.scatter_3d(centros,x='num_bus_stops',y='length_bus_route',z='num_validations',hover_name='cluster')
     fig.update_traces(marker_coloraxis=None)
-    fig.update_layout(margin=dict(l=0, r=0, b=0, t=0))
+    fig.update_layout(font=dict(family=family_font,color = 'black'),margin=dict(l=0, r=0, b=0, t=0))
     fig2.update_traces(marker_symbol='diamond',marker_color='black',marker={'size': 4})
     fig.add_trace(fig2.data[0])
 
@@ -55,9 +55,7 @@ def map_street_predicted(ZoneValue,route,dates,strike):
     df['hora_servicio']=df['hora_servicio'].astype(int)
     df.insert(14,'passengers',list_output_predict,allow_duplicates=True)
 
-
-    animations = {
-    'Map_street': px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",
+    fig_scatter_mapbox = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",
                             size="passengers", animation_frame='hora_servicio',# animation_group="order_cenefa",
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
                             zoom=11,height=500, mapbox_style='open-street-map', 
@@ -77,13 +75,20 @@ def map_street_predicted(ZoneValue,route,dates,strike):
                             'passengers':':.2f',
                             },
                           )
-    ,
-
-    'Bar_hours': px.bar(df, x='hora_servicio', y="passengers", color="passengers", 
+    fig_scatter_mapbox.update_layout(font=dict(family=family_font,color = 'black'))   
+    
+    fig_bar = px.bar(df, x='hora_servicio', y="passengers", color="passengers", 
         animation_frame="cenefa",range_color=[0,df["passengers"].max()],# animation_group="order_cenefa",
         range_y=[0,(df["passengers"].max()+1)],range_x=[3,24],hover_data=['cenefa','es_festivo','paro'],
         color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
-        ),
+        )
+    fig_bar.update_layout(font=dict(family=family_font,color = 'black')) 
+
+    animations = {
+    'Map_street': fig_scatter_mapbox
+    ,
+
+    'Bar_hours': fig_bar,
                 }
 
     

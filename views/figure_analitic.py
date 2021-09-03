@@ -6,7 +6,7 @@ import plotly.express as px
 from pandas.api.types import CategoricalDtype
 
 #Font use for the figures
-family_font = 'Helvetica Neue'
+family_font = 'KarlaMedium'
 #########################################################################################################
 
 
@@ -24,7 +24,7 @@ def graph1_validaciones_ubication_zone_route(start_date,end_date,ZoneValue,route
         fig2= px.scatter_mapbox(df2 ,lat='latitude', lon='longitude',hover_data=['distance','bus_stop'])
         fig2.update_traces(marker_symbol='circle',marker_color='black')
         fig.add_trace(fig2.data[0])
-    fig.update_layout(font=dict(family=family_font,size=16,color = 'black',),
+    fig.update_layout(font=dict(family=family_font,color = 'black',),
                     height=400,
                     margin=dict(autoexpand=True, l=0, r=0, t=40,b=0  ),
                     legend=dict(title='validation type',yanchor="top",y=0.99,xanchor="left",x=0.01,
@@ -43,7 +43,7 @@ def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
     fig=px.scatter(df, y="average_validations_per_bus",x="number_of_buses", color="commertial_route",
                     hover_data=["commertial_route","day_of_week"], #animation_frame="validation_type",
                     height=400)
-    fig.update_layout(font=dict(family=family_font,size=16,color = 'black',))
+    fig.update_layout(font=dict(family=family_font,color = 'black',))
     return fig
 
 ######################### Average number of buses per day used per zone ###############################
@@ -52,7 +52,7 @@ def make_graph_zonal(start_date,end_date,ZoneValue,route,a):
 def average_number_buses_per_day_per_month_zone_all_routes(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.average_number_buses_per_day_per_month_zona_all_routes(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='commertial_route', y='avg_num_bus_per_day', height=400 )
-    fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
+    fig.update_layout(font=dict(family=family_font,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     return fig
 
 ######################### Total validations for each bus stop and hour #############################
@@ -80,7 +80,7 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
                                               'cenefa': order_cenefa},
                             template='seaborn',
                             nbinsy = nbins_y, nbinsx=nbins_x,height=400 ) 
-    fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
+    fig.update_layout(font=dict(family=family_font,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     fig.update_yaxes(autorange= 'reversed',nticks=8)
     fig.update_xaxes(tickangle=45,showticklabels=False)
 
@@ -91,7 +91,7 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
              labels={'nombre_dia':'Day name','hora':'Hour','cantidad_pasajeros':'Total validations','cenefa':'bus stop'},
              category_orders={'nombre_dia':['monday','tuesday','wednesday','thursday','friday','saturday','sunday']},
              height=400)
-    fig_bar.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
+    fig_bar.update_layout(font=dict(family=family_font,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))
     return fig , fig_bar
 
 ######################### average bus per hour #########################################
@@ -100,7 +100,7 @@ def heat_map_interactivition(start_date,end_date,ZoneValue,route,a):
 def average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a):
     df=models_analysis.average_number_buses_per_hour_route(start_date,end_date,ZoneValue,route,a)
     fig = px.bar(df, x='hour', y='avg_num_bus', height=400 )
-    fig.update_layout(font=dict(family='Sherif',size=16,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))    
+    fig.update_layout(font=dict(family=family_font,color = 'black'),margin=dict(l=0,r=0,t=35,b=0))    
     return fig
 
 #########################validations per travel route ###########################
@@ -113,7 +113,7 @@ def histogram_validations(start_date,end_date,ZoneValue,route,a):
     fig.update_layout(xaxis_title_text = 'Number validations per ride', bargap = 0.1)
     fig.add_vline(x = resultados_demanda['cumsum_demanda'].mean(), annotation_text='promedio:{:.2f}'.format(resultados_demanda['cumsum_demanda'].mean()))
     fig.update_layout( margin=dict(l=0, r=10, t=28,b=0 ))
-    fig.update_layout(font=dict(family='Sherif',size=16,color = 'black',))
+    fig.update_layout(font=dict(family=family_font,color = 'black',))
     return fig
 
 

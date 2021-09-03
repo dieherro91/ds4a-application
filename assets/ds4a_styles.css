@@ -396,6 +396,9 @@ hr {
         font-family: 'KarlaBold';
     }
 
+#table_cluster tbody{
+    font-family: 'KarlaRegular';
+}
 
 #strike_day{
     font-size: 14px;
