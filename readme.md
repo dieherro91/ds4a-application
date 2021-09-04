@@ -36,6 +36,10 @@ To get a local copy up and running follow these simple steps.
    ```sh
    python3 index.py
    ```
+4. Login
+   ```sh
+   USER1: team83    PASSWORD1: team-ds4a ;  USER2: masivo-admin    PASSWORD2: !hTW*r8Z0OEV 
+   ```
 
 
 <!-- DOCUMENTATION -->
@@ -43,6 +47,9 @@ To get a local copy up and running follow these simple steps.
 
 ### __*data folder*__
 In this folder are all the files related to the access of the database EC2 in aws.
+    
+* Folder __trainning_data__ : In this folder are all the .sav files with the random forest predition models for the prediction page, each file corresponds to one route.
+    
 * __connect_db.py__
 
   In the connect_db.py is saved all the infomation  the database information, functions:
@@ -65,13 +72,16 @@ In this folder are all the files related to the access of the database EC2 in aw
   
   The file is used to compared the routes available for the prediction analysis.
 
-  - __list_routes_available_predictc(__*ZoneValue*__)__ : Return a list of dictionaries for the dropdown of route selection, the list was compared the information available in the prediction of the model and the available in the databe
+  - __list_routes_available_predictc(__*ZoneValue*__)__ : Return a list of dictionaries for the dropdown of route selection, the list was compared the information available in the prediction of the model and the available in the database.
 
+  - __prediction_evaluation(__*df,route*__)__ : Return a list with the predicted passengers from the "df" information for the "route" selected and the return and int value of the deviation of the prediction.
+    
+    
 <Br>
 
 * __models_analysis.py__
   
-   The functions in this file are divided in two parts one for the filters of the user queries and the the second for the queries require for the figure plots in the analitic page.
+   The functions in this file are divided in two parts, one of the filters of the user queries and the second for the queries require for the figure plots in the analysis page.
 
    *Conventions parameters*: 
       
@@ -84,8 +94,8 @@ In this folder are all the files related to the access of the database EC2 in aw
    *a* : String with the structure ('fecha_trx != '+"\'"+ item +"\'"+' AND ') were item is the token given for the list 'listas' in the function __exclude(__*listas*__)__ in this file.
 
    - *filters*
-     - __exclude(__*listas*__)__ : Return a string that exclude dates in the PostgreSQL queries functions, is given in a list (*'listas'*) of dates given for the user in the analytic page.
-     - __range_date_postgreSQL(__*start_date,end_date*__)__ : Return a string that modified the dates of search in the PostgreSQL queries functions.
+     - __exclude(__*listas*__)__ : Return a string that excludes dates in the PostgreSQL query functions, is given in a list (*'listas'*) of dates given for the user in the analysis page.
+     - __range_date_postgreSQL(__*start_date,end_date*__)__ : Return a string that modified the dates of the search in the PostgreSQL query functions.
      - __filtro_ruta1(route)__ : Filters the PostgreSQL queries functions, with the route name 'route'.
      - __filtro_ruta2(route)__ : Filters the PostgreSQL queries functions, with the route name 'route'.
      - __filtro_ruta3(route)__ : Filters the PostgreSQL queries functions, with the route name 'route'.
@@ -93,22 +103,22 @@ In this folder are all the files related to the access of the database EC2 in aw
   
    - *model queries*
    
-     - __validaciones_ubication_zone_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the number of validations with longitude and latitude with the filters and conditions given for the user in the interface page, it will be used to make the map plot with the number of validations.
-     - __position_route(__*ZoneValue,route*__)__ : Return a data frame with the longitude and latitude of buses stops, with the filters and conditions given for the user in the interface page, it will be used with the map plot for the number of validations.
-     - __scatter_numPasajeros_numBuses_zonal(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the number of validations per buses vs num buses, for all the zone and grouped by day of the week, with the filters and conditions given for the user in the interface page, It will be used to make the scatter plot.
-     - __average_number_buses_per_day_per_month_zona_all_routes(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the 15 routes with the higher average number of buses per day, with the filters and conditions given for the user in the interface page, it will be used to make the a bar plot.
-     - __heatmap_interctive(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the total validations for each bus stop and hour of the day, with the filters and conditions given for the user in the interface page, it will be used to make the a Heat map and a bar plot.
-     - __average_number_buses_per_hour_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with average number of buses for each hour of the day, with the filters and conditions given for the user in the interface page, it will be used to make a bar plot.
-     - __histogram_validations(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with validations per travel route, with the filters and conditions given for the user in the interface page, it will be used to make the a histogram plot.
+     - __validaciones_ubication_zone_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the number of validations with longitude and latitude with the filters and conditions given to the user in the interface page, it will be used to make the map plot with the number of validations.
+     - __position_route(__*ZoneValue,route*__)__ : Return a data frame with the longitude and latitude of bus stops, with the filters and conditions given by the user in the interface page, it will be used with the map plot for the number of validations.
+     - __scatter_numPasajeros_numBuses_zonal(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the number of validations per buses vs number of buses, for all the zones and grouped by day of the week, with the filters and conditions given for the user in the interface page, It will be used to make the scatter plot.
+     - __average_number_buses_per_day_per_month_zona_all_routes(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the 15 routes with the higher average number of buses per day, with the filters and conditions given by the user in the interface page, it will be used to make the a bar plot.
+     - __heatmap_interctive(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with the total validations for each bus stop and hour of the day, with the filters and conditions given by the user in the interface page, it will be used to make the a Heat map and a bar plot.
+     - __average_number_buses_per_hour_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with average number of buses for each hour of the day, with the filters and conditions given by the user in the interface page, it will be used to make a bar plot.
+     - __histogram_validations(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a data frame with validations per travel route, with the filters and conditions given by the user in the interface page, it will be used to make the a histogram plot.
 
 <Br>
 
 * __models_prediction.py__
   
-   The functions in this file have the queries require for the figure plots in the predictic page.
+   The functions in this file have the queries require for the figure plots in the Prediction page.
    - __measure(__*lat1, lon1, lat2, lon2*__)__ :  Return the distance of 2 bus stop, each one with the pair latude and logitude.
    - __data_frame_cluster(__*ZoneValue*__)__ : Return the dataframe and orders the data from the data frame "homes.df_cluster", which is obtained at the beginning of the page beacause is not depended for the users filters.
-   - 
+   - __get_info_stops_route(__*route,input_date*__)__ : this function make a query to the data base for the information of the 'route' and save the predection date
 
 <Br>
 
@@ -118,29 +128,29 @@ In this folder are all the files related to make the figure plots for the app.
 * __figure_analitic.py__
 
   The functions in this file make the figures plot for the analysis page.
-    - __graph1_validaciones_ubication_zone_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return the street map figure with the number of validations with longitude and latitude, with the filters and conditions given for the user in the interface page
+    - __graph1_validaciones_ubication_zone_route(__*start_date,end_date,ZoneValue,route,a*__)__ : Return the street map figure with the number of validations with longitude and latitude, with the filters and conditions given by the user in the interface page
 
-    - __make_graph_zonal(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a Scatter figure with the number of validations per buses vs num buses, for all the zone and grouped by day of the week, with the filters and conditions given for the user in the interface page
+    - __make_graph_zonal(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a Scatter figure with the number of validations per buses vs num buses, for all the zone and grouped by day of the week, with the filters and conditions given by the user in the interface page
 
-    - __average_number_buses_per_day_per_month_zone_all_routes(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a bar figure with the 15 highest average number of buses per day, with the filters and conditions given for the user in the interface page.
+    - __average_number_buses_per_day_per_month_zone_all_routes(__*start_date,end_date,ZoneValue,route,a*__)__ : Return a bar figure with the 15 highest average number of buses per day, with the filters and conditions given by  the user in the interface page.
 
-    - __heat_map_interactivition(__*start_date,end_date,ZoneValue,route,a*__)__: Return a heat map and a bar plot figures with the total validations, for each bus stop and hour of the day,with the filters and conditions given for the user in the interface page
+    - __heat_map_interactivition(__*start_date,end_date,ZoneValue,route,a*__)__: Return a heat map and a bar plot figures with the total validations, for each bus stop and hour of the day,with the filters and conditions given by  the user in the interface page
 
-    - __average_number_buses_per_hour_route(__*start_date,end_date,ZoneValue,route,a*__)__: Return a bar figure with average number of buses for each hour of the day, with the filters and conditions given for the user in the interface page.
+    - __average_number_buses_per_hour_route(__*start_date,end_date,ZoneValue,route,a*__)__: Return a bar figure with average number of buses for each hour of the day, with the filters and conditions given by the user in the interface page.
 
-    - __histogram_validations(__*start_date,end_date,ZoneValue,route,a*__)__: Return a histogram plot with validations per travel route, with the filters and conditions given for the user in the interface page.
+    - __histogram_validations(__*start_date,end_date,ZoneValue,route,a*__)__: Return a histogram plot with validations per travel route, with the filters and conditions given by the user in the interface page.
 
 * __figure_prediction.py__
 
-  The functions in this file make the figures plot for the predictic page.
+  The functions in this file make the figures plot for the Prediction page.
     - __cluster(__*ZoneValue,n_clusters,route*__)__: Return the cluster for zone:'ZoneValue' and 'route' and the numbers of clusters 'n_clusters' all the routes for a given zone and the dataframe with the clusters.
 
-    - 
+    - This function return a dictionary with 2 graphs one is a map streep graph with the passengers predictions and tge second is a graph plot with the same information but the user have another point of view.
 
 <Br>
 
 ### __lib folder__
-In this folder the files are related to the construction, of the navegation bar and the sidebar, for the analitic and predictive page.
+In this folder the files are related to the construction, of the navegation bar and the sidebar, for the analysis and predictive page.
 
 * sidebar.py
   
@@ -148,10 +158,10 @@ In this folder the files are related to the construction, of the navegation bar 
 
 * sidebar_pred.py
 
-  In this file is the layout for the sidebar in the predictic page, with the dropdowns distribution, and filters.
+  In this file is the layout for the sidebar in the Prediction page, with the dropdowns distribution, and filters.
 * title.py
   
-  In this file is the layout for the navegation bar is present in the home, analitic, predictic and team-83 page, with the links for the navegation between pages and logout buttom.
+  In this file is the layout for the navegation bar is present in the home, analysis, Prediction and team-83 page, with the links for the navegation between pages and logout buttom.
 
 <Br>
 
@@ -176,11 +186,11 @@ In this folder are the files related for the construction of the pages that aren
 In this folder are the files were the layout of the apps are construct.
 * analitics.py
   
-  The analitics.py have the layout of the analitic app where are called the figure plots.
+  The analitics.py have the layout of the analysis app where are called the figure plots.
 
 * prediction.py
   
-  The prediction.py have the layout of the predictic app where are called the figure plots.
+  The prediction.py have the layout of the Prediction app where are called the figure plots.
 
 
 

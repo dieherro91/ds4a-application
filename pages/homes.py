@@ -52,6 +52,7 @@ fluid_jumbotron = dbc.Jumbotron(
                     className="lead",
                 ),
                 DS4A_Img,
+                html.H6(id='refrencia3', children=["https://bogotacomovamos.org/wp-content/uploads/2017/10/SITP-1000x530.jpg"]),    
                 ] ,className="text-center"),
                 html.P(
                     "Thanks to the analysis of the information provided by the transmilenio through the daily operations carried out, "
@@ -66,7 +67,7 @@ fluid_jumbotron = dbc.Jumbotron(
     fluid=True,
 )
 
-
+#https://bogotacomovamos.org/wp-content/uploads/2017/10/SITP-1000x530.jpg
 #################################################################################
 # Here the constructor for the home page with the navegation bar
 #################################################################################

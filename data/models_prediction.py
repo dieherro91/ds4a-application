@@ -35,7 +35,7 @@ def data_frame_cluster(ZoneValue):
 
 ############################################################################################################
 
-
+# this function make a query to the data base for the information of the 'route' and save the predection date
 def get_info_stops_route(route,input_date):
 
     df_stops_route = pd.read_sql("SELECT DISTINCT cenefa,  min(posicion) as posicion, avg(latitud) as latitud, avg(longitud) as longitud FROM public.paradero_ruta AS par_ruta \

@@ -47,7 +47,9 @@ def cluster(ZoneValue,n_clusters,route):
     return fig, df_similar
 
 
-#input_zona,input_ruta,input_date,strike=0
+################################################# prediction map and bars ##########################################
+#This function return a dictionary with 2 graphs one is a map streep graph with the passengers predictions
+# and tge second is a graph plot with the same information but the user have another point of view. 
 def map_street_predicted(ZoneValue,route,dates,strike):
     df=models_prediction.dataframe_prediction(ZoneValue,route,dates,strike)
     df_pred=df[['connectivity_score','order_cenefa','dia_semana','es_findesemana','semana',
@@ -57,7 +59,7 @@ def map_street_predicted(ZoneValue,route,dates,strike):
     listad=[]
     lista_rango=[]
     for item in list_output_predict:
-        a=np.ceil(item)
+        a=np.ceil(item).astype(int)
         listad.append(a)
         if (item>=insertidumbre):
             lista_rango.append('['+str(a-insertidumbre)+' - '+str(a+insertidumbre)+']')
@@ -66,7 +68,7 @@ def map_street_predicted(ZoneValue,route,dates,strike):
 
     df.insert(14,'passengers',listad,allow_duplicates=True)
     
-    df['es_festivo']=df.apply(lambda x: ' Yes' if (x['es_festivo']==0) else ' No',axis=1)
+    df['es_festivo']=df.apply(lambda x: ' Yes' if (x['es_festivo']!=0) else ' No',axis=1)
 
     df.insert(15,'Range Passengers',lista_rango,allow_duplicates=True)
     

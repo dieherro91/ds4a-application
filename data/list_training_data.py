@@ -18,7 +18,7 @@ def list_routes_available_predictc(ZoneValue):
         if (item!= '.gitignore' and item != '__init__.py' and item != '__init__.py'):
             list_files_available.append(item[:-4])
     
-    list_db=homes.wer[ZoneValue]
+    list_db=homes.wer[ZoneValue]  #is a dictionary
     list_routes_db=[]
     
     for item in list_db:
@@ -37,7 +37,7 @@ def list_routes_available_predictc(ZoneValue):
     return list_drop_route
 
 
-#this function return a list with the predicted passengers from the "df" information for the "route" selected
+    #this function return a list with the predicted passengers from the "df" information for the "route" selected and the deviation of the prediction
 def prediction_evaluation(df,route):
     DATA_DIR = os.getcwd()
     sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
