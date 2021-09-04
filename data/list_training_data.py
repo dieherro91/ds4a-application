@@ -43,7 +43,8 @@ def prediction_evaluation(df,route):
     sav_path = os.path.join(os.path.join(os.path.join(DATA_DIR, "data"), "trainning_data"),route+'.sav')
     randon_forest_model = load(sav_path)
     
-    list_output_prediction=randon_forest_model.predict(df)
-    return list_output_prediction
+    list_output_prediction=randon_forest_model[0].predict(df)
+    insertidumbre=randon_forest_model[1]
+    return list_output_prediction , insertidumbre
 
 #
