@@ -381,7 +381,7 @@ hr {
 
 }
 #card_text, #card_text_pre{
-    width:5.5rem;
+    width:87px;
     
 }
 .imagen_center{
@@ -412,6 +412,6 @@ hr {
     margin-right: 15px;
     margin-left: 15px;
 }
-#refrencia1, #refrencia2{
+#refrencia1, #refrencia2,#refrencia3{
     font-size: 9px;
 }

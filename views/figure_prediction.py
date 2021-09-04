@@ -3,6 +3,7 @@
 
 from data import models_prediction, list_training_data
 import pandas as pd
+import numpy as np
 import plotly.express as px
 from sklearn.cluster import KMeans
 
@@ -46,15 +47,31 @@ def cluster(ZoneValue,n_clusters,route):
     return fig, df_similar
 
 
-#input_zona,input_ruta,input_date,strike=0
+################################################# prediction map and bars ##########################################
+#This function return a dictionary with 2 graphs one is a map streep graph with the passengers predictions
+# and tge second is a graph plot with the same information but the user have another point of view. 
 def map_street_predicted(ZoneValue,route,dates,strike):
     df=models_prediction.dataframe_prediction(ZoneValue,route,dates,strike)
     df_pred=df[['connectivity_score','order_cenefa','dia_semana','es_findesemana','semana',
    'es_festivo','paro','sin_time','cos_time','hora_pico','cantidad_pasajeros_shifted']].copy()
-    list_output_predict=list_training_data.prediction_evaluation(df_pred,route)
+    list_output_predict, insertidumbre =list_training_data.prediction_evaluation(df_pred,route)
     df['hora_servicio']=df['hora_servicio'].astype(int)
-    df.insert(14,'passengers',list_output_predict,allow_duplicates=True)
+    listad=[]
+    lista_rango=[]
+    for item in list_output_predict:
+        a=np.ceil(item).astype(int)
+        listad.append(a)
+        if (item>=insertidumbre):
+            lista_rango.append('['+str(a-insertidumbre)+' - '+str(a+insertidumbre)+']')
+        else:
+            lista_rango.append('['+'0'+' - '+str(a+insertidumbre)+']')
 
+    df.insert(14,'passengers',listad,allow_duplicates=True)
+    
+    df['es_festivo']=df.apply(lambda x: ' Yes' if (x['es_festivo']!=0) else ' No',axis=1)
+
+    df.insert(15,'Range Passengers',lista_rango,allow_duplicates=True)
+    
     fig_scatter_mapbox = px.scatter_mapbox(df ,lat='latitud', lon='longitud',color="passengers",
                             size="passengers", animation_frame='hora_servicio',# animation_group="order_cenefa",
                             color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
@@ -62,25 +79,45 @@ def map_street_predicted(ZoneValue,route,dates,strike):
                             range_color=[0,df["passengers"].max()],
                             labels={'hora_servicio':'hour',
                                     'cenefa':'bus stop',
-                                    'posicion':'Distance (m)'},
+                                    'posicion':'Distance (m)',
+                                    'es_festivo':'Holiday',
+                                     'paro':'Strike day'},
                             hover_name="cenefa", 
                             hover_data={
                             'latitud':False,
                             'longitud':False,
-                            'cenefa':True,
-                            'cenefa':'<b>cenefa<b>',
-                            'hora_servicio':True,
-                            'posicion':True,
-                            'passengers':True,
-                            'passengers':':.2f',
+                            'cenefa':False,
+                            'hora_servicio':False,
+                            'posicion':False,
+                            'passengers':False,
+                            'Range Passengers':True,
+                            'es_festivo':True,
+                            'paro':False,
                             },
                           )
     fig_scatter_mapbox.update_layout(font=dict(family=family_font,color = 'black'))   
     
-    fig_bar = px.bar(df, x='hora_servicio', y="passengers", color="passengers", 
-        animation_frame="cenefa",range_color=[0,df["passengers"].max()],# animation_group="order_cenefa",
-        range_y=[0,(df["passengers"].max()+1)],range_x=[3,24],hover_data=['cenefa','es_festivo','paro'],
-        color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
+    fig_bar = px.bar(df, x='hora_servicio', y="passengers", color="passengers",
+                     animation_frame="cenefa",range_color=[0,df["passengers"].max()],
+                     range_y=[0,(df["passengers"].max()+1)],range_x=[3,24],
+                     color_continuous_scale= ['#0000FF', '#00ff00','#ffff00 ', '#FF0000'],
+                     labels={'hora_servicio':'hour',
+                                    'cenefa':'bus stop',
+                                    'posicion':'Distance (m)',
+                                    'es_festivo':'Holiday',
+                                     'paro':'Strike day'},
+                            hover_name="cenefa", 
+                            hover_data={
+                            'latitud':False,
+                            'longitud':False,
+                            'cenefa':False,
+                            'hora_servicio':False,
+                            'posicion':False,
+                            'passengers':False,
+                            'Range Passengers':True,
+                            'es_festivo':True,
+                            'paro':False,
+                            },
         )
     fig_bar.update_layout(font=dict(family=family_font,color = 'black')) 
 
