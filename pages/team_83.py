@@ -9,13 +9,16 @@ from app import app
 
 ############################# profiles of the members of the team 83#####################################
 profiles = list()
-profiles =  [["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", "Jose_Miguel.png","https://www.linkedin.com/in/jmferrariop/" ],
-            ["Diego Hernando Romero Roa", "Chemical Engineer", "dihromeroro@unal.edu.co", "Diego_Romero.png", "https://www.linkedin.com/in/diego-hernando-romero-roa-6744b7195/"],
+profiles =  [
+            ["Jose Antonio Aviles Pacheco", "Systems Engineer", "joseavilesmnt@gmail.com", "Aviles.png", "https://www.linkedin.com/in/joseavilespacheco/"],
             ["Angel Alberto Castro Lancheros", "Physicist", "aa.castro10@uniandes.edu.co","angel_image.jpg", "https://www.linkedin.com/in/angel-alberto-castro-lancheros-42358726/"],
-            ["Alejandra Perpiñán Barrios", "Petroleum Engineer", "maperpinanb@unal.edu.co","Alejandra.jpg", "https://www.linkedin.com/in/maria-perpi%C3%B1an-barrios/"],
-            ["Julián Esteban Londoño", "Physics Engineer", "julondonor@unal.edu.co","juliann.jpg", "https://www.linkedin.com/in/julondonor"],
-            ["Jose Antonio Aviles Pacheco", "Systems Engineer", "joseavilesmnt@gmail.com", "aviles.jpg", "https://www.linkedin.com/in/joseavilespacheco/"],
-            ["Juan Pablo Gutiérrez Restrepo", "Computer Scientist", "jgutierrezre@unal.edu.co", "Juan-Pablo.png", "https://www.linkedin.com/in/jgutierrezre/"]]
+            ["José Miguel Ferrario ", "Physicist", "jmferrariop@unal.edu.co", "Jose_Miguel.png","https://www.linkedin.com/in/jmferrariop/" ],
+            ["Juan Pablo Gutiérrez Restrepo", "Computer Scientist", "jgutierrezre@unal.edu.co", "Juan.png", "https://www.linkedin.com/in/jgutierrezre/"],
+            ["Julián Esteban Londoño", "Physics Engineer", "julondonor@unal.edu.co","Julian.png", "https://www.linkedin.com/in/julondonor"],
+            ["Alejandra Perpiñán Barrios", "Petroleum Engineer", "maperpinanb@unal.edu.co","Alejandra.png", "https://www.linkedin.com/in/maria-perpi%C3%B1an-barrios/"],
+            ["Diego Hernando Romero Roa", "Chemical Engineer", "dihromeroro@unal.edu.co", "Diego_Romero.png", "https://www.linkedin.com/in/diego-hernando-romero-roa-6744b7195/"],
+        
+            ]
 
 output_profiles = []
 for profile in profiles:

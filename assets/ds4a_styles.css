@@ -97,7 +97,7 @@ src: url('/assets/Montserrat/Montserrat-Black.ttf');
   }
   .item-image img {
     
-        max-height: 250px;
+        max-height: 210px;
         margin: 0 -100%;
         max-width: none;
         width: auto;
